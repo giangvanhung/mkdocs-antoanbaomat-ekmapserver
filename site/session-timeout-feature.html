@@ -1,0 +1,2189 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="login-lockout-feature.html">
+      
+      
+        <link rel="next" href="admin-ip-restriction-feature.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Tự động đóng phiên khi không hoạt động - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phuong-an-tu-ong-ong-phien-khi-khong-hoat-ong-session-timeout" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tự động đóng phiên khi không hoạt động
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="login-lockout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="session-timeout-feature.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Chỉ có MỘT phiên: cookie của server, Angular ăn theo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cau-hinh-a-co-san-nhung-chua-noi-day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Cấu hình đã có sẵn — nhưng chưa "nối dây"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-het-han-san-co-tho-khong-thay-the-uoc-idle-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. "Hết hạn" sẵn có — thô, không thay thế được idle timeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Phạm vi: idle-timer chạy ở Administrator; đóng phiên qua /Account/Logout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Đọc cấu hình qua SessionAppService.GetCurrentLoginInformations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Ngữ nghĩa timeout &amp; cảnh báo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client-detect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Phát hiện "không hoạt động" ở client + đồng bộ đa tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Ràng buộc giá trị khi lưu setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6. Ô nhập cấu hình trên trang Settings — bám đúng cây DTO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#three-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7. Ba tầng thời gian song song — vì sao không xung đột
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-backstop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8. Lớp backstop ở server (nâng lên phương án C) — tùy chọn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.8. Lớp backstop ở server (nâng lên phương án C) — tùy chọn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cach-1-sliding-cookie-han-co-inh-khuyen-dung-3-dong-u-tot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cách 1 — Sliding cookie hạn cố định (khuyên dùng: 3 dòng, đủ tốt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cach-2-onvalidateprincipal-ong-chi-khi-compliance-oi-khop-ung-so-phut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cách 2 — OnValidatePrincipal động (chỉ khi compliance đòi khớp đúng số phút)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-quy-tac-ung-du-chon-cach-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 quy tắc đúng dù chọn cách nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Danh sách file (đã triển khai)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Danh sách file (đã triển khai)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverwebmvc-lop-backstop-server-phuong-an-c-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Web.Mvc — lớp backstop server, phương án C (3.8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-1-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 1 — Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-2-angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 2 — Angular Administrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-3-kiem-tra-cau-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 3 — Kiểm tra cấu hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ngoai-pham-vi-ghi-e-khoi-hieu-nham" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ngoài phạm vi (ghi để khỏi hiểu nhầm)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="system-log-classification-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interface-tab-guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="db-update-existing-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Chỉ có MỘT phiên: cookie của server, Angular ăn theo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-cau-hinh-a-co-san-nhung-chua-noi-day" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Cấu hình đã có sẵn — nhưng chưa "nối dây"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-het-han-san-co-tho-khong-thay-the-uoc-idle-timeout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. "Hết hạn" sẵn có — thô, không thay thế được idle timeout
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Phạm vi: idle-timer chạy ở Administrator; đóng phiên qua /Account/Logout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Đọc cấu hình qua SessionAppService.GetCurrentLoginInformations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Ngữ nghĩa timeout &amp; cảnh báo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client-detect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Phát hiện "không hoạt động" ở client + đồng bộ đa tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Ràng buộc giá trị khi lưu setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edit-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6. Ô nhập cấu hình trên trang Settings — bám đúng cây DTO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#three-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7. Ba tầng thời gian song song — vì sao không xung đột
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-backstop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8. Lớp backstop ở server (nâng lên phương án C) — tùy chọn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.8. Lớp backstop ở server (nâng lên phương án C) — tùy chọn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cach-1-sliding-cookie-han-co-inh-khuyen-dung-3-dong-u-tot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cách 1 — Sliding cookie hạn cố định (khuyên dùng: 3 dòng, đủ tốt)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cach-2-onvalidateprincipal-ong-chi-khi-compliance-oi-khop-ung-so-phut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cách 2 — OnValidatePrincipal động (chỉ khi compliance đòi khớp đúng số phút)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-quy-tac-ung-du-chon-cach-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 quy tắc đúng dù chọn cách nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Danh sách file (đã triển khai)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Danh sách file (đã triển khai)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverwebmvc-lop-backstop-server-phuong-an-c-38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Web.Mvc — lớp backstop server, phương án C (3.8)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-1-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 1 — Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-2-angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 2 — Angular Administrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-3-kiem-tra-cau-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 3 — Kiểm tra cấu hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-ngoai-pham-vi-ghi-e-khoi-hieu-nham" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ngoài phạm vi (ghi để khỏi hiểu nhầm)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="phuong-an-tu-ong-ong-phien-khi-khong-hoat-ong-session-timeout">Phương án: Tự động đóng phiên khi không hoạt động (Session Timeout)<a class="headerlink" href="#phuong-an-tu-ong-ong-phien-khi-khong-hoat-ong-session-timeout" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-15</p>
+<p><strong>Phạm vi:</strong> eKMapServer App — Angular <strong>Administrator</strong> (idle-timer chạy ở đây; phiên thật là <strong>cookie server</strong>, không phải JWT — xem <a href="#session-model">2.1</a>). Portal MVC <strong>nằm ngoài phạm vi</strong> (xem <a href="#scope">3.1</a>).</p>
+<p><strong>Trạng thái:</strong> ✅ <strong>Đã triển khai</strong> (backend + client + ô cấu hình + lớp backstop server). Tài liệu mô tả thiết kế và ánh xạ tới code thật đã có. Còn lại: build <code>Web.Host</code> + <code>npm run publish</code> bên Administrator để phát hành.</p>
+<hr />
+<h2 id="1-yeu-cau">1. Yêu cầu<a class="headerlink" href="#1-yeu-cau" title="Permanent link">&para;</a></h2>
+<p>a) Có chức năng cho phép <strong>thiết lập giới hạn thời gian chờ (timeout)</strong> để đóng phiên kết nối khi phần mềm không nhận được yêu cầu từ người dùng.</p>
+<p>b) <strong>Hiển thị thông báo</strong>, đóng phiên kết nối đã hết hạn timeout và <strong>yêu cầu đăng nhập lại</strong>.</p>
+<p>Ba tham số điều khiển, cấu hình được ở cả cấp Host và Tenant:</p>
+<table>
+<thead>
+<tr>
+<th>Tham số</th>
+<th>Ý nghĩa</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IsEnabled</code></td>
+<td>Bật/tắt tính năng</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>TimeOutSecond</code></td>
+<td><strong>Tổng thời gian không hoạt động</strong> tối đa trước khi đóng phiên</td>
+<td><code>30</code></td>
+</tr>
+<tr>
+<td><code>ShowTimeOutNotificationSecond</code></td>
+<td>Hiện thông báo cảnh báo <strong>trước thời điểm đóng</strong> bao nhiêu giây</td>
+<td><code>30</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Phân vai người dùng</p>
+<p><strong>Admin</strong> cấu hình <em>bao lâu thì hết phiên</em> (trang Settings). <strong>User thường</strong> không quản lý gì, không thấy cấu hình — chỉ <strong>trải nghiệm</strong>: bỏ máy lâu thì được thông báo và bị đưa về đăng nhập. Chữ <code>isVisibleToClients: true</code> chỉ nghĩa là mã JS <strong>đọc được</strong> con số để chạy đồng hồ, <strong>không</strong> phải cho user sửa.</p>
+</div>
+<hr />
+<h2 id="2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke">2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế<a class="headerlink" href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" title="Permanent link">&para;</a></h2>
+<h3 id="session-model">2.1. Chỉ có MỘT phiên: cookie của server, Angular ăn theo<a class="headerlink" href="#session-model" title="Permanent link">&para;</a></h3>
+<p>Đây là điểm dễ hiểu nhầm nhất — cần chốt trước khi thiết kế.</p>
+<p>Mở thư mục <code>src/app/modules/auth/</code> sẽ thấy một <code>AuthService</code> dùng <strong>JWT + localStorage</strong>, login bằng <code>admin@demo.com</code>. <strong>Đó là code mẫu chết của template Metronic — luồng thật KHÔNG bao giờ chạy qua nó.</strong> Đừng để nó đánh lừa. Xác thực thật của cả hệ thống nằm ở <strong>cookie</strong> do server ASP.NET/ABP cấp.</p>
+<p>App Angular Administrator <strong>không tự quản phiên</strong>. Nó được <strong>nhúng trong một trang MVC</strong> (<code>AdministratorController</code> + <code>Views/Administrator/Index.cshtml</code>) và ăn theo cookie đó. Bằng chứng ngay trong code:</p>
+<table>
+<thead>
+<tr>
+<th>Chứng cứ</th>
+<th>Ở đâu</th>
+<th>Nói lên điều gì</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[AbpMvcAuthorize]</code> trên <code>AdministratorController</code></td>
+<td><code>Web.Mvc/Controllers</code></td>
+<td>Không có cookie hợp lệ ⇒ <strong>không vào được</strong> <code>/Administrator</code></td>
+</tr>
+<tr>
+<td>Nhúng <code>abp.js</code> + <code>AbpServiceProxies/GetAll</code> + <code>AbpScripts/GetScripts</code></td>
+<td><code>Views/Administrator/_Scripts.cshtml</code></td>
+<td>Server <strong>nhồi sẵn</strong> phiên vào biến <code>abp.session</code> (userId, tenant…) khi tải trang</td>
+</tr>
+<tr>
+<td><code>abp.services.app.*</code> là AJAX <strong>cùng origin</strong></td>
+<td>mọi component Angular</td>
+<td>Trình duyệt <strong>tự đính kèm cookie</strong>, không gắn token nào vào header</td>
+</tr>
+<tr>
+<td>Đăng xuất → <code>/Account/Logout</code> → <code>SignInManager.SignOutAsync()</code></td>
+<td><code>user-offcanvas.component.ts</code> + <code>AccountController</code></td>
+<td>"Đóng phiên" = server <strong>xóa cookie</strong>, không phải client xóa gì</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant U as 🌐 Trình duyệt
+    participant MVC as 🖥️ Server MVC / ABP
+    participant NG as ⚙️ Angular (chạy trong trang /Administrator)
+
+    U-&gt;&gt;MVC: 1. Đăng nhập (Account/Login)
+    MVC--&gt;&gt;U: 2. Set-Cookie: phiên xác thực (HttpOnly)
+    Note over U: Cookie nằm ở trình duyệt,&lt;br/&gt;nhưng "phiên" thật do server giữ
+    U-&gt;&gt;MVC: 3. GET /Administrator (cookie tự kèm)
+    MVC-&gt;&gt;MVC: [AbpMvcAuthorize] kiểm cookie ✔
+    MVC--&gt;&gt;U: 4. Trang + abp.js + abp.session đã nhồi sẵn
+    Note over U,NG: Từ đây Angular chạy bên trong trang đó
+    NG-&gt;&gt;MVC: 5. abp.services.app.* (cùng origin → cookie tự kèm)
+    MVC--&gt;&gt;NG: 6. Dữ liệu (đã biết bạn là ai nhờ cookie)
+    U-&gt;&gt;MVC: 7. Đăng xuất → /Account/Logout → SignOutAsync() xóa cookie</code></pre>
+<p>→ <strong>Kết luận chi phối thiết kế:</strong> phiên = <strong>cookie, do server giữ</strong>. Trình duyệt chỉ cầm cookie và tự nộp lại ở mỗi request. Vì vậy module timeout này:</p>
+<ul>
+<li><strong>Đọc</strong> cấu hình và <strong>đo nhàn rỗi</strong> ở phía client (chỉ trình duyệt biết user có di chuột/gõ phím).</li>
+<li>Nhưng <strong>"đóng phiên" phải nhờ server</strong>: điều hướng tới <strong><code>/Account/Logout</code></strong> để <code>SignOutAsync()</code> hủy cookie. Xóa localStorage <strong>không</strong> làm cookie mất → phiên vẫn sống. Đây là điểm khác hẳn so với kiểu JWT stateless.</li>
+</ul>
+<h3 id="22-cau-hinh-a-co-san-nhung-chua-noi-day">2.2. Cấu hình đã có sẵn — nhưng chưa "nối dây"<a class="headerlink" href="#22-cau-hinh-a-co-san-nhung-chua-noi-day" title="Permanent link">&para;</a></h3>
+<p>Ba tham số đã được khai báo, đăng ký và đọc/ghi đầy đủ ở backend:</p>
+<ul>
+<li><strong>Hằng số:</strong> <code>AppSettings.cs</code> → <code>UserManagement.SessionTimeOut.{IsEnabled, TimeOutSecond, ShowTimeOutNotificationSecond}</code>.</li>
+<li><strong>Định nghĩa:</strong> <code>AppSettingProvider.cs</code> → mặc định <code>false / 30 / 30</code>, scope <code>Application | Tenant</code>, <code>isVisibleToClients: true</code>.</li>
+<li><strong>DTO:</strong> <code>SessionTimeOutSettingsEditDto</code> (kèm <code>[Range(10, int.MaxValue)]</code> trên hai trường số).</li>
+<li><strong>Đọc/ghi:</strong> <code>HostSettingsAppService</code> và <code>TenantSettingsAppService</code> đã round-trip đủ ba tham số.</li>
+</ul>
+<div class="admonition success">
+<p class="admonition-title">Đã nối dây (cập nhật khi triển khai)</p>
+<p>Ban đầu ba con số chỉ đi một vòng khép kín <em>trang admin → DB → trang admin</em>, không nơi nào tiêu thụ ("cái núm vặn đã lắp nhưng chưa nối dây vào động cơ"). Bản triển khai đã nối đủ:</p>
+<ul>
+<li><strong>Nơi tiêu thụ:</strong> <code>SessionAppService</code> nhả 3 tham số qua <code>GetCurrentLoginInformations</code>; client Angular đọc và chạy idle-timer (<a href="#file-list">4</a>).</li>
+<li><strong>Ô nhập:</strong> <code>settings.component.html</code> đã có form 3 ô (tab <em>Usersetting</em>) bind vào <code>userManagement.sessionTimeOutSettings</code> (<a href="#edit-form">3.6</a>).</li>
+</ul>
+</div>
+<h3 id="23-het-han-san-co-tho-khong-thay-the-uoc-idle-timeout">2.3. "Hết hạn" sẵn có — thô, không thay thế được idle timeout<a class="headerlink" href="#23-het-han-san-co-tho-khong-thay-the-uoc-idle-timeout" title="Permanent link">&para;</a></h3>
+<p>Phiên hiện <strong>không</strong> vô thời hạn, nhưng cơ chế sẵn có là <strong>hết hạn theo tuổi cookie</strong>, không theo hoạt động thực của người dùng trong app:</p>
+<table>
+<thead>
+<tr>
+<th>Cơ chế</th>
+<th>Kiểu</th>
+<th>Giá trị</th>
+<th>Cấu hình được?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cookie xác thực (ASP.NET Identity)</td>
+<td>Tuyệt đối / trượt (sliding)</td>
+<td>~14 ngày (mặc định ABP)</td>
+<td>Có, nhưng ở tầng khác</td>
+</tr>
+</tbody>
+</table>
+<p>Đây là <strong>hàng rào chốt chặn thô, câm lặng</strong>: không cảnh báo, không biết user còn ngồi trước máy hay đã bỏ đi; sliding expiration còn <strong>tự gia hạn</strong> mỗi lần có request, nên user mở tab để đó vài tiếng vẫn không hề bị đẩy ra. Nó <strong>không</strong> đáp ứng yêu cầu "đóng khi ngừng thao tác X giây + có thông báo". Module này bổ sung lớp idle timeout ở <strong>phía client</strong> ở trên, <strong>không</strong> đụng tới hạn cookie (giữ nó làm chốt chặn tuyệt đối cuối cùng).</p>
+<hr />
+<h2 id="3-cac-quyet-inh-thiet-ke">3. Các quyết định thiết kế<a class="headerlink" href="#3-cac-quyet-inh-thiet-ke" title="Permanent link">&para;</a></h2>
+<h3 id="scope">3.1. Phạm vi: idle-timer chạy ở Administrator; đóng phiên qua <code>/Account/Logout</code><a class="headerlink" href="#scope" title="Permanent link">&para;</a></h3>
+<p>Idle timeout chỉ có ý nghĩa ở nơi người dùng <strong>ngồi làm việc lâu</strong> — tức app Angular Administrator. Portal MVC chỉ để đăng nhập / đổi mật khẩu, không ai ngồi rảnh ở đó. App <strong>Manager</strong> để lại giai đoạn sau. Vậy <strong>đồng hồ đếm nhàn rỗi (idle timer) đặt ở Administrator</strong>.</p>
+<p>Nhưng nhớ kỹ (<a href="#session-model">2.1</a>): dù timer chạy ở client, <strong>phiên vẫn là cookie ở server</strong>. Nên khi hết giờ, "đóng phiên" <strong>không</strong> phải xóa gì đó trong trình duyệt, mà là <strong>điều hướng tới <code>/Account/Logout</code></strong> để server gọi <code>SignInManager.SignOutAsync()</code> hủy cookie — đúng y cơ chế nút Đăng xuất hiện có. Điểm mạnh: cookie là <strong>server-side nên thu hồi được thật</strong>, chỉ một cú redirect là phiên chết hẳn, không để lại "token mồ côi" nào còn hiệu lực.</p>
+<h3 id="read-path">3.2. Đọc cấu hình qua <code>SessionAppService.GetCurrentLoginInformations</code><a class="headerlink" href="#read-path" title="Permanent link">&para;</a></h3>
+<p>Angular hiện đọc setting qua <code>abp.services.app.hostSettings.getAllSettings()</code> — nhưng đó là API <strong>cấp host-admin</strong>; user thường (role thấp) có thể bị <strong>403</strong>. Idle timeout phải chạy cho <strong>mọi</strong> user, nên không thể phụ thuộc API admin.</p>
+<p><strong>Quyết định:</strong> thêm một block <code>sessionTimeOut</code> vào <code>GetCurrentLoginInformations()</code> — API mọi user đăng nhập đều gọi được. Đây đúng theo <strong>tiền lệ đã có</strong> trong chính file đó: block <code>PasswordExpiration</code> cũng được nhét vào đây theo cùng lý do.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Dto/GetCurrentLoginInformationsOutput.cs — thêm 1 property</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">public</span><span class="w"> </span><span class="n">SessionTimeOutInfoDto</span><span class="w"> </span><span class="n">SessionTimeOut</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// SessionAppService.GetCurrentLoginInformations() — đọc theo user hiện tại</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">output</span><span class="p">.</span><span class="n">SessionTimeOut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SessionTimeOutInfoDto</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">IsEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">SettingManager</span><span class="p">.</span><span class="n">GetSettingValueAsync</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="n">AppSettings</span><span class="p">.</span><span class="n">UserManagement</span><span class="p">.</span><span class="n">SessionTimeOut</span><span class="p">.</span><span class="n">IsEnabled</span><span class="p">),</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="n">TimeOutSecond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">SettingManager</span><span class="p">.</span><span class="n">GetSettingValueAsync</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="n">AppSettings</span><span class="p">.</span><span class="n">UserManagement</span><span class="p">.</span><span class="n">SessionTimeOut</span><span class="p">.</span><span class="n">TimeOutSecond</span><span class="p">),</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">ShowTimeOutNotificationSecond</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">SettingManager</span><span class="p">.</span><span class="n">GetSettingValueAsync</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="n">AppSettings</span><span class="p">.</span><span class="n">UserManagement</span><span class="p">.</span><span class="n">SessionTimeOut</span><span class="p">.</span><span class="n">ShowTimeOutNotificationSecond</span><span class="p">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">};</span>
+</code></pre></div>
+<p>Ở đây dùng <code>GetSettingValueAsync()</code> (không cần bản <code>ForUser</code>) là <strong>đúng</strong>: khác với lúc đăng nhập sai của tính năng khóa tài khoản, tại thời điểm gọi API này user <strong>đã đăng nhập</strong> nên <code>AbpSession</code> đã có tenant/user — <code>SettingManager</code> tự lấy đúng giá trị effective theo tenant.</p>
+<h3 id="semantics">3.3. Ngữ nghĩa timeout &amp; cảnh báo<a class="headerlink" href="#semantics" title="Permanent link">&para;</a></h3>
+<p>Cần nói rõ để không hiểu nhầm mốc thời gian:</p>
+<ul>
+<li><code>TimeOutSecond</code> = <strong>tổng</strong> thời gian không hoạt động tối đa. Chạm mốc này ⇒ phiên bị đóng.</li>
+<li><code>ShowTimeOutNotificationSecond</code> = hiện hộp thoại <strong>trước</strong> thời điểm đóng bấy nhiêu giây.</li>
+<li>⇒ Hộp thoại xuất hiện tại mốc idle <code>= TimeOutSecond − ShowTimeOutNotificationSecond</code>, và <strong>đếm ngược</strong> <code>ShowTimeOutNotificationSecond</code> giây.</li>
+</ul>
+<p>Hộp thoại có <strong>hai nút</strong>: <strong>"Tiếp tục phiên"</strong> (gia hạn tại chỗ) và <strong>"Đăng nhập lại"</strong> (đăng xuất ngay). Phiên đóng khi user bấm "Đăng nhập lại" <strong>hoặc</strong> khi hết đếm ngược mà không bấm gì (user bỏ đi thật). Bấm "Tiếp tục phiên" ⇒ quay lại pha nhàn rỗi, đếm lại từ đầu:</p>
+<pre class="mermaid"><code>flowchart TD
+    L["Đăng nhập Administrator"] --&gt; R{"config.isEnabled?"}
+    R --&gt;|"false"| X["Không làm gì"]
+    R --&gt;|"true"| T["IdleTimer chạy&lt;br/&gt;nghe mousemove/keydown/click/scroll"]
+    T --&gt;|"có thao tác"| T2["reset idle = 0"]
+    T2 --&gt; T
+    T --&gt;|"idle = TimeOut − ShowNotif"| D["Hiện hộp thoại thông báo&lt;br/&gt;đếm ngược ShowNotif giây&lt;br/&gt;[ Tiếp tục phiên ] [ Đăng nhập lại ]"]
+    D --&gt;|"bấm 'Tiếp tục phiên'&lt;br/&gt;(continueSession)"| T
+    D --&gt;|"bấm 'Đăng nhập lại'"| O["Redirect → /Account/Logout&lt;br/&gt;server SignOutAsync() xóa cookie"]
+    D --&gt;|"hết đếm ngược (idle = TimeOut)"| O
+    O --&gt; LG["Về trang đăng nhập&lt;br/&gt;'Phiên đã hết hạn do không hoạt động'"]
+
+    style O fill:#ffcdd2,stroke:#c62828
+    style X fill:#eeeeee,stroke:#9e9e9e</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Gia hạn bằng NÚT bấm, không tự reset theo chuột</p>
+<p>Trong pha <strong>cảnh báo</strong> (dialog đang hiện), hoạt động chuột/phím <strong>không</strong> tự reset — chỉ nút <strong>"Tiếp tục phiên"</strong> (<code>continueSession()</code>) mới gia hạn. Lý do: dialog là modal che màn hình, user vừa thấy là theo phản xạ di chuột tới đọc → nếu auto-reset theo chuột thì dialog <strong>biến mất ngay</strong>, gần như không bao giờ đóng được phiên (kể cả người đã bỏ đi vô tình chạm chuột). Auto-reset chỉ áp dụng ở <strong>pha nhàn rỗi</strong> trước đó (<a href="#client-detect">3.4</a>). Bấm "Tiếp tục" thì <code>continueSession()</code> hủy đếm ngược, ẩn dialog, đăng ký lại listener hoạt động và đếm nhàn rỗi lại từ đầu. Đây là chuẩn ngành (<em>"Phiên sắp hết hạn. [Tiếp tục] [Đăng xuất]"</em>).</p>
+</div>
+<h3 id="client-detect">3.4. Phát hiện "không hoạt động" ở client + đồng bộ đa tab<a class="headerlink" href="#client-detect" title="Permanent link">&para;</a></h3>
+<p>Chỉ trình duyệt mới biết user có di chuột/gõ phím hay không — nên <strong>idle timer bắt buộc chạy ở client</strong> (server chỉ biết "có request tới" hay không). Dùng RxJS <code>fromEvent</code> gộp các sự kiện <code>mousemove / keydown / click / scroll</code>, <code>debounce</code>/throttle để đỡ tốn, mỗi lần có sự kiện thì reset mốc.</p>
+<p><strong>Đa tab:</strong> ghi <strong>mốc thời gian hoạt động cuối</strong> vào <code>localStorage</code> và nghe sự kiện <code>storage</code>. (Lưu ý: <code>localStorage</code> ở đây chỉ chứa <strong>một con số timestamp</strong> để các tab đồng bộ đồng hồ nhàn rỗi — <strong>không</strong> liên quan gì tới phiên; phiên vẫn là cookie ở server theo <a href="#session-model">2.1</a>.) Một tab có thao tác ⇒ các tab khác cũng reset; khi một tab đăng xuất thì mọi tab cùng về login (tránh cảnh một tab đã logout, tab kia vẫn "sống").</p>
+<div class="admonition bug">
+<p class="admonition-title">Bẫy thực tế: phải ép change-detection thủ công</p>
+<p>App Administrator này <strong>zone không tự chạy change-detection cho tác vụ async</strong> (bằng chứng: <code>topbar.component.ts</code> phải gọi <code>this.cdRef.detectChanges()</code> sau <code>getCurrentLoginInformations().then(...)</code> mới cập nhật được giao diện). Hệ quả: nếu service đổi <code>showDialog = true</code> / <code>remaining--</code> bên trong <code>setTimeout</code>/<code>setInterval</code>, biến <strong>đổi thật nhưng giao diện không vẽ lại</strong> — dialog không hiện, đến khi hết đếm ngược thì <code>doLogout()</code> chạy ⇒ trải nghiệm "<strong>tự đăng xuất mà không thấy cảnh báo</strong>", hoặc dialog chỉ "bùng ra" khi user bấm nút khác (click là sự kiện Angular bắt được nên mới chạy CD).</p>
+<p><strong>Cách xử lý (đã thử và chốt):</strong> ban đầu thử <code>ApplicationRef.tick()</code> trong service — <strong>không ăn</strong> (timer vẫn chạy, logout đúng giờ, nhưng dialog vẫn không vẽ; có vẻ <code>tick()</code> từ gốc không tới được view dialog trong app này). Giải pháp chạy được là dùng đúng cơ chế topbar đã chứng minh: service phát một <code>Subject</code> <code>change$.next()</code> <strong>sau</strong> khi đổi <code>showDialog</code>/<code>remaining</code>; dialog component <strong>subscribe <code>change$</code> và gọi <code>this.cdr.detectChanges()</code> của chính nó</strong>. <code>detectChanges()</code> trên CDR của đúng component cần vẽ luôn hiệu quả, không phụ thuộc việc zone có tự CD hay không.</p>
+</div>
+<h3 id="validation">3.5. Ràng buộc giá trị khi lưu setting<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<p>Form Angular chặn được giá trị bậy ở client, nhưng vẫn có thể POST thẳng API (Postman/curl) bỏ qua mọi kiểm tra client. Server <strong>không tin client</strong>. Khi <code>IsEnabled = true</code>, cần chặn:</p>
+<table>
+<thead>
+<tr>
+<th>Giá trị bậy</th>
+<th>Hậu quả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TimeOutSecond &lt;= 0</code></td>
+<td>Đóng phiên ngay lập tức / vô nghĩa</td>
+</tr>
+<tr>
+<td><code>ShowTimeOutNotificationSecond &lt;= 0</code></td>
+<td>Không có cửa sổ cảnh báo</td>
+</tr>
+<tr>
+<td><code>TimeOutSecond &lt;= ShowTimeOutNotificationSecond</code></td>
+<td>Cảnh báo hiện ngay khi vừa đăng nhập (mốc <code>TimeOut − Show ≤ 0</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Thêm guard ở <strong>đầu</strong> <code>UpdateUserManagementSessionTimeOutSettingsAsync</code> (trước mọi lệnh ghi), ở <strong>cả</strong> <code>HostSettingsAppService</code> và <code>TenantSettingsAppService</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">IsEnabled</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">TimeOutSecond</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;SessionTimeOutMustBeAtLeast10Seconds&quot;</span><span class="p">));</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">ShowTimeOutNotificationSecond</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;SessionTimeOutNotificationMustBeAtLeast5Seconds&quot;</span><span class="p">));</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">TimeOutSecond</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">settings</span><span class="p">.</span><span class="n">ShowTimeOutNotificationSecond</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;SessionTimeOutMustBeGreaterThanNotification&quot;</span><span class="p">));</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>UserFriendlyException</code> (<code>Abp.UI</code>) được ABP trả nguyên văn ra client — form hiện đúng dòng lỗi. Đặt validation <strong>trước</strong> mọi lệnh ghi để cấu hình sai thì không lưu một nửa. (Cùng nguyên tắc với validation ở tính năng khóa tài khoản.)</p>
+<div class="admonition warning">
+<p class="admonition-title">Trạng thái thực tế: guard cross-field ở server CHƯA làm</p>
+<p>Hiện server mới chỉ chặn <strong>min-10</strong> cho từng trường qua <code>[Range(10, int.MaxValue)]</code> trên <code>SessionTimeOutSettingsEditDto</code> (ABP tự validate DataAnnotation → trả "request is not valid"). Đoạn guard cross-field <code>TimeOut &lt;= ShowNotif</code> ở trên <strong>chưa được thêm</strong> vào <code>Host/TenantSettingsAppService</code>. Client đã chặn cross-field (<a href="#file-list">settings.component.ts</a>) nên form không lọt giá trị bậy; nhưng nếu muốn chặt ở cả server (POST thẳng qua Postman), thêm đoạn này là việc còn lại. Đây là chốt "nên có", không chặn tính năng chạy.</p>
+</div>
+<h3 id="edit-form">3.6. Ô nhập cấu hình trên trang Settings — bám đúng cây DTO<a class="headerlink" href="#edit-form" title="Permanent link">&para;</a></h3>
+<p>Gọi thử <code>getAllSettings()</code> cho thấy ba tham số <strong>đã round-trip</strong> và nằm dưới nhánh <code>userManagement</code>, <strong>không</strong> phải <code>security</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  &quot;result&quot;: {
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    &quot;userManagement&quot;: {
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>      &quot;sessionTimeOutSettings&quot;: {        // ← nơi form phải bind vào
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        &quot;isEnabled&quot;: false,
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        &quot;timeOutSecond&quot;: 30,
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        &quot;showTimeOutNotificationSecond&quot;: 30
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>      }
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    },
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    &quot;security&quot;: {
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>      &quot;passwordExpirationDays&quot;: 100,
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>      &quot;passwordChangeReminderDays&quot;: 90,
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>      &quot;sessionTimeOutSettingsEditDto&quot;: null   // ⚠ property thừa, luôn null — bỏ qua
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    }
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  }
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>}
+</code></pre></div>
+<p>Rút ra hai điều chốt cho phần code:</p>
+<ol>
+<li>
+<p><strong>Đường bind là <code>userManagement.sessionTimeOutSettings</code>.</strong> Ô nhập trên <code>settings.component.html</code> (và model gửi lên khi lưu) phải nằm trong nhánh <code>userManagement</code>, đúng chỗ backend đọc/ghi ở <a href="#read-path">2.2</a>. Bind nhầm sang <code>security</code> sẽ ghi vào một field chết.</p>
+</li>
+<li>
+<p><strong><code>security.sessionTimeOutSettingsEditDto</code> là rác — luôn <code>null</code>.</strong> Field này lọt vào DTO <code>security</code> nhưng không được <code>HostSettingsAppService</code>/<code>TenantSettingsAppService</code> đổ giá trị, nên mãi <code>null</code>. Đừng để nó gây hiểu nhầm "cấu hình chưa có" — cấu hình thật nằm ở <code>userManagement.sessionTimeOutSettings</code>. Nên <strong>xóa property thừa này</strong> khi dọn code để tránh người sau bind nhầm.</p>
+</li>
+</ol>
+<p>Bố cục ô nhập (ẩn/hiện theo <code>isEnabled</code>):</p>
+<pre class="mermaid"><code>flowchart TD
+    E["☑ Bật tự đóng phiên khi không hoạt động&lt;br/&gt;(isEnabled)"]
+    E --&gt;|"bật"| F["Tổng thời gian chờ — giây (timeOutSecond)&lt;br/&gt;Cảnh báo trước khi đóng — giây (showTimeOutNotificationSecond)"]
+    E --&gt;|"tắt"| G["ẩn hai ô số"]
+    F --&gt; S["Lưu → userManagement.sessionTimeOutSettings&lt;br/&gt;→ validation server ([3.5](#validation))"]
+
+    style E fill:#e3f2fd,stroke:#1565c0
+    style S fill:#e8f5e9,stroke:#2e7d32</code></pre>
+<div class="admonition tip">
+<p class="admonition-title">Kiểm nhanh sau khi nối dây</p>
+<p>Đổi <code>timeOutSecond</code> trên form rồi gọi lại <code>getAllSettings()</code> — giá trị mới phải hiện ở <code>userManagement.sessionTimeOutSettings.timeOutSecond</code>, còn <code>security.sessionTimeOutSettingsEditDto</code> vẫn <code>null</code> (đúng như trên). Nếu giá trị không đổi ⇒ form đang bind sai nhánh.</p>
+</div>
+<h3 id="three-layers">3.7. Ba tầng thời gian song song — vì sao không xung đột<a class="headerlink" href="#three-layers" title="Permanent link">&para;</a></h3>
+<p>Module này <strong>thêm</strong> một lớp idle timeout ở client, <strong>không sửa</strong> cấu hình phiên sẵn có ở server. Ba tầng chạy độc lập, mỗi tầng một việc:</p>
+<pre class="mermaid"><code>flowchart TB
+    subgraph SV["🖥️ SERVER — giữ nguyên, không đụng"]
+        C["Cookie xác thực&lt;br/&gt;~14 ngày, sliding&lt;br/&gt;→ chốt chặn tuyệt đối cuối"]
+        S["AddSession IdleTimeout&lt;br/&gt;10 phút (Startup.cs)&lt;br/&gt;→ dọn HttpContext.Session tạm&lt;br/&gt;KHÔNG đăng xuất"]
+    end
+    subgraph CL["⚙️ CLIENT — thêm mới"]
+        T["Idle timer (vd 30 phút không thao tác)&lt;br/&gt;→ phát hiện nhàn rỗi thật&lt;br/&gt;→ có cảnh báo đếm ngược"]
+    end
+    T --&gt;|"hết giờ: chỉ KÍCH HOẠT"| LO["/Account/Logout → SignOutAsync()"]
+    LO --&gt;|"xóa"| C
+
+    style CL fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style SV fill:#eef2f7,stroke:#607d8b</code></pre>
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Ai giữ</th>
+<th>Nhiệm vụ</th>
+<th>Hết hạn thì</th>
+<th>Module này sửa?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cookie xác thực (~14 ngày, sliding)</td>
+<td>Server</td>
+<td>Chốt chặn tuyệt đối cuối cùng</td>
+<td>Đăng xuất thật</td>
+<td>❌ để nguyên</td>
+</tr>
+<tr>
+<td><code>AddSession</code> IdleTimeout (10 phút) — <code>Startup.cs</code></td>
+<td>Server</td>
+<td>Dọn <code>HttpContext.Session</code> (kho tạm)</td>
+<td>Xóa dữ liệu tạm, <strong>KHÔNG</strong> đăng xuất</td>
+<td>❌ để nguyên</td>
+</tr>
+<tr>
+<td><strong>Idle timer (vd 30 phút không thao tác)</strong></td>
+<td><strong>Client</strong></td>
+<td>Phát hiện nhàn rỗi thật → gọi <code>/Account/Logout</code></td>
+<td>Đăng xuất thật + cảnh báo trước</td>
+<td>➕ thêm mới</td>
+</tr>
+</tbody>
+</table>
+<p>Không va chạm vì lớp client <strong>chỉ kích hoạt</strong> luồng logout có sẵn (<code>/Account/Logout</code> → <code>SignOutAsync</code>), <strong>không</strong> tự đóng cookie, <strong>không</strong> đụng config server. Vài hệ quả cần biết:</p>
+<ul>
+<li>Client timer là <strong>lớp UX, không phải rào bảo mật</strong>: tắt JS thì cookie vẫn sống tới hạn ~14 ngày. Đủ cho yêu cầu "cảnh báo + đăng xuất khi nhàn rỗi".</li>
+<li><code>/Account/Logout</code> xóa <strong>cả cookie</strong> ⇒ đăng xuất <strong>toàn hệ</strong> (MVC + Administrator + Manager, cùng origin), không phải chỉ Administrator.</li>
+<li>Cookie sliding tự gia hạn mỗi request; client timer đo <strong>thao tác thật</strong> (chặt hơn) ⇒ client luôn "nổ" <strong>trước</strong> ⇒ đúng mục đích (đăng xuất sớm khi thật sự rời máy).</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Nếu KHÔNG muốn dùng JS thì cấu hình động session kiểu gì? (và vì sao ở đây vẫn chọn client)</p>
+<p>Idle timeout <strong>thuần server-side là làm được</strong>, không cần JS:</p>
+<ul>
+<li><strong>Sliding expiration</strong> trên cookie: <code>ExpireTimeSpan = 30 phút</code> + <code>SlidingExpiration = true</code>. Không có request trong 30 phút ⇒ cookie coi như hết, request kế tiếp buộc đăng nhập lại.</li>
+<li>Chuẩn hơn: hook <strong><code>CookieAuthenticationEvents.OnValidatePrincipal</code></strong> — mỗi request đọc mốc hoạt động cuối, so với ngưỡng, quá hạn thì <code>RejectPrincipal()</code> + sign-out.</li>
+</ul>
+<p>Muốn <strong>cấu hình động</strong> (đổi là ăn, không restart) thì trong hook/đường validate đó đọc ngưỡng qua <code>SettingManager</code> (hoặc <code>IOptionsMonitor</code>), <strong>đừng</strong> nhét vào <code>Startup</code> vì nó baked 1 lần lúc khởi động (xem <a href="#read-path">3.2</a> — cùng nguyên tắc "đọc lúc request, không đóng băng lúc startup"). Các nền tảng khác cũng theo lối này: Java <code>session.setMaxInactiveInterval()</code>, PHP <code>session.gc_maxlifetime</code>, hay IdP như <strong>Keycloak</strong> có "SSO Session Idle" chỉnh trong admin console, áp lúc refresh token.</p>
+<p><strong>Nhưng</strong> cách server-only vướng đúng 2 điểm mà yêu cầu (b) đòi: (1) <strong>không hiện được hộp cảnh báo đếm ngược</strong> — server không vẽ được lên màn hình đang mở; (2) server chỉ biết "<strong>không có request tới</strong>", không phân biệt "user đang đọc màn hình" với "user đã bỏ đi". Vì yêu cầu <strong>bắt buộc có thông báo trước khi đóng</strong>, nên phải có mặt client. Ta chọn client cho phần <strong>phát hiện + cảnh báo</strong>, và vẫn để <strong>server đóng phiên</strong>.</p>
+</div>
+<h3 id="server-backstop">3.8. Lớp backstop ở server (nâng lên phương án C) — tùy chọn<a class="headerlink" href="#server-backstop" title="Permanent link">&para;</a></h3>
+<p>Bản thiết kế mặc định (mục 3.1–3.7) là <strong>phương án A: chỉ client</strong>. Nó phụ thuộc JavaScript — tắt JS thì idle-logout không chạy. Với app SPA điều này gần như vô hại (tắt JS = mất luôn app, xem phân tích cuối mục), nhưng nếu có <strong>yêu cầu tuân thủ (compliance)</strong> buộc phiên nhàn rỗi phải bị cưỡng chế chấm dứt bất kể JS, thì nâng lên <strong>phương án C = A + một lớp chặn độc lập ở server</strong>.</p>
+<p><strong>Ranh giới vai trò — không được lẫn:</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    Idle["User rời máy, ngừng thao tác"] --&gt; Q{"JS/timer client còn sống?"}
+    Q --&gt;|"Có (≈99%)"| CL["CLIENT xử lý:&lt;br/&gt;cảnh báo đếm ngược → redirect /Account/Logout&lt;br/&gt;chính xác theo phút cấu hình + có UX"]
+    Q --&gt;|"Không (JS tắt/lỗi/tamper)"| SV["SERVER backstop:&lt;br/&gt;tới trần thời gian → request kế tiếp bị từ chối&lt;br/&gt;không cảnh báo, chỉ cắt"]
+    CL --&gt; Out["Phiên đóng"]
+    SV --&gt; Out
+
+    style CL fill:#e8f5e9,stroke:#2e7d32
+    style SV fill:#fff3e0,stroke:#ef6c00</code></pre>
+<p>Lớp server <strong>chỉ bung ra khi lớp client chết</strong>. Nên nó không cần cảnh báo, không cần chính xác — chỉ cần <strong>hạ trần phơi nhiễm</strong> từ ~14 ngày (hạn cookie mặc định) xuống một mức hợp lý. Có 2 cách hiện thực:</p>
+<h4 id="cach-1-sliding-cookie-han-co-inh-khuyen-dung-3-dong-u-tot">Cách 1 — Sliding cookie hạn cố định <em>(khuyên dùng: 3 dòng, đủ tốt)</em><a class="headerlink" href="#cach-1-sliding-cookie-han-co-inh-khuyen-dung-3-dong-u-tot" title="Permanent link">&para;</a></h4>
+<p>Bật idle-timeout có sẵn của ASP.NET. Thêm vào <code>Startup.cs</code>, <strong>sau</strong> <code>IdentityRegistrar.Register(services)</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">services</span><span class="p">.</span><span class="n">ConfigureApplicationCookie</span><span class="p">(</span><span class="n">o</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">ExpireTimeSpan</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromHours</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span><span class="w">  </span><span class="c1">// hạ trần từ ~14 NGÀY xuống 8 GIỜ</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">SlidingExpiration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span><span class="w">                     </span><span class="c1">// còn request thì tự gia hạn</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">});</span>
+</code></pre></div>
+<p>Không cố khớp con số phút của admin — chỉ <strong>hạ trần</strong>: nếu JS chết, phiên bỏ quên không sống quá 8 giờ (thay vì 14 ngày). Client vẫn là anh cắt chính xác ở 30 phút.</p>
+<table>
+<thead>
+<tr>
+<th>Ưu</th>
+<th>Nhược</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 dòng, không đụng logic, không theo dõi gì</td>
+<td><strong>Tĩnh</strong> — đổi trần phải restart</td>
+</tr>
+<tr>
+<td>Dùng cơ chế chuẩn của framework</td>
+<td>Không khớp đúng số phút cấu hình (nhưng backstop không cần khớp)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Cookie dùng chung</p>
+<p>Cookie xác thực chung cho <strong>cả</strong> MVC + Administrator + Manager. Trần 8 giờ này áp cho tất cả. Chọn giá trị <strong>đủ dài</strong> để không phiền người đang làm việc thật (1 ca làm ≈ 8 giờ là an toàn), nhưng <strong>ngắn hơn hẳn</strong> 14 ngày.</p>
+</div>
+<h4 id="cach-2-onvalidateprincipal-ong-chi-khi-compliance-oi-khop-ung-so-phut">Cách 2 — <code>OnValidatePrincipal</code> động <em>(chỉ khi compliance đòi khớp đúng số phút)</em><a class="headerlink" href="#cach-2-onvalidateprincipal-ong-chi-khi-compliance-oi-khop-ung-so-phut" title="Permanent link">&para;</a></h4>
+<p>Nếu server <strong>bắt buộc</strong> cưỡng chế đúng ngưỡng admin cấu hình (và audit được): hook đọc <code>SettingManager</code> mỗi request, so <code>LastActivity</code>, quá hạn thì <code>RejectPrincipal()</code> + <code>SignOutAsync()</code>. Phức tạp hơn nhiều và có <strong>2 cái bẫy</strong>:</p>
+<ol>
+<li><strong>Đừng ghi đè</strong> event <code>OnValidatePrincipal</code> sẵn có — ASP.NET Identity đã gắn <code>SecurityStampValidator</code> vào đó (vô hiệu phiên khi đổi mật khẩu / security stamp). Ghi đè = <strong>hỏng tính năng bảo mật khác</strong>. Phải <strong>gọi handler cũ rồi mới thêm logic mình</strong>.</li>
+<li>Phải tự lưu + cập nhật <code>LastActivity</code> (claim trong ticket + <code>ctx.ShouldRenew = true</code>).</li>
+</ol>
+<p>→ Chỉ đáng làm khi có yêu cầu văn bản. Còn lại, Cách 1 cho ROI tốt hơn hẳn.</p>
+<h4 id="3-quy-tac-ung-du-chon-cach-nao">3 quy tắc đúng dù chọn cách nào<a class="headerlink" href="#3-quy-tac-ung-du-chon-cach-nao" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Ngưỡng server &gt; ngưỡng client</strong> (client 30' → server ≥ 8h, hoặc ít nhất dài hơn hẳn). Để cảnh báo đẹp của client <strong>luôn nổ trước</strong>; server chỉ đỡ khi client đã chết. Đặt bằng nhau ⇒ có lúc server "cắt phựt" trước khi client kịp cảnh báo (server đo <em>không request</em>, client đo <em>không thao tác</em> — hai mốc lệch nhau), user bị đá ra mà không thấy hộp cảnh báo → xấu UX.</li>
+<li><strong>Không đụng <code>AddSession(10 phút)</code></strong> — đó là session-state (<code>HttpContext.Session</code>), không liên quan phiên đăng nhập (<a href="#session-model">2.1</a>).</li>
+<li><strong>Không đổi code client</strong> — A giữ nguyên; C chỉ <strong>thêm</strong> ở server.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Phân tích mối đe dọa — vì sao dự án này chọn A, chưa cần C</p>
+<p>"Tắt JS để né idle-logout" <strong>không phải hướng tấn công thật</strong> ở đây:</p>
+<ul>
+<li>App Administrator <strong>toàn bộ là JS (Angular)</strong> ⇒ tắt JS thì <strong>không vào được app</strong>, lấy đâu phiên nhàn rỗi bên trong để lo → lỗ hổng tự triệt tiêu.</li>
+<li>Idle-logout bảo vệ <strong>người ĐÃ rời đi</strong> khỏi việc người khác ngồi vào máy còn đăng nhập. Kẻ duy nhất "tắt JS" là <strong>chính chủ tài khoản</strong> — mà giữ phiên của chính mình sống lâu hơn thì <strong>không tấn công ai</strong>, không có động cơ.</li>
+<li>Lưới an toàn cuối (<strong>hạn cookie do server cưỡng chế</strong>) vẫn còn: kể cả JS chết, phiên không sống mãi.</li>
+</ul>
+<p>Vì vậy: <strong>A đủ cho yêu cầu UX/vệ sinh phiên.</strong> Chỉ nâng <strong>C</strong> khi có compliance bắt buộc cưỡng chế + kiểm toán — và khi đó C là <em>cộng thêm</em> Cách 1/2 vào server, <strong>không</strong> phải làm lại A.</p>
+</div>
+<hr />
+<h2 id="file-list">4. Danh sách file (đã triển khai)<a class="headerlink" href="#file-list" title="Permanent link">&para;</a></h2>
+<p>Trạng thái: ✅ đã làm · ⬜ chưa làm (không chặn tính năng) · — không cần đụng.</p>
+<h3 id="ekmapserverapplication">eKMapServer.Application<a class="headerlink" href="#ekmapserverapplication" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sessions/Dto/SessionTimeOutInfoDto.cs</code></td>
+<td>DTO mới: <code>IsEnabled</code>, <code>TimeOutSecond</code>, <code>ShowTimeOutNotificationSecond</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Sessions/Dto/GetCurrentLoginInformationsOutput.cs</code></td>
+<td>Thêm property <code>SessionTimeOut</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Sessions/SessionAppService.cs</code></td>
+<td>Đọc 3 setting đổ vào block <code>SessionTimeOut</code> (<a href="#read-path">3.2</a>). <strong>Cần 2 using:</strong> <code>Abp.Configuration</code> (cho <code>GetSettingValueAsync&lt;T&gt;</code>) + <code>eKMapServer.Configuration</code> (cho <code>AppSettings</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Configuration/Host/HostSettingsAppService.cs</code> + <code>Tenants/TenantSettingsAppService.cs</code></td>
+<td>Round-trip đủ 3 tham số (đọc <code>getAllSettings</code> + ghi <code>update</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><em>guard cross-field ở server</em> (<a href="#validation">3.5</a>)</td>
+<td>Chặn <code>TimeOut &lt;= ShowNotif</code> bằng <code>UserFriendlyException</code></td>
+<td>⬜ chưa — hiện chỉ có <code>[Range(10,…)]</code> của DTO chặn min-10; client đã chặn cross-field</td>
+</tr>
+<tr>
+<td><code>Configuration/Tenants/Dto/SecuritySettingsEditDto.cs</code></td>
+<td>Xóa property thừa <code>SessionTimeOutSettingsEditDto</code> (luôn <code>null</code>, <a href="#edit-form">3.6</a>)</td>
+<td>⬜ chưa — vẫn còn, vô hại nhưng nên dọn</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ekmapservercore">eKMapServer.Core<a class="headerlink" href="#ekmapservercore" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hằng số <code>AppSettings.UserManagement.SessionTimeOut.*</code> + <code>SettingDefinition</code></td>
+<td><strong>đã có sẵn từ trước</strong> — không đụng</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>Localization/SourceFiles/eKMapServer.xml</code> + <code>-vi.xml</code></td>
+<td>8 key: dialog (<code>SessionTimeoutTitle</code>, <code>SessionTimeoutMessage</code> có <code>{0}</code>, <code>SessionTimeoutContinue</code>, <code>SessionTimeoutLoginAgain</code>) + form Settings (<code>SessionTimeOutSettings</code>, <code>SessionTimeOutEnable</code>, <code>SessionTimeOutTotalSeconds</code>, <code>SessionTimeOutWarnSeconds</code>)</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="angular-administrator">Angular (Administrator)<a class="headerlink" href="#angular-administrator" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pages/_layout/components/session-timeout/session-timeout.service.ts</code></td>
+<td>Idle timer (RxJS), đọc config từ <code>GetCurrentLoginInformations</code>, đồng bộ đa tab, hết giờ <strong>điều hướng <code>/Account/Logout</code></strong>. Phát <code>change$</code> (Subject) mỗi lần đổi trạng thái để dialog vẽ lại (<a href="#client-detect">bẫy CD</a>); có <code>continueSession()</code> cho nút gia hạn</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/_layout/components/session-timeout/session-timeout-dialog.component.ts</code> + <code>.html</code></td>
+<td>Hộp thoại đếm ngược (modal Bootstrap 4.5); <strong>nghe <code>change$</code> → tự <code>detectChanges()</code></strong>; 2 nút "Tiếp tục phiên" (<code>continueSession</code>) + "Đăng nhập lại" (<code>logoutNow</code>); dùng pipe <code>localize</code> (kể cả <code>{{ 'SessionTimeoutMessage' \| localize : sto.remaining }}</code> cho <code>{0}</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/layout.module.ts</code></td>
+<td>Khai báo <code>SessionTimeoutDialogComponent</code> trong <code>declarations</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/_layout/layout.component.html</code></td>
+<td>Đặt thẻ <code>&lt;session-timeout-dialog&gt;</code> một lần (trong layout non-blank)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/_layout/components/topbar/topbar.component.ts</code></td>
+<td>Inject service + gọi <code>sessionTimeout.start(data.sessionTimeOut)</code> trong <code>getUser()</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/settings/settings.component.html</code></td>
+<td>Form 3 ô (tab <em>Usersetting</em>), bind <code>userManagement.sessionTimeOutSettings</code> (<a href="#edit-form">3.6</a>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>pages/settings/settings.component.ts</code></td>
+<td>Helper <code>sessionTimeOutError()</code> khớp <code>[Range(10,…)]</code> + guard cross-field; chặn <code>saveAll()</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Service proxy</td>
+<td><strong>Không regenerate</strong> — <code>settingSystem</code> là <code>any</code>, field mới tự round-trip qua ABP dynamic proxy</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ekmapserverwebmvc-lop-backstop-server-phuong-an-c-38">eKMapServer.Web.Mvc — lớp backstop server, phương án C (<a href="#server-backstop">3.8</a>)<a class="headerlink" href="#ekmapserverwebmvc-lop-backstop-server-phuong-an-c-38" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Startup/Startup.cs</code></td>
+<td><strong>Cách 1</strong> đã cắm: <code>ConfigureApplicationCookie</code> (<code>ExpireTimeSpan = 10h</code> + <code>SlidingExpiration</code>) sau <code>IdentityRegistrar.Register</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><em>(hoặc)</em> Cách 2 <code>OnValidatePrincipal</code></td>
+<td>Chỉ khi compliance đòi khớp đúng số phút — <strong>chưa làm</strong>, chain handler cũ</td>
+<td>⬜ không cần</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Không có migration</p>
+<p>Toàn bộ dữ liệu nằm trong bảng <code>AbpSettings</code> sẵn có (mỗi setting là một row key–value). Không thêm cột, <strong>không cần <code>dotnet ef</code></strong>. Phương án C cũng <strong>không</strong> thêm bảng — chỉ chỉnh config cookie.</p>
+</div>
+<hr />
+<h2 id="5-trien-khai">5. Triển khai<a class="headerlink" href="#5-trien-khai" title="Permanent link">&para;</a></h2>
+<p>Code đã xong (mục 4). Việc còn lại là build + phát hành.</p>
+<h3 id="buoc-1-backend">Bước 1 — Backend<a class="headerlink" href="#buoc-1-backend" title="Permanent link">&para;</a></h3>
+<p>Đảm bảo <code>SessionAppService.cs</code> có 2 using <code>Abp.Configuration</code> + <code>eKMapServer.Configuration</code> (thiếu sẽ lỗi <code>CS0103</code>/<code>CS0308</code>). Build lại <code>eKMapServer.Web.Host</code>. Block <code>sessionTimeOut</code> xuất hiện trong response <code>GetCurrentLoginInformations</code>; API sẵn cho mọi user đăng nhập. Lớp backstop <code>ConfigureApplicationCookie</code> (10h) trong <code>Startup.cs</code> cũng có hiệu lực sau build này.</p>
+<h3 id="buoc-2-angular-administrator">Bước 2 — Angular Administrator<a class="headerlink" href="#buoc-2-angular-administrator" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd</span><span class="w"> </span>eKMapServer_App/Administrator<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>publish
+</code></pre></div>
+Copy <code>dist/*</code> vào <code>eKMapServer.Web.Mvc/wwwroot/Administrator/</code>. (Ô cấu hình và idle timer đều nằm ở app Administrator; app Manager chưa áp dụng.)</p>
+<h3 id="buoc-3-kiem-tra-cau-hinh">Bước 3 — Kiểm tra cấu hình<a class="headerlink" href="#buoc-3-kiem-tra-cau-hinh" title="Permanent link">&para;</a></h3>
+<p>Mặc định <code>IsEnabled = false</code> ⇒ bật xong build vẫn <strong>không có gì thay đổi</strong> cho tới khi admin bật. Vào Settings (tab <em>Usersetting</em>), bật tính năng, đặt ví dụ <code>TimeOutSecond = 60</code>, <code>ShowTimeOutNotificationSecond = 15</code>. Đổi setting xong, user đang mở phải <strong>reload</strong> mới nhận giá trị mới (config đọc lúc <code>GetCurrentLoginInformations</code>).</p>
+<hr />
+<h2 id="6-kiem-thu">6. Kiểm thử<a class="headerlink" href="#6-kiem-thu" title="Permanent link">&para;</a></h2>
+<p>Cấu hình test cho nhanh: <code>TimeOutSecond = 30</code>, <code>ShowTimeOutNotificationSecond = 10</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Kịch bản</th>
+<th>Thao tác</th>
+<th>Kết quả mong đợi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tắt tính năng</td>
+<td><code>IsEnabled = false</code></td>
+<td>Không có đồng hồ, không hộp thoại</td>
+</tr>
+<tr>
+<td>Cảnh báo đúng mốc</td>
+<td>Không thao tác 20s (= 30 − 10)</td>
+<td>Hộp thoại đếm ngược hiện ra, đếm từ 10</td>
+</tr>
+<tr>
+<td>Thao tác reset</td>
+<td>Di chuột trước mốc 20s</td>
+<td>Đồng hồ về 0, không hiện hộp thoại</td>
+</tr>
+<tr>
+<td>Xác nhận → đăng xuất</td>
+<td>Bấm "Đăng nhập lại" khi hộp thoại hiện</td>
+<td>Redirect <code>/Account/Logout</code> → server xóa cookie → về trang đăng nhập</td>
+</tr>
+<tr>
+<td>Tự đăng xuất</td>
+<td>Để yên hết đếm ngược</td>
+<td>Tự redirect <code>/Account/Logout</code>, thông báo hết phiên</td>
+</tr>
+<tr>
+<td>Chặn sau khi đóng</td>
+<td>Sau khi đăng xuất, quay lại <code>/Administrator</code></td>
+<td>Bị <code>[AbpMvcAuthorize]</code> chặn, đá về đăng nhập (cookie đã hủy)</td>
+</tr>
+<tr>
+<td>Đa tab</td>
+<td>Mở 2 tab, thao tác ở tab A</td>
+<td>Tab B cũng reset; đăng xuất thì cả hai về login</td>
+</tr>
+<tr>
+<td>Validation server — Range</td>
+<td>POST thẳng API lưu <code>TimeOut = 5</code> (bỏ qua form)</td>
+<td>Bị <code>[Range(10,…)]</code> từ chối ("request is not valid"), không lưu</td>
+</tr>
+<tr>
+<td>Validation server — cross-field</td>
+<td>POST <code>TimeOut = 20, Show = 25</code> (cả hai ≥10 nhưng Show ≥ Timeout)</td>
+<td>Bị guard cross-field từ chối (<a href="#validation">3.5</a>), không lưu</td>
+</tr>
+<tr>
+<td>Phân quyền đọc</td>
+<td>Đăng nhập bằng user role thấp</td>
+<td><code>GetCurrentLoginInformations</code> vẫn trả <code>sessionTimeOut</code> (không 403)</td>
+</tr>
+<tr>
+<td><em>(C)</em> Backstop khi JS chết</td>
+<td>Tắt JS trình duyệt (hoặc chặn timer), để phiên nhàn rỗi quá trần server</td>
+<td>Request kế tiếp bị đá về đăng nhập (cookie hết hạn), dù client không cắt</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kiểm tra cấu hình trong DB:</strong></p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">AbpSettings</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;App.UserManagement.SessionTimeOut.%&#39;</span><span class="p">;</span>
+</code></pre></div>
+Không có row ⇒ đang dùng mặc định <code>false / 30 / 30</code> từ <code>AppSettingProvider</code>.</p>
+<hr />
+<h2 id="7-ngoai-pham-vi-ghi-e-khoi-hieu-nham">7. Ngoài phạm vi (ghi để khỏi hiểu nhầm)<a class="headerlink" href="#7-ngoai-pham-vi-ghi-e-khoi-hieu-nham" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Không</strong> áp dụng cho Portal MVC (không ai ngồi rảnh ở trang đăng nhập / đổi mật khẩu).</li>
+<li><strong>Không</strong> áp dụng cho app Manager (giai đoạn sau).</li>
+<li><strong>Không</strong> đổi hạn cookie xác thực (~14 ngày) — giữ làm chốt chặn tuyệt đối cuối.</li>
+<li><strong>Không</strong> viết cơ chế đăng xuất mới — tái dùng <code>/Account/Logout</code> sẵn có (server <code>SignOutAsync()</code> đã hủy cookie đúng cách).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

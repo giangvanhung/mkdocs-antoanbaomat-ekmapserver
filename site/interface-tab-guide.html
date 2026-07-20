@@ -1,0 +1,2692 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="system-log-classification-feature.html">
+      
+      
+        <link rel="next" href="db-update-existing-database.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Tab Giao diện (tuỳ biến trang Đăng nhập) - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#huong-dan-dung-tab-giao-dien-interface" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tab Giao diện (tuỳ biến trang Đăng nhập)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="login-lockout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="session-timeout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="system-log-classification-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="interface-tab-guide.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-bo-cuc-tab-khung-xem-truoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Bố cục tab &amp; khung Xem trước
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-tat-ca-cac-o-trong-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tất cả các ô trong tab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ba-loai-o-lap-lai-url-style-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ba loại ô lặp lại (Url / Style / Class)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-company-name-ten-to-chuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Company Name (Tên tổ chức)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-reverse-layout-ao-bo-cuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Reverse Layout (Đảo bố cục)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Reverse Layout (Đảo bố cục)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-chi-hien-form-form-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Chỉ hiện form (Form Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-logo-phia-tren-form-ang-nhap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Logo (phía trên form đăng nhập)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-favicon-ien-uoc-nhung-chua-hien-thi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Favicon ⛔ (điền được nhưng chưa hiển thị)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-anh-nen-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ảnh nền Login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-slogan-chu-lon-tren-anh-nen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Slogan (chữ lớn trên ảnh nền)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Slogan (chữ lớn trên ảnh nền)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-oi-mau-chu-slogan-vi-sao-color-khong-an" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. ⚠️ Đổi màu chữ Slogan — vì sao color: không ăn?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-mau-font-ien-uoc-nhung-chua-hien-thi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Màu &amp; Font ⛔ (điền được nhưng chưa hiển thị)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-muon-oi-gi-thi-ien-o-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Muốn đổi gì thì điền ô nào
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-hai-vi-du-ien-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Hai ví dụ điền sẵn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-cac-nut-khung-xem-truoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Các nút &amp; khung xem trước
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-thu-vien-hieu-ung-css-nang-cao-tron-xoay-anhien-di-chuyen-o-bong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Thư viện hiệu ứng CSS nâng cao (tròn, xoay, ẩn/hiện, di chuyển, đổ bóng…)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Thư viện hiệu ứng CSS nâng cao (tròn, xoay, ẩn/hiện, di chuyển, đổ bóng…)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#130-oc-truoc-3-quy-tac-quan-trong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.0. Đọc trước — 3 quy tắc quan trọng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#131-bo-tron-bo-goc-vien-thuong-dung-cho-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1. Bo tròn – bo góc – viền (thường dùng cho Logo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-o-bong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2. Đổ bóng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-xoay-nghieng-lat-di-chuyen-phong-to-ung-yen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3. Xoay – nghiêng – lật – di chuyển – phóng to (đứng yên)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-chuyen-ong-chay-lien-tuc-xoay-hoai-nhip-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4. Chuyển động chạy liên tục (xoay hoài / nhịp đập)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135-an-hien-phan-tu-ke-ca-theo-kich-thuoc-man-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.5. Ẩn / hiện phần tử (kể cả theo kích thước màn hình)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#136-bo-loc-mau-cho-anh-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.6. Bộ lọc màu cho ảnh (logo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#137-chu-slogan-xin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.7. Chữ Slogan "xịn"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#138-anh-nen-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.8. Ảnh nền Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#139-bang-tra-nhanh-hieu-ung-nao-lam-o-o-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.9. Bảng tra nhanh: hiệu ứng nào làm ở ô nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-dung-anh-ong-gif-cho-logo-va-anh-nen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Dùng ảnh động / GIF cho Logo và Ảnh nền
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="db-update-existing-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-bo-cuc-tab-khung-xem-truoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. Bố cục tab &amp; khung Xem trước
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-tat-ca-cac-o-trong-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tất cả các ô trong tab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ba-loai-o-lap-lai-url-style-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ba loại ô lặp lại (Url / Style / Class)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-company-name-ten-to-chuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Company Name (Tên tổ chức)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-reverse-layout-ao-bo-cuc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Reverse Layout (Đảo bố cục)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Reverse Layout (Đảo bố cục)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-chi-hien-form-form-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Chỉ hiện form (Form Only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-logo-phia-tren-form-ang-nhap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Logo (phía trên form đăng nhập)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-favicon-ien-uoc-nhung-chua-hien-thi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Favicon ⛔ (điền được nhưng chưa hiển thị)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-anh-nen-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Ảnh nền Login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-slogan-chu-lon-tren-anh-nen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Slogan (chữ lớn trên ảnh nền)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Slogan (chữ lớn trên ảnh nền)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-oi-mau-chu-slogan-vi-sao-color-khong-an" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. ⚠️ Đổi màu chữ Slogan — vì sao color: không ăn?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-mau-font-ien-uoc-nhung-chua-hien-thi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Màu &amp; Font ⛔ (điền được nhưng chưa hiển thị)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-muon-oi-gi-thi-ien-o-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Muốn đổi gì thì điền ô nào
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-hai-vi-du-ien-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Hai ví dụ điền sẵn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-cac-nut-khung-xem-truoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Các nút &amp; khung xem trước
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-thu-vien-hieu-ung-css-nang-cao-tron-xoay-anhien-di-chuyen-o-bong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Thư viện hiệu ứng CSS nâng cao (tròn, xoay, ẩn/hiện, di chuyển, đổ bóng…)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Thư viện hiệu ứng CSS nâng cao (tròn, xoay, ẩn/hiện, di chuyển, đổ bóng…)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#130-oc-truoc-3-quy-tac-quan-trong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.0. Đọc trước — 3 quy tắc quan trọng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#131-bo-tron-bo-goc-vien-thuong-dung-cho-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1. Bo tròn – bo góc – viền (thường dùng cho Logo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-o-bong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2. Đổ bóng
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-xoay-nghieng-lat-di-chuyen-phong-to-ung-yen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3. Xoay – nghiêng – lật – di chuyển – phóng to (đứng yên)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-chuyen-ong-chay-lien-tuc-xoay-hoai-nhip-ap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4. Chuyển động chạy liên tục (xoay hoài / nhịp đập)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135-an-hien-phan-tu-ke-ca-theo-kich-thuoc-man-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.5. Ẩn / hiện phần tử (kể cả theo kích thước màn hình)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#136-bo-loc-mau-cho-anh-logo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.6. Bộ lọc màu cho ảnh (logo)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#137-chu-slogan-xin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.7. Chữ Slogan "xịn"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#138-anh-nen-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.8. Ảnh nền Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#139-bang-tra-nhanh-hieu-ung-nao-lam-o-o-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.9. Bảng tra nhanh: hiệu ứng nào làm ở ô nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-dung-anh-ong-gif-cho-logo-va-anh-nen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Dùng ảnh động / GIF cho Logo và Ảnh nền
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="huong-dan-dung-tab-giao-dien-interface">Hướng dẫn dùng tab "Giao diện" (Interface)<a class="headerlink" href="#huong-dan-dung-tab-giao-dien-interface" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-09</p>
+<p><strong>Phạm vi:</strong> Tab <strong>Giao diện</strong> trong trang Cấu hình của app Administrator — ảnh hưởng tới trang Đăng nhập</p>
+<p><strong>Đối tượng:</strong> Người quản trị điền cấu hình, không cần biết lập trình</p>
+<hr />
+<p>Hướng dẫn nhanh: mỗi ô trong tab <strong>Giao diện</strong> điền được <strong>giá trị gì</strong>, và khi điền thì
+<strong>trang Đăng nhập (Login) thay đổi ra sao</strong>. Sau khi bấm <strong>Lưu tất cả</strong>, tải lại trang Login
+là thấy thay đổi.</p>
+<div class="admonition danger">
+<p class="admonition-title">⛔ LƯU Ý QUAN TRỌNG — điền thiếu sẽ mất ảnh</p>
+<p>Giá trị mặc định <strong>chỉ dùng khi bạn chưa từng lưu cấu hình lần nào</strong>. Cơ chế là
+<strong>"tất cả hoặc không có gì"</strong>, không phải từng ô riêng.</p>
+<ul>
+<li>Khi bấm <strong>Lưu</strong> — dù chỉ điền 1 ô, để trống các ô còn lại — hệ thống lưu <strong>đúng những gì
+  đang có trên form</strong>. Ô để trống = <strong>rỗng</strong>.</li>
+<li>Kết quả: <strong>logo / ảnh nền / slogan biến mất</strong>, <strong>không</strong> tự quay về mặc định.</li>
+<li>👉 Vì vậy dòng "<em>(để trống)</em>" trong các bảng dưới <strong>chỉ đúng khi bạn chưa từng lưu</strong>. Đã lưu
+  rồi thì ô trống = rỗng.</li>
+<li>Muốn lấy lại mặc định → bấm nút <strong>Khôi phục mặc định</strong>.</li>
+</ul>
+<p>💡 <strong>Mẹo:</strong> khi chỉ muốn đổi vài ô, <strong>đừng để trống</strong> các ô khác — điền đầy đủ, hoặc bấm
+<strong>Khôi phục mặc định</strong> để nạp sẵn giá trị mặc định rồi chỉnh ô cần đổi.</p>
+</div>
+<hr />
+<h2 id="0-bo-cuc-tab-khung-xem-truoc">0. Bố cục tab &amp; khung Xem trước<a class="headerlink" href="#0-bo-cuc-tab-khung-xem-truoc" title="Permanent link">&para;</a></h2>
+<p>Tab <strong>Giao diện</strong> chia làm 2 cột:</p>
+<ul>
+<li><strong>Cột trái</strong> — các ô nhập, gom thành 5 nhóm: <em>Thông tin chung</em>, <em>Logo</em>, <em>Ảnh nền đăng nhập</em>,
+  <em>Slogan</em>, <em>Màu sắc &amp; Favicon</em>.</li>
+<li><strong>Cột phải</strong> — khung <strong>Xem trước trang đăng nhập</strong>, cập nhật <strong>ngay khi bạn gõ</strong>, chưa cần bấm Lưu.</li>
+</ul>
+<p>Khung xem trước mô phỏng: tiêu đề tab trình duyệt, vị trí ảnh nền / form (theo <em>Đảo bố cục</em>),
+logo, và slogan. Nó <strong>cố ý gắn sẵn class <code>text-white</code></strong> giống trang Login thật, nên đây là chỗ
+để <strong>thử ngay</strong> xem giá trị Style bạn gõ có thắng được màu trắng mặc định hay không (xem mục 8.1).</p>
+<blockquote>
+<p>Xem trước chỉ mô phỏng bố cục, không phản ánh chính xác 100% trang thật. Muốn chắc chắn: bấm
+<strong>Lưu tất cả</strong> rồi tải lại trang Login.</p>
+</blockquote>
+<p>Các ô <strong>chưa có tác dụng</strong> lên trang Login được gom chung vào nhóm <em>Màu sắc &amp; Favicon</em> và gắn nhãn
+🏷️ <strong>Chưa áp dụng</strong>.</p>
+<hr />
+<h2 id="1-tat-ca-cac-o-trong-tab">1. Tất cả các ô trong tab<a class="headerlink" href="#1-tat-ca-cac-o-trong-tab" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nhóm</th>
+<th>Ô nhập</th>
+<th>Điền được gì</th>
+<th>Giới hạn</th>
+<th>Đổi được giao diện?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Thông tin chung</td>
+<td>Company Name</td>
+<td>Tên tổ chức</td>
+<td>200 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Thông tin chung</td>
+<td>Đảo bố cục <em>(Reverse Layout)</em></td>
+<td>Bật / tắt</td>
+<td>—</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Thông tin chung</td>
+<td>Chỉ hiện form <em>(Form Only)</em></td>
+<td>Bật / tắt</td>
+<td>—</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Logo</td>
+<td>Logo URL</td>
+<td>Đường dẫn ảnh logo</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Logo</td>
+<td>Logo Style</td>
+<td>Chuỗi CSS (kích thước, canh lề…)</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Logo</td>
+<td>Logo Class</td>
+<td>Tên class CSS</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Ảnh nền</td>
+<td>Background URL</td>
+<td>Đường dẫn ảnh nền</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Ảnh nền</td>
+<td>Background Style</td>
+<td>Chuỗi CSS cho ảnh nền</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Ảnh nền</td>
+<td>Background Class</td>
+<td>Tên class CSS</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Slogan</td>
+<td>Slogan</td>
+<td>Câu khẩu hiệu (nhiều dòng)</td>
+<td>1000 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Slogan</td>
+<td>Slogan Style</td>
+<td>Chuỗi CSS cho slogan</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Slogan</td>
+<td>Slogan Class</td>
+<td>Tên class CSS</td>
+<td>500 ký tự</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Màu sắc &amp; Favicon</td>
+<td>Favicon URL</td>
+<td>Đường dẫn ảnh icon</td>
+<td>500 ký tự</td>
+<td>⛔ Chưa hiển thị</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Màu sắc &amp; Favicon</td>
+<td>Primary Color</td>
+<td>Chọn màu (bảng màu hoặc gõ mã hex)</td>
+<td>—</td>
+<td>⛔ Chưa hiển thị</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Màu sắc &amp; Favicon</td>
+<td>Secondary Color</td>
+<td>Chọn màu (bảng màu hoặc gõ mã hex)</td>
+<td>—</td>
+<td>⛔ Chưa hiển thị</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Màu sắc &amp; Favicon</td>
+<td>Font Family</td>
+<td>Tên font chữ</td>
+<td>100 ký tự</td>
+<td>⛔ Chưa hiển thị</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Các ô ⛔ <strong>Chưa hiển thị</strong>: bạn điền và lưu được, nhưng hiện <strong>chưa làm đổi trang Login</strong>.
+Hai ô màu có <strong>2 cách nhập</strong>: bấm ô vuông màu để mở bảng chọn, hoặc gõ thẳng mã hex (<code>#187DE4</code>)
+vào ô bên cạnh — hai ô luôn đồng bộ với nhau.</p>
+</blockquote>
+<hr />
+<h2 id="2-ba-loai-o-lap-lai-url-style-class">2. Ba loại ô lặp lại (Url / Style / Class)<a class="headerlink" href="#2-ba-loai-o-lap-lai-url-style-class" title="Permanent link">&para;</a></h2>
+<p>Logo, ảnh nền, slogan đều có 3 ô cùng mẫu:</p>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Điền gì</th>
+<th>Ví dụ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>...URL</code></td>
+<td>Đường dẫn tới ảnh có sẵn (không upload file ở đây)</td>
+<td><code>/resources/images/logo.png</code> · <code>https://cdn.abc.vn/bg.jpg</code></td>
+</tr>
+<tr>
+<td><code>...Style</code></td>
+<td>Chuỗi CSS chỉnh trực tiếp</td>
+<td><code>width:150px;</code> · <code>background-size:cover;</code> · <code>color:#fff;</code></td>
+</tr>
+<tr>
+<td><code>...Class</code></td>
+<td>Tên class có sẵn của giao diện (cách nhau bằng dấu cách)</td>
+<td><code>max-h-90px</code> · <code>text-center font-weight-bold</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-company-name-ten-to-chuc">3. Company Name (Tên tổ chức)<a class="headerlink" href="#3-company-name-ten-to-chuc" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Giá trị điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eKMap Server</code></td>
+<td>Tên tab trình duyệt: <code>Đăng nhập - eKMap Server</code></td>
+</tr>
+<tr>
+<td><code>Công ty ABC</code></td>
+<td>Tên tab: <code>Đăng nhập - Công ty ABC</code></td>
+</tr>
+<tr>
+<td><em>(để trống)</em></td>
+<td>Chưa từng lưu → mặc định <code>eKMapServer</code>. Đã lưu → tab thành <code>Đăng nhập -</code> (trống).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-reverse-layout-ao-bo-cuc">4. Reverse Layout (Đảo bố cục)<a class="headerlink" href="#4-reverse-layout-ao-bo-cuc" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Giá trị điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>○ tắt (mặc định)</td>
+<td>Form <strong>bên trái</strong> – ảnh nền <strong>bên phải</strong></td>
+</tr>
+<tr>
+<td>● bật</td>
+<td>Ảnh nền <strong>bên trái</strong> – form <strong>bên phải</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Chỉ đổi trên màn hình lớn; màn hình nhỏ (điện thoại) luôn xếp dọc.</p>
+</blockquote>
+<h3 id="41-chi-hien-form-form-only">4.1. Chỉ hiện form (Form Only)<a class="headerlink" href="#41-chi-hien-form-form-only" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Giá trị điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>○ tắt (mặc định)</td>
+<td>Hiện đủ <strong>form + ảnh nền + slogan</strong></td>
+</tr>
+<tr>
+<td>● bật</td>
+<td><strong>Chỉ</strong> hiện khung đăng nhập, <strong>ẩn</strong> ảnh nền và slogan</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Khi bật Form Only, các ô Background và Slogan vẫn lưu được nhưng <strong>không hiển thị</strong>.
+Bật thử công tắc này rồi nhìn khung <strong>Xem trước</strong> ở cột phải để thấy ngay khác biệt.</p>
+</blockquote>
+<hr />
+<h2 id="5-logo-phia-tren-form-ang-nhap">5. Logo (phía trên form đăng nhập)<a class="headerlink" href="#5-logo-phia-tren-form-ang-nhap" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Ví dụ điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logo URL</td>
+<td><code>/resources/images/abc-logo.png</code></td>
+<td>Đổi ảnh logo</td>
+</tr>
+<tr>
+<td>Logo URL</td>
+<td><em>(để trống)</em></td>
+<td>Chưa từng lưu → logo mặc định. Đã lưu → <strong>logo trống/hỏng</strong>.</td>
+</tr>
+<tr>
+<td>Logo Style</td>
+<td><code>width:180px;</code></td>
+<td>Ép chiều rộng logo 180px</td>
+</tr>
+<tr>
+<td>Logo Style</td>
+<td><code>max-width:180px; margin:0 auto;</code></td>
+<td>Giới hạn rộng + canh giữa</td>
+</tr>
+<tr>
+<td>Logo Class</td>
+<td><code>max-h-90px</code></td>
+<td>Giới hạn chiều cao 90px</td>
+</tr>
+<tr>
+<td>Logo Class</td>
+<td><code>max-h-90px text-center</code></td>
+<td>Giới hạn cao + canh giữa</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-favicon-ien-uoc-nhung-chua-hien-thi">6. Favicon ⛔ (điền được nhưng chưa hiển thị)<a class="headerlink" href="#6-favicon-ien-uoc-nhung-chua-hien-thi" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Ví dụ điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Favicon URL</td>
+<td><code>/resources/images/favicon.ico</code></td>
+<td><strong>Hiện chưa có tác dụng</strong> — icon tab chưa đổi theo ô này.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-anh-nen-login">7. Ảnh nền Login<a class="headerlink" href="#7-anh-nen-login" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Ví dụ điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Background URL</td>
+<td><code>https://cdn.abc.vn/bg-login.jpg</code></td>
+<td>Đổi ảnh nền</td>
+</tr>
+<tr>
+<td>Background URL</td>
+<td><em>(để trống)</em></td>
+<td>Chưa từng lưu → ảnh nền mặc định. Đã lưu → <strong>nền trống</strong>.</td>
+</tr>
+<tr>
+<td>Background Style</td>
+<td><code>background-size:cover; background-position:center;</code></td>
+<td>Ảnh phủ kín, canh giữa</td>
+</tr>
+<tr>
+<td>Background Style</td>
+<td><code>background-size:contain; background-repeat:no-repeat;</code></td>
+<td>Ảnh vừa khung, không lặp</td>
+</tr>
+<tr>
+<td>Background Class</td>
+<td><code>bgi-size-cover bgi-position-center</code></td>
+<td>Phủ/canh ảnh bằng class có sẵn</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-slogan-chu-lon-tren-anh-nen">8. Slogan (chữ lớn trên ảnh nền)<a class="headerlink" href="#8-slogan-chu-lon-tren-anh-nen" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Ví dụ điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slogan</td>
+<td><code>GIS Software</code>⏎<code>Make in</code>⏎<code>Viet Nam</code></td>
+<td>3 dòng chữ (mỗi lần Enter = 1 dòng)</td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td><code>Chuyển đổi số</code>⏎<code>cho doanh nghiệp</code></td>
+<td>2 dòng chữ</td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td><em>(để trống)</em></td>
+<td>Chưa từng lưu → slogan mặc định. Đã lưu → <strong>không có slogan</strong>.</td>
+</tr>
+<tr>
+<td>Slogan Style</td>
+<td><code>color:#fff; font-size:2.5rem;</code></td>
+<td>Chữ trắng, cỡ lớn</td>
+</tr>
+<tr>
+<td>Slogan Style</td>
+<td><code>letter-spacing:2px; text-shadow:0 2px 6px #000;</code></td>
+<td>Giãn chữ + đổ bóng</td>
+</tr>
+<tr>
+<td>Slogan Class</td>
+<td><code>text-center font-weight-bolder</code></td>
+<td>Canh giữa + in đậm</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Slogan chỉ nhận <strong>chữ thường</strong> — không chèn được thẻ HTML.</p>
+</blockquote>
+<h3 id="81-oi-mau-chu-slogan-vi-sao-color-khong-an">8.1. ⚠️ Đổi màu chữ Slogan — vì sao <code>color:</code> không ăn?<a class="headerlink" href="#81-oi-mau-chu-slogan-vi-sao-color-khong-an" title="Permanent link">&para;</a></h3>
+<p>Trang Login <strong>gán cứng</strong> class <code>text-white</code> cho slogan. Trong Bootstrap, class này là:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">.</span><span class="nc">text-white</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Chữ <code>!important</code> khiến nó <strong>thắng mọi giá trị <code>color</code></strong> bạn gõ ở ô Slogan Style. Vì vậy
+<code>color:#FFD54F;</code> <strong>không có tác dụng</strong> — chữ vẫn trắng.</p>
+<p><strong>Cách xử lý — dùng <code>-webkit-text-fill-color</code> thay cho <code>color</code>:</strong></p>
+<p>Đây là thuộc tính quyết định <strong>màu tô của chữ</strong>, và nó được áp dụng <strong>sau</strong> <code>color</code>, nên nó
+thắng kể cả khi <code>color</code> có <code>!important</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô <strong>Slogan Style</strong></th>
+<th>Kết quả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ Chữ vàng</td>
+<td><code>-webkit-text-fill-color:#FFD54F;</code></td>
+<td><strong>Chạy được</strong></td>
+</tr>
+<tr>
+<td>✅ Chữ đỏ</td>
+<td><code>-webkit-text-fill-color:#E4572E;</code></td>
+<td><strong>Chạy được</strong></td>
+</tr>
+<tr>
+<td>❌ Chữ vàng (cách cũ)</td>
+<td><code>color:#FFD54F;</code></td>
+<td>Bị <code>text-white</code> đè → vẫn trắng</td>
+</tr>
+</tbody>
+</table>
+<p>Ba cách, xếp theo mức độ chắc chắn:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Cách làm</th>
+<th>Dán vào ô Slogan Style</th>
+<th>Đánh giá</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>-webkit-text-fill-color</code></td>
+<td><code>-webkit-text-fill-color:#FFD54F;</code></td>
+<td>⭐ <strong>Nên dùng.</strong> Luôn thắng, chạy trên Chrome / Edge / Cốc Cốc / Firefox / Safari</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Thêm <code>!important</code> vào <code>color</code></td>
+<td><code>color:#FFD54F !important;</code></td>
+<td>Thường chạy, nhưng tuỳ cách trang Login gắn style — nếu không ăn thì dùng cách 1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Nhờ lập trình viên bỏ <code>text-white</code></td>
+<td>—</td>
+<td>Triệt để nhất, nhưng phải sửa mã nguồn</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>Cách kiểm tra nhanh:</strong> gõ vào ô Slogan Style rồi nhìn khung <strong>Xem trước</strong> ở cột phải.
+Khung này cũng gắn sẵn <code>text-white</code> y như trang thật, nên <strong>thấy đổi màu ở đó = sẽ đổi màu thật</strong>.</p>
+</blockquote>
+<p><strong>Vì sao chữ gradient (mục 13.7) lại chạy được?</strong> Vì công thức đó cũng đi qua
+<code>-webkit-text-fill-color:transparent</code> — nó vô hiệu hoá <code>color:#fff !important</code> đúng theo cách 1.</p>
+<p><strong>Các hiệu ứng chữ khác không bị ảnh hưởng</strong> bởi <code>text-white</code> (vì chúng không dùng <code>color</code>):
+<code>text-shadow</code>, <code>-webkit-text-stroke</code>, <code>font-size</code>, <code>letter-spacing</code>, <code>text-transform</code>,
+<code>font-style</code>, <code>transform</code>, <code>opacity</code>, <code>background</code>.</p>
+<hr />
+<h2 id="9-mau-font-ien-uoc-nhung-chua-hien-thi">9. Màu &amp; Font ⛔ (điền được nhưng chưa hiển thị)<a class="headerlink" href="#9-mau-font-ien-uoc-nhung-chua-hien-thi" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Ví dụ điền</th>
+<th>Trên trang Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary Color</td>
+<td><code>#FF5722</code></td>
+<td><strong>Hiện chưa có tác dụng</strong></td>
+</tr>
+<tr>
+<td>Secondary Color</td>
+<td><code>#263238</code></td>
+<td><strong>Hiện chưa có tác dụng</strong></td>
+</tr>
+<tr>
+<td>Font Family</td>
+<td><code>Segoe UI</code> · <code>Roboto, sans-serif</code></td>
+<td><strong>Hiện chưa có tác dụng</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-muon-oi-gi-thi-ien-o-nao">10. Muốn đổi gì thì điền ô nào<a class="headerlink" href="#10-muon-oi-gi-thi-ien-o-nao" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Muốn đổi…</th>
+<th>Điền ô</th>
+<th>Ví dụ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tên trên tab trình duyệt</td>
+<td>Company Name</td>
+<td><code>Công ty ABC</code></td>
+</tr>
+<tr>
+<td>Vị trí form / ảnh nền</td>
+<td>Đảo bố cục</td>
+<td>● bật</td>
+</tr>
+<tr>
+<td>Ẩn hẳn ảnh nền &amp; slogan</td>
+<td>Chỉ hiện form</td>
+<td>● bật</td>
+</tr>
+<tr>
+<td>Ảnh logo</td>
+<td>Logo URL</td>
+<td><code>/resources/images/abc-logo.png</code></td>
+</tr>
+<tr>
+<td>Kích thước logo</td>
+<td>Logo Style</td>
+<td><code>max-width:180px;</code></td>
+</tr>
+<tr>
+<td>Ảnh nền trang</td>
+<td>Background URL</td>
+<td><code>https://cdn.abc.vn/bg-login.jpg</code></td>
+</tr>
+<tr>
+<td>Cách hiển thị ảnh nền</td>
+<td>Background Style</td>
+<td><code>background-size:cover;</code></td>
+</tr>
+<tr>
+<td>Câu khẩu hiệu</td>
+<td>Slogan</td>
+<td><code>Chuyển đổi số</code>⏎<code>cho doanh nghiệp</code></td>
+</tr>
+<tr>
+<td><strong>Màu chữ slogan</strong></td>
+<td>Slogan Style</td>
+<td><code>-webkit-text-fill-color:#FFD54F;</code> <em>(xem mục 8.1)</em></td>
+</tr>
+<tr>
+<td>Cỡ chữ slogan</td>
+<td>Slogan Style</td>
+<td><code>font-size:2.5rem;</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-hai-vi-du-ien-san">11. Hai ví dụ điền sẵn<a class="headerlink" href="#11-hai-vi-du-ien-san" title="Permanent link">&para;</a></h2>
+<p><strong>A — Đổi thương hiệu, form sang phải</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Giá trị điền</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Company Name</td>
+<td><code>Công ty ABC</code></td>
+</tr>
+<tr>
+<td>Logo URL</td>
+<td><code>/resources/images/abc-logo.png</code></td>
+</tr>
+<tr>
+<td>Logo Style</td>
+<td><code>max-width:180px;</code></td>
+</tr>
+<tr>
+<td>Background URL</td>
+<td><code>https://cdn.abc.vn/bg-login.jpg</code></td>
+</tr>
+<tr>
+<td>Background Style</td>
+<td><code>background-size:cover; background-position:center;</code></td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td><code>Chuyển đổi số</code>⏎<code>cho doanh nghiệp</code></td>
+</tr>
+<tr>
+<td>Slogan Style</td>
+<td><code>font-size:2.5rem;</code></td>
+</tr>
+<tr>
+<td>Đảo bố cục</td>
+<td>● bật</td>
+</tr>
+</tbody>
+</table>
+<p><strong>B — Chỉ đổi slogan</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Giá trị điền</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Slogan</td>
+<td><code>Bản đồ số</code>⏎<code>cho mọi nhà</code></td>
+</tr>
+<tr>
+<td><em>(các ô khác)</em></td>
+<td>⚠️ Đừng để trống — sẽ mất logo/ảnh nền. Điền lại URL cũ hoặc bấm <strong>Khôi phục mặc định</strong> trước rồi chỉ sửa Slogan.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>C — Slogan chữ vàng, nền tối cho dễ đọc</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ô</th>
+<th>Giá trị điền</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Background Style</td>
+<td><code>background-size:cover; background-color:rgba(0,0,0,.45); background-blend-mode:multiply;</code></td>
+</tr>
+<tr>
+<td>Slogan</td>
+<td><code>Bản đồ số</code>⏎<code>cho mọi nhà</code></td>
+</tr>
+<tr>
+<td>Slogan Style</td>
+<td><code>-webkit-text-fill-color:#FFD54F; font-size:2.5rem; text-shadow:0 2px 8px rgba(0,0,0,.7);</code></td>
+</tr>
+<tr>
+<td>Slogan Class</td>
+<td><code>text-center font-weight-bolder</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Dùng <code>-webkit-text-fill-color</code> chứ không phải <code>color</code> — lý do ở mục 8.1.</p>
+</blockquote>
+<hr />
+<h2 id="12-cac-nut-khung-xem-truoc">12. Các nút &amp; khung xem trước<a class="headerlink" href="#12-cac-nut-khung-xem-truoc" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nút / khu vực</th>
+<th>Ở đâu</th>
+<th>Công dụng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lưu tất cả</strong></td>
+<td>Đầu trang</td>
+<td>Lưu toàn bộ cấu hình. Báo <em>Cập nhật thành công</em>. Trang Login đổi khi tải lại.</td>
+</tr>
+<tr>
+<td><strong>Khôi phục mặc định</strong></td>
+<td>Đầu tab Giao diện, trong khung cảnh báo vàng</td>
+<td>Hỏi xác nhận → đưa toàn bộ giao diện Login về mặc định và nạp lại giá trị mặc định vào các ô.</td>
+</tr>
+<tr>
+<td><strong>Xem trước trang đăng nhập</strong></td>
+<td>Cột phải tab Giao diện</td>
+<td>Hiện ngay kết quả khi bạn gõ, <strong>không</strong> cần bấm Lưu. Cuộn trang thì khung này vẫn dính theo.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Xem trước <strong>chỉ thay đổi trên màn hình</strong>, chưa ghi vào hệ thống. Phải bấm <strong>Lưu tất cả</strong>
+thì trang Login thật mới đổi.</p>
+</blockquote>
+<hr />
+<h2 id="13-thu-vien-hieu-ung-css-nang-cao-tron-xoay-anhien-di-chuyen-o-bong">13. Thư viện hiệu ứng CSS nâng cao (tròn, xoay, ẩn/hiện, di chuyển, đổ bóng…)<a class="headerlink" href="#13-thu-vien-hieu-ung-css-nang-cao-tron-xoay-anhien-di-chuyen-o-bong" title="Permanent link">&para;</a></h2>
+<p>Đây là "kho" giá trị dán sẵn cho các ô <strong>Style</strong> và <strong>Class</strong>. Cứ <strong>copy giá trị ở cột "Dán vào ô"</strong>
+đúng vào ô tương ứng.</p>
+<h3 id="130-oc-truoc-3-quy-tac-quan-trong">13.0. Đọc trước — 3 quy tắc quan trọng<a class="headerlink" href="#130-oc-truoc-3-quy-tac-quan-trong" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Ô <code>...Style</code> = CSS trực tiếp.</strong> Viết được: <code>transform</code>, <code>filter</code>, <code>box-shadow</code>, <code>border-radius</code>,
+   <code>opacity</code>, <code>animation</code>… <strong>KHÔNG viết được</strong> hiệu ứng "khi rê chuột" (<code>:hover</code>) hay tự chế
+   chuyển động mới.</li>
+<li><strong>Muốn hiệu ứng chạy liên tục</strong> (xoay hoài, nhịp đập): dùng <code>animation</code> và <strong>gọi đúng tên hiệu
+   ứng có sẵn</strong> của hệ thống: <code>spinner-border</code>, <code>animate-wave</code>, <code>animation-spinner</code> (đều là <strong>xoay tròn</strong>),
+   <code>spinner-grow</code> (<strong>phình to – thu nhỏ</strong>). Ví dụ: <code>animation: spinner-border 5s linear infinite;</code></li>
+<li><strong>Ô <code>...Class</code> = tên hiệu ứng dựng sẵn</strong> (không phải CSS). Dùng cho <strong>bo tròn nhanh, đổ bóng,
+   và ẩn/hiện theo màn hình</strong>.</li>
+<li><strong>Một số thuộc tính bị trang Login "khoá cứng"</strong> bằng <code>!important</code> — điển hình là <strong>màu chữ
+   slogan</strong> (class <code>text-white</code>). Gõ <code>color:</code> sẽ <strong>không ăn</strong>; phải dùng thuộc tính thay thế
+   (xem mục 8.1). Cứ gõ thử rồi nhìn khung <strong>Xem trước</strong> là biết ngay có ăn hay không.</li>
+</ol>
+<h3 id="131-bo-tron-bo-goc-vien-thuong-dung-cho-logo">13.1. Bo tròn – bo góc – viền (thường dùng cho Logo)<a class="headerlink" href="#131-bo-tron-bo-goc-vien-thuong-dung-cho-logo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logo tròn xoe</td>
+<td>Logo Style</td>
+<td><code>border-radius:50%;</code></td>
+</tr>
+<tr>
+<td>Bo góc mềm</td>
+<td>Logo Style</td>
+<td><code>border-radius:18px;</code></td>
+</tr>
+<tr>
+<td>Bo tròn (cách nhanh)</td>
+<td>Logo Class</td>
+<td><code>rounded-circle</code></td>
+</tr>
+<tr>
+<td>Bo góc (cách nhanh)</td>
+<td>Logo Class</td>
+<td><code>rounded-lg</code> · <code>rounded-pill</code></td>
+</tr>
+<tr>
+<td>Thêm viền</td>
+<td>Logo Style</td>
+<td><code>border:3px solid #187DE4; padding:6px;</code></td>
+</tr>
+<tr>
+<td>Nền trắng sau logo trong suốt</td>
+<td>Logo Style</td>
+<td><code>background:#fff; padding:10px; border-radius:12px;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="132-o-bong">13.2. Đổ bóng<a class="headerlink" href="#132-o-bong" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bóng nhẹ</td>
+<td>Logo Style</td>
+<td><code>box-shadow:0 6px 16px rgba(0,0,0,.2);</code></td>
+</tr>
+<tr>
+<td>Bóng nổi mạnh</td>
+<td>Logo Style</td>
+<td><code>box-shadow:0 15px 40px rgba(0,0,0,.35);</code></td>
+</tr>
+<tr>
+<td>Bóng (cách nhanh)</td>
+<td>Logo Class</td>
+<td><code>shadow</code> · <code>shadow-sm</code> · <code>shadow-lg</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="133-xoay-nghieng-lat-di-chuyen-phong-to-ung-yen">13.3. Xoay – nghiêng – lật – di chuyển – phóng to (đứng yên)<a class="headerlink" href="#133-xoay-nghieng-lat-di-chuyen-phong-to-ung-yen" title="Permanent link">&para;</a></h3>
+<p>Dùng <code>transform</code> trong ô <strong>Style</strong>. Ghép nhiều hiệu ứng bằng cách viết liền: <code>transform: rotate(10deg) scale(1.1);</code></p>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nghiêng logo 10°</td>
+<td>Logo Style</td>
+<td><code>transform: rotate(-10deg);</code></td>
+</tr>
+<tr>
+<td>Phóng to 20%</td>
+<td>Logo Style</td>
+<td><code>transform: scale(1.2);</code></td>
+</tr>
+<tr>
+<td>Thu nhỏ</td>
+<td>Logo Style</td>
+<td><code>transform: scale(0.8);</code></td>
+</tr>
+<tr>
+<td>Lật gương (trái↔phải)</td>
+<td>Logo Style</td>
+<td><code>transform: scaleX(-1);</code></td>
+</tr>
+<tr>
+<td>Nghiêng đổ (skew)</td>
+<td>Logo Style</td>
+<td><code>transform: skewX(-12deg);</code></td>
+</tr>
+<tr>
+<td>Dịch lên trên</td>
+<td>Logo Style</td>
+<td><code>transform: translateY(-15px);</code></td>
+</tr>
+<tr>
+<td>Dịch sang phải</td>
+<td>Logo Style</td>
+<td><code>transform: translateX(30px);</code></td>
+</tr>
+<tr>
+<td>Vừa xoay vừa phóng</td>
+<td>Logo Style</td>
+<td><code>transform: rotate(8deg) scale(1.15);</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="134-chuyen-ong-chay-lien-tuc-xoay-hoai-nhip-ap">13.4. Chuyển động chạy liên tục (xoay hoài / nhịp đập)<a class="headerlink" href="#134-chuyen-ong-chay-lien-tuc-xoay-hoai-nhip-ap" title="Permanent link">&para;</a></h3>
+<p>Dùng <code>animation</code> + tên hiệu ứng có sẵn. Cú pháp: <code>animation: &lt;tên&gt; &lt;thời-gian&gt; &lt;kiểu&gt; infinite;</code></p>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logo xoay tròn chậm</td>
+<td>Logo Style</td>
+<td><code>animation: spinner-border 6s linear infinite;</code></td>
+</tr>
+<tr>
+<td>Logo xoay nhanh</td>
+<td>Logo Style</td>
+<td><code>animation: animate-wave 2s linear infinite;</code></td>
+</tr>
+<tr>
+<td>Logo nhịp đập (phình – xẹp)</td>
+<td>Logo Style</td>
+<td><code>animation: spinner-grow 1.8s ease-in-out infinite;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ Chỉ 5 tên này chạy được: <code>spinner-border</code>, <code>animate-wave</code>, <code>animation-spinner</code> (xoay),
+<code>spinner-grow</code>, <code>animation-pulse</code> (nhịp/mờ). Gõ tên khác sẽ <strong>không có gì xảy ra</strong>.</p>
+</blockquote>
+<h3 id="135-an-hien-phan-tu-ke-ca-theo-kich-thuoc-man-hinh">13.5. Ẩn / hiện phần tử (kể cả theo kích thước màn hình)<a class="headerlink" href="#135-an-hien-phan-tu-ke-ca-theo-kich-thuoc-man-hinh" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ẩn hẳn logo</td>
+<td>Logo Class</td>
+<td><code>d-none</code></td>
+</tr>
+<tr>
+<td>Ẩn logo (cách khác)</td>
+<td>Logo Style</td>
+<td><code>display:none;</code></td>
+</tr>
+<tr>
+<td>Làm mờ đi một nửa</td>
+<td>Logo Style</td>
+<td><code>opacity:0.5;</code></td>
+</tr>
+<tr>
+<td><strong>Ẩn trên điện thoại, chỉ hiện máy tính</strong></td>
+<td>Logo Class</td>
+<td><code>d-none d-lg-block</code></td>
+</tr>
+<tr>
+<td><strong>Chỉ hiện trên điện thoại, ẩn máy tính</strong></td>
+<td>Logo Class</td>
+<td><code>d-lg-none</code></td>
+</tr>
+<tr>
+<td>Ẩn slogan trên điện thoại</td>
+<td>Slogan Class</td>
+<td><code>d-none d-lg-flex</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="136-bo-loc-mau-cho-anh-logo">13.6. Bộ lọc màu cho ảnh (logo)<a class="headerlink" href="#136-bo-loc-mau-cho-anh-logo" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chuyển ảnh sang trắng–đen</td>
+<td>Logo Style</td>
+<td><code>filter: grayscale(1);</code></td>
+</tr>
+<tr>
+<td>Tăng sáng / tương phản</td>
+<td>Logo Style</td>
+<td><code>filter: brightness(1.2) contrast(1.1);</code></td>
+</tr>
+<tr>
+<td>Làm mờ ảnh</td>
+<td>Logo Style</td>
+<td><code>filter: blur(2px);</code></td>
+</tr>
+<tr>
+<td>Đổi tông màu (xoay màu)</td>
+<td>Logo Style</td>
+<td><code>filter: hue-rotate(90deg);</code></td>
+</tr>
+<tr>
+<td>Ảnh có bóng theo hình (PNG trong suốt)</td>
+<td>Logo Style</td>
+<td><code>filter: drop-shadow(0 8px 10px rgba(0,0,0,.4));</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="137-chu-slogan-xin">13.7. Chữ Slogan "xịn"<a class="headerlink" href="#137-chu-slogan-xin" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Đổi màu chữ</strong> ⚠️</td>
+<td>Slogan Style</td>
+<td><code>-webkit-text-fill-color:#FFD54F;</code> — <strong>không</strong> dùng <code>color:</code> (xem mục 8.1)</td>
+</tr>
+<tr>
+<td>Chữ nền gradient (chuyển màu)</td>
+<td>Slogan Style</td>
+<td><code>background:linear-gradient(90deg,#00c6ff,#0072ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;</code></td>
+</tr>
+<tr>
+<td>Bóng chữ (dễ đọc trên nền sáng)</td>
+<td>Slogan Style</td>
+<td><code>text-shadow:0 2px 8px rgba(0,0,0,.7);</code></td>
+</tr>
+<tr>
+<td>Viền chữ</td>
+<td>Slogan Style</td>
+<td><code>-webkit-text-stroke:1px #fff;</code></td>
+</tr>
+<tr>
+<td>CHỮ IN HOA</td>
+<td>Slogan Style</td>
+<td><code>text-transform:uppercase;</code></td>
+</tr>
+<tr>
+<td>Giãn khoảng cách chữ</td>
+<td>Slogan Style</td>
+<td><code>letter-spacing:4px;</code></td>
+</tr>
+<tr>
+<td>Chữ nghiêng</td>
+<td>Slogan Style</td>
+<td><code>font-style:italic;</code></td>
+</tr>
+<tr>
+<td>Nghiêng cả dòng</td>
+<td>Slogan Style</td>
+<td><code>transform:rotate(-5deg);</code></td>
+</tr>
+<tr>
+<td>Khối nền mờ sau chữ</td>
+<td>Slogan Style</td>
+<td><code>background:rgba(0,0,0,.35); padding:14px 22px; border-radius:12px;</code></td>
+</tr>
+<tr>
+<td>Canh giữa chữ</td>
+<td>Slogan Class</td>
+<td><code>justify-content-center text-center</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="138-anh-nen-login">13.8. Ảnh nền Login<a class="headerlink" href="#138-anh-nen-login" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Muốn</th>
+<th>Dán vào ô</th>
+<th>Giá trị</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phủ kín, canh giữa</td>
+<td>Background Style</td>
+<td><code>background-size:cover; background-position:center; background-repeat:no-repeat;</code></td>
+</tr>
+<tr>
+<td>Ảnh vừa khung, không cắt</td>
+<td>Background Style</td>
+<td><code>background-size:contain;</code></td>
+</tr>
+<tr>
+<td><strong>Làm tối nền để chữ dễ đọc</strong></td>
+<td>Background Style</td>
+<td><code>background-color:rgba(0,0,0,.45); background-blend-mode:multiply;</code></td>
+</tr>
+<tr>
+<td>Phủ màu thương hiệu lên ảnh</td>
+<td>Background Style</td>
+<td><code>background-color:#187DE4; background-blend-mode:overlay;</code></td>
+</tr>
+<tr>
+<td>Nền đứng yên khi cuộn</td>
+<td>Background Style</td>
+<td><code>background-attachment:fixed;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 Muốn tối nền mà <strong>không</strong> làm mờ chữ slogan → dùng <code>background-blend-mode</code> như trên (đừng dùng
+<code>filter</code> cho ảnh nền, vì nó làm mờ/tối luôn cả chữ).</p>
+</blockquote>
+<h3 id="139-bang-tra-nhanh-hieu-ung-nao-lam-o-o-nao">13.9. Bảng tra nhanh: hiệu ứng nào làm ở ô nào<a class="headerlink" href="#139-bang-tra-nhanh-hieu-ung-nao-lam-o-o-nao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Hiệu ứng</th>
+<th>Làm ở ô</th>
+<th>Làm được?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bo tròn / bo góc / viền</td>
+<td>Style hoặc Class</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Đổ bóng</td>
+<td>Style hoặc Class</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Xoay / nghiêng / lật / phóng to (đứng yên)</td>
+<td>Style (<code>transform</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Xoay hoài / nhịp đập (chuyển động liên tục)</td>
+<td>Style (<code>animation</code> + tên có sẵn)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Ẩn / hiện, ẩn-hiện theo màn hình</td>
+<td>Class (<code>d-none</code>, <code>d-none d-lg-block</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Lọc màu ảnh (xám, sáng, mờ)</td>
+<td>Style (<code>filter</code>)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Chữ gradient / bóng / viền</td>
+<td>Slogan Style</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Đổi màu chữ slogan</strong></td>
+<td>Slogan Style (<code>-webkit-text-fill-color</code>)</td>
+<td>✅ — nhưng <code>color:</code> thì ❌ (mục 8.1)</td>
+</tr>
+<tr>
+<td>Đổi hiệu ứng <strong>khi rê chuột vào</strong> (<code>:hover</code>)</td>
+<td>—</td>
+<td>❌ Cần lập trình viên sửa code</td>
+</tr>
+<tr>
+<td>Tự tạo chuyển động mới (keyframe riêng)</td>
+<td>—</td>
+<td>❌ Cần lập trình viên sửa code</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-dung-anh-ong-gif-cho-logo-va-anh-nen">14. Dùng ảnh động / GIF cho Logo và Ảnh nền<a class="headerlink" href="#14-dung-anh-ong-gif-cho-logo-va-anh-nen" title="Permanent link">&para;</a></h2>
+<p>Bạn có thể thay ảnh tĩnh bằng <strong>ảnh động</strong> — chỉ cần dán link ảnh động vào ô <strong>Logo URL</strong> hoặc
+<strong>Background URL</strong> như ảnh thường. Trình duyệt <strong>tự phát</strong>, không cần chỉnh gì thêm.</p>
+<table>
+<thead>
+<tr>
+<th>Định dạng</th>
+<th>Logo URL</th>
+<th>Background URL</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GIF động</strong></td>
+<td>✅ Tự chạy, lặp vô hạn</td>
+<td>✅ Tự chạy, lặp vô hạn</td>
+<td>Phổ biến nhất, chắc chắn chạy</td>
+</tr>
+<tr>
+<td><strong>APNG</strong> (png động)</td>
+<td>✅</td>
+<td>✅</td>
+<td>Đuôi file vẫn là <code>.png</code></td>
+</tr>
+<tr>
+<td><strong>WebP động</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>Nhẹ hơn GIF nhiều</td>
+</tr>
+<tr>
+<td><strong>Video (.mp4 / .webm)</strong></td>
+<td>❌</td>
+<td>❌</td>
+<td>Không phát được — cần lập trình viên sửa code</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lưu ý khi dùng:</strong></p>
+<ul>
+<li><strong>Link phải trỏ thẳng tới file ảnh</strong> (kết thúc bằng <code>.gif</code>, <code>.webp</code>, <code>.png</code>…). Link <strong>trang web</strong>
+  chứa ảnh (Giphy, Google Images…) sẽ <strong>không hiện</strong> — phải là link ảnh trực tiếp.</li>
+<li><strong>Không điều khiển được</strong> tốc độ, số lần lặp, hay dừng ở khung cuối — GIF chạy sao thì hiện vậy.
+  Muốn đổi thì phải sửa chính file GIF.</li>
+<li>Ảnh nền động (GIF nặng) có thể làm <strong>chữ slogan khó đọc</strong> và <strong>tải trang login chậm / tốn dữ liệu</strong>.
+  Nên chọn file nhẹ, và cân nhắc làm tối nền (xem mục 13.8) để chữ dễ đọc.</li>
+<li>Vẫn áp dụng quy tắc <strong>"tất cả hoặc không có gì"</strong> ở khung cảnh báo đầu tài liệu: đã lưu thì để trống ô = mất ảnh.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

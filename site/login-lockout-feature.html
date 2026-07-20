@@ -1,0 +1,1832 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="password-expiration-feature.html">
+      
+      
+        <link rel="next" href="session-timeout-feature.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Khóa tài khoản khi đăng nhập sai - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phuong-an-khoa-tai-khoan-tam-thoi-khi-ang-nhap-sai" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Khóa tài khoản khi đăng nhập sai
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="login-lockout-feature.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hai-cua-ang-nhap-mot-iem-nghen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hai cửa đăng nhập, một điểm nghẽn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-them-truong-lastfailedloginattempttime-vao-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Thêm trường LastFailedLoginAttemptTime vào User
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-at-logic-cua-so-tai-chokepoint-usermanageraccessfailedasync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Đặt logic cửa sổ tại chokepoint UserManager.AccessFailedAsync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Ngữ nghĩa cửa sổ: reset theo khoảng cách giữa hai lần sai
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Ràng buộc giá trị khi lưu setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-uong-externalopenid-khong-bi-anh-huong-ung-nhu-mong-muon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Đường external/OpenID không bị ảnh hưởng — đúng như mong muốn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-luong-hoat-ong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Luồng hoạt động
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Luồng hoạt động">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-em-va-khoa-khi-sai-mat-khau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Đếm và khóa (khi sai mật khẩu)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-khi-tai-khoan-ang-bi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Khi tài khoản đang bị khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-khi-ang-nhap-thanh-cong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Khi đăng nhập thành công
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-het-thoi-gian-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Hết thời gian khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-danh-sach-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Danh sách file
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Danh sách file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverentityframeworkcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.EntityFrameworkCore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-1-apply-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 1 — Apply migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-2-build-angular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 2 — Build Angular
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-3-kiem-tra-cau-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 3 — Kiểm tra cấu hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="session-timeout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="system-log-classification-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interface-tab-guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="db-update-existing-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hai-cua-ang-nhap-mot-iem-nghen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hai cửa đăng nhập, một điểm nghẽn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-them-truong-lastfailedloginattempttime-vao-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Thêm trường LastFailedLoginAttemptTime vào User
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-at-logic-cua-so-tai-chokepoint-usermanageraccessfailedasync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Đặt logic cửa sổ tại chokepoint UserManager.AccessFailedAsync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Ngữ nghĩa cửa sổ: reset theo khoảng cách giữa hai lần sai
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Ràng buộc giá trị khi lưu setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-uong-externalopenid-khong-bi-anh-huong-ung-nhu-mong-muon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5. Đường external/OpenID không bị ảnh hưởng — đúng như mong muốn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-luong-hoat-ong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Luồng hoạt động
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Luồng hoạt động">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-em-va-khoa-khi-sai-mat-khau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Đếm và khóa (khi sai mật khẩu)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-khi-tai-khoan-ang-bi-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Khi tài khoản đang bị khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-khi-ang-nhap-thanh-cong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Khi đăng nhập thành công
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-het-thoi-gian-khoa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Hết thời gian khóa
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-danh-sach-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Danh sách file
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Danh sách file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverentityframeworkcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.EntityFrameworkCore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-1-apply-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 1 — Apply migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-2-build-angular" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 2 — Build Angular
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-3-kiem-tra-cau-hinh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 3 — Kiểm tra cấu hình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="phuong-an-khoa-tai-khoan-tam-thoi-khi-ang-nhap-sai">Phương án: Khóa tài khoản tạm thời khi đăng nhập sai<a class="headerlink" href="#phuong-an-khoa-tai-khoan-tam-thoi-khi-ang-nhap-sai" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-15</p>
+<p><strong>Phạm vi:</strong> eKMapServer Portal (ASP.NET Core MVC + ABP) và eKMapServer App (Angular Administrator)</p>
+<p><strong>Trạng thái:</strong> Code hoàn thành, build sạch. Migration còn ở trạng thái <code>Pending</code> (chưa apply vào DB).</p>
+<hr />
+<h2 id="1-yeu-cau">1. Yêu cầu<a class="headerlink" href="#1-yeu-cau" title="Permanent link">&para;</a></h2>
+<p>Có giao diện cho phép thiết lập chính sách giới hạn số lần đăng nhập sai:</p>
+<blockquote>
+<p>Nếu một tài khoản nhập sai mật khẩu liên tiếp <strong>quá số lần quy định</strong> trong <strong>một khoảng thời gian quy định</strong> (ví dụ: 5 lần sai trong 10 phút) thì bị <strong>khóa quyền truy cập tạm thời</strong>.</p>
+</blockquote>
+<p>Chính sách gồm bốn tham số, cấu hình được ở cả cấp Host và Tenant:</p>
+<table>
+<thead>
+<tr>
+<th>Tham số</th>
+<th>Ý nghĩa</th>
+<th>Mặc định</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IsEnabled</code></td>
+<td>Bật/tắt chính sách</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>MaxFailedAccessAttemptsBeforeLockout</code></td>
+<td>Số lần sai tối đa</td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>FailedAttemptWindowSeconds</code></td>
+<td><strong>Cửa sổ thời gian đếm số lần sai</strong></td>
+<td><code>600</code> (10 phút)</td>
+</tr>
+<tr>
+<td><code>DefaultAccountLockoutSeconds</code></td>
+<td>Thời gian khóa</td>
+<td><code>900</code> (15 phút)</td>
+</tr>
+</tbody>
+</table>
+<p>Hết thời gian khóa, tài khoản <strong>tự</strong> mở lại — không cần admin can thiệp.</p>
+<pre class="mermaid"><code>timeline
+    title Ví dụ 5 lần sai trong cửa sổ 10 phút → khóa 15 phút
+    0 phút : Sai lần 1 : count = 1
+    2 phút : Sai lần 2 : count = 2
+    5 phút : Sai lần 3 : count = 3
+    7 phút : Sai lần 4 : count = 4
+    9 phút : Sai lần 5 : count = 5 → KHÓA tới phút 24
+    24 phút : Hết khóa : tự đăng nhập lại được</code></pre>
+<hr />
+<h2 id="2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke">2. Bối cảnh kiến trúc — dữ kiện chi phối thiết kế<a class="headerlink" href="#2-boi-canh-kien-truc-du-kien-chi-phoi-thiet-ke" title="Permanent link">&para;</a></h2>
+<p>Nền tảng là <strong>ABP.Zero 6.0.0</strong>, vốn <strong>đã có sẵn 3/4 tham số</strong> trên: <code>IsEnabled</code>, <code>MaxFailedAccessAttemptsBeforeLockout</code>, <code>DefaultAccountLockoutSeconds</code> — kèm DTO (<code>UserLockOutSettingsEditDto</code>), service đọc/ghi (Host + Tenant), và ô nhập trên form Security Settings của app Administrator.</p>
+<p>Cơ chế đếm/khóa của ABP nằm trong các cột có sẵn của bảng <code>AbpUsers</code> (<code>AccessFailedCount</code>, <code>LockoutEndDateUtc</code>, <code>IsLockoutEnabled</code>), do <code>AbpUserManager</code> và <code>AbpLogInManager</code> quản lý:</p>
+<ul>
+<li>Sai mật khẩu → <code>AccessFailedCount++</code>; đạt <code>Max</code> → đặt <code>LockoutEndDateUtc = now + DefaultAccountLockoutSeconds</code>.</li>
+<li>Đăng nhập <strong>thành công</strong> → <code>AccessFailedCount</code> reset về 0.</li>
+</ul>
+<p><strong>Khoảng trống duy nhất:</strong> ABP đếm số lần sai <strong>liên tiếp</strong> nhưng <strong>không có khái niệm cửa sổ thời gian</strong>. Bộ đếm chỉ reset khi login đúng hoặc khi bị khóa — không tự reset sau T phút. Nghĩa là "5 lần sai" của ABP là 5 lần sai bất kể cách nhau bao lâu, còn yêu cầu là 5 lần sai <strong>trong 10 phút</strong>.</p>
+<p>→ Toàn bộ tính năng này thu gọn về <strong>một việc mới</strong>: thêm cửa sổ thời gian. Mọi thứ khác chỉ là nối dây cấu hình vào cơ chế ABP đã có.</p>
+<h3 id="hai-cua-ang-nhap-mot-iem-nghen">Hai cửa đăng nhập, một điểm nghẽn<a class="headerlink" href="#hai-cua-ang-nhap-mot-iem-nghen" title="Permanent link">&para;</a></h3>
+<p>Hệ thống có <strong>hai</strong> đường xác thực bằng mật khẩu:</p>
+<pre class="mermaid"><code>flowchart TD
+    MVC["AccountController (MVC)&lt;br/&gt;POST /Account/Login"]
+    API["TokenAuthController (API)&lt;br/&gt;POST /api/TokenAuth/Authenticate"]
+
+    LM["LogInManager.LoginAsync()&lt;br/&gt;(AbpLogInManager)"]
+    TLO["AbpLogInManager.TryLockOutAsync()&lt;br/&gt;gọi khi UserLockOut.IsEnabled = true"]
+    UM["★ UserManager.AccessFailedAsync(user)&lt;br/&gt;ĐIỂM NGHẼN DUY NHẤT"]
+    DB[("AbpUsers")]
+
+    MVC --&gt; LM
+    API --&gt; LM
+    LM --&gt;|"sai mật khẩu"| TLO
+    TLO --&gt; UM
+    UM --&gt; DB
+
+    style UM fill:#fff3cd,stroke:#f39c12,stroke-width:2px</code></pre>
+<p>Cả hai controller đều gọi <code>LogInManager.LoginAsync</code>, và khi sai mật khẩu, ABP dồn về đúng <strong>một</strong> hàm: <code>UserManager.AccessFailedAsync</code>. Đây là lý do logic cửa sổ được đặt tại đó (mục 3.2) chứ không phải trong controller — đặt ở controller thì đường API lọt lưới, thành lỗ hổng bảo mật.</p>
+<hr />
+<h2 id="3-cac-quyet-inh-thiet-ke">3. Các quyết định thiết kế<a class="headerlink" href="#3-cac-quyet-inh-thiet-ke" title="Permanent link">&para;</a></h2>
+<h3 id="31-them-truong-lastfailedloginattempttime-vao-user">3.1. Thêm trường <code>LastFailedLoginAttemptTime</code> vào <code>User</code><a class="headerlink" href="#31-them-truong-lastfailedloginattempttime-vao-user" title="Permanent link">&para;</a></h3>
+<p>Để biết lần sai gần nhất cách bây giờ bao lâu (có vượt cửa sổ chưa), cần một mốc thời gian. ABP đã có <code>AccessFailedCount</code> nhưng <strong>không kèm timestamp</strong> — chỉ có con số, không có "lần cuối là khi nào".</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// eKMapServer.Core/Authorization/Users/User.cs</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">public</span><span class="w"> </span><span class="n">DateTime</span><span class="o">?</span><span class="w"> </span><span class="n">LastFailedLoginAttemptTime</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Vì sao nullable:</strong> toàn bộ user hiện có mang <code>NULL</code> = "chưa từng có lần sai nào trong cửa sổ". Lần sai đầu tiên chỉ set mốc rồi đếm bình thường, không cần backfill dữ liệu cũ — khác hẳn <code>LastPasswordChangeTime</code> (tính năng hết hạn mật khẩu) vốn buộc phải cân nhắc backfill vì <code>NULL</code> ở đó ảnh hưởng tới việc chặn đăng nhập.</p>
+<p><strong>Cố ý KHÔNG suy mốc từ bảng <code>AbpUserLoginAttempts</code>.</strong> ABP đã ghi mọi lần đăng nhập (kèm thời gian + kết quả) vào bảng đó, nên về lý thuyết có thể truy vấn ra "lần sai gần nhất". Nhưng đó là bảng <strong>log/audit</strong> — sẽ phình rất to, và ghép logic điều khiển bảo mật vào một bảng log là coupling dễ vỡ, tốn một query mỗi lần sai. Một cột chuyên dụng trên <code>AbpUsers</code> là O(1) và độc lập với chính sách lưu log.</p>
+<h3 id="32-at-logic-cua-so-tai-chokepoint-usermanageraccessfailedasync">3.2. Đặt logic cửa sổ tại chokepoint <code>UserManager.AccessFailedAsync</code><a class="headerlink" href="#32-at-logic-cua-so-tai-chokepoint-usermanageraccessfailedasync" title="Permanent link">&para;</a></h3>
+<p><code>AccessFailedAsync</code> và <code>ResetAccessFailedCountAsync</code> là method <code>virtual</code> kế thừa từ Identity <code>UserManager&lt;TUser&gt;</code>. Override ngay trong class <code>UserManager</code> <strong>vốn đã tồn tại</strong> của dự án:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// eKMapServer.Core/Authorization/Users/UserManager.cs</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IdentityResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">AccessFailedAsync</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">windowSeconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">SettingManager</span><span class="p">.</span><span class="n">GetSettingValueForUserAsync</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="n">AppSettings</span><span class="p">.</span><span class="n">UserManagement</span><span class="p">.</span><span class="n">UserLockOut</span><span class="p">.</span><span class="n">FailedAttemptWindowSeconds</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="n">TenantId</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="c1">// Cửa sổ cũ đã hết hạn → đếm lại từ đầu (giữ nguyên hành vi ABP: reset về 0)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">windowSeconds</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="n">LastFailedLoginAttemptTime</span><span class="p">.</span><span class="n">HasValue</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="n">Clock</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">Subtract</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">LastFailedLoginAttemptTime</span><span class="p">.</span><span class="n">Value</span><span class="p">).</span><span class="n">TotalSeconds</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">windowSeconds</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="n">AccessFailedCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span><span class="c1">// set in-memory, để base tăng 0-&gt;1, tránh 2 lần ghi DB</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">user</span><span class="p">.</span><span class="n">LastFailedLoginAttemptTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">base</span><span class="p">.</span><span class="n">AccessFailedAsync</span><span class="p">(</span><span class="n">user</span><span class="p">);</span><span class="w">   </span><span class="c1">// ABP tăng count, khóa nếu đạt Max, persist cả 2 field</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="n">Task</span><span class="o">&lt;</span><span class="n">IdentityResult</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ResetAccessFailedCountAsync</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">user</span><span class="p">.</span><span class="n">LastFailedLoginAttemptTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">null</span><span class="p">;</span><span class="w">      </span><span class="c1">// login đúng → xóa mốc</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">base</span><span class="p">.</span><span class="n">ResetAccessFailedCountAsync</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
+</code></pre></div>
+<p>Bốn chi tiết có chủ đích:</p>
+<p><strong>Không đụng <code>LogInManager</code>.</strong> Override ở <code>UserManager</code> phủ được cả hai đường login (MVC + API) chỉ với một chỗ sửa, vì cả hai đều dồn về đây (xem sơ đồ mục 2). Override luồng nội bộ của <code>AbpLogInManager</code> vừa nặng vừa dễ hụt.</p>
+<p><strong>Set <code>user.AccessFailedCount = 0</code> trong bộ nhớ thay vì gọi <code>base.ResetAccessFailedCountAsync</code>.</strong> <code>base.AccessFailedAsync</code> dùng <code>Store.IncrementAccessFailedCountAsync</code>, tức đọc giá trị trên chính entity rồi <code>++</code>. Đặt về 0 trong bộ nhớ trước, để base tăng <code>0 → 1</code> và <strong>persist một lần</strong>. Gọi reset của base sẽ sinh thêm một lệnh ghi DB thừa.</p>
+<p><strong>Dùng <code>GetSettingValueForUserAsync(name, user.TenantId, user.Id)</code>, không dùng <code>GetSettingValueAsync()</code>.</strong> Tại thời điểm sai mật khẩu, người dùng <strong>chưa</strong> đăng nhập nên <code>AbpSession</code> còn rỗng. <code>GetSettingValueAsync()</code> sẽ đọc theo session không có tenant/user → luôn lấy mặc định cấp application, bỏ qua cấu hình riêng của tenant. Truyền thẳng <code>user.TenantId</code>/<code>user.Id</code> thì chạy đúng ở cả ngữ cảnh chưa login. (Cùng lý do với <code>PasswordExpirationChecker</code> ở tính năng hết hạn mật khẩu.)</p>
+<p><strong>Reset xóa cả mốc thời gian.</strong> Login đúng → <code>ResetAccessFailedCountAsync</code> được ABP gọi; ta nhân đó đặt <code>LastFailedLoginAttemptTime = null</code> để lần sai kế tiếp bắt đầu cửa sổ mới sạch sẽ.</p>
+<h3 id="semantics">3.3. Ngữ nghĩa cửa sổ: reset theo khoảng cách giữa hai lần sai<a class="headerlink" href="#semantics" title="Permanent link">&para;</a></h3>
+<p>Cần nói rõ vì đây là điểm dễ hiểu nhầm. Logic <strong>không</strong> phải "đếm số lần sai rơi vào một cửa sổ 10 phút trượt", mà là: <strong>mỗi lần sai, nếu cách lần sai trước quá <code>FailedAttemptWindowSeconds</code> thì bộ đếm về 0 rồi đếm lại.</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    A["Sai mật khẩu"] --&gt; B{"IsEnabled?"}
+    B --&gt;|"Không"| Z["Không đếm&lt;br/&gt;(ABP không gọi AccessFailedAsync)"]
+    B --&gt;|"Có"| C{"LastFailedLoginAttemptTime có giá trị&lt;br/&gt;VÀ now - last &gt; window?"}
+    C --&gt;|"Có"| D["AccessFailedCount = 0&lt;br/&gt;(cửa sổ cũ hết hạn)"]
+    C --&gt;|"Không"| E["Giữ nguyên count"]
+    D --&gt; F["last = now&lt;br/&gt;count++ (base)"]
+    E --&gt; F
+    F --&gt; G{"count &gt;= Max?"}
+    G --&gt;|"Có"| H["🔒 LockoutEndDateUtc = now + LockoutSeconds"]
+    G --&gt;|"Không"| I["Chưa khóa"]
+
+    style H fill:#ffcdd2,stroke:#c62828
+    style Z fill:#eeeeee,stroke:#9e9e9e</code></pre>
+<p>Hệ quả cần nắm: một chuỗi sai <strong>rải đều</strong> cách nhau đúng dưới ngưỡng cửa sổ (ví dụ sai mỗi 9 phút với cửa sổ 10 phút) sẽ <strong>không</strong> bao giờ reset và cuối cùng vẫn bị khóa, dù không lúc nào có "5 lần trong 10 phút" theo nghĩa cửa sổ trượt tuyệt đối.</p>
+<p>Đây là hành vi khóa-theo-cửa-sổ tiêu chuẩn và <strong>đúng tinh thần yêu cầu</strong> ("sai <strong>liên tiếp</strong> quá số lần"): còn sai liên tiếp (chưa có lần login đúng xen giữa) thì vẫn tính. Muốn cửa sổ trượt tuyệt đối thì phải lưu timestamp từng lần thử (bảng <code>AbpUserLoginAttempts</code>) — đã cố ý loại ở mục 3.1 vì không đáng đánh đổi.</p>
+<h3 id="validation">3.4. Ràng buộc giá trị khi lưu setting<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<p>Form Angular có thể chặn giá trị bậy ở client, nhưng người dùng vẫn gọi <strong>thẳng API</strong> được (Postman/curl), bỏ qua mọi kiểm tra phía client. Server <strong>không được tin client</strong>. Các giá trị vô lý cần chặn khi <code>IsEnabled = true</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Giá trị bậy</th>
+<th>Hậu quả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MaxFailedAccessAttemptsBeforeLockout = 0</code></td>
+<td>Không bao giờ khóa được → chính sách vô hiệu</td>
+</tr>
+<tr>
+<td><code>FailedAttemptWindowSeconds &lt;= 0</code></td>
+<td>Cửa sổ sai logic</td>
+</tr>
+<tr>
+<td><code>DefaultAccountLockoutSeconds &lt; 60</code></td>
+<td>"Khóa" vài giây, vô nghĩa</td>
+</tr>
+</tbody>
+</table>
+<p>Cần thêm hàm kiểm tra, gọi ở <strong>đầu</strong> <code>UpdateUserLockOutSettingsAsync</code> (trước mọi lệnh ghi setting), ở <strong>cả</strong> <code>HostSettingsAppService</code> và <code>TenantSettingsAppService</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">IsEnabled</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">MaxFailedAccessAttemptsBeforeLockout</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;MaxFailedAccessAttemptsMustBeAtLeastOne&quot;</span><span class="p">));</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">FailedAttemptWindowSeconds</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;FailedAttemptWindowMustBeAtLeast60Seconds&quot;</span><span class="p">));</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">DefaultAccountLockoutSeconds</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">UserFriendlyException</span><span class="p">(</span><span class="n">L</span><span class="p">(</span><span class="s">&quot;LockoutDurationMustBeAtLeast60Seconds&quot;</span><span class="p">));</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>UserFriendlyException</code> (namespace <code>Abp.UI</code>) là exception được ABP trả nguyên văn message ra client — form hiện đúng dòng lỗi thay vì "Internal Server Error". Ba key <code>L(...)</code> cần thêm vào <code>eKMapServer.xml</code> + <code>eKMapServer-vi.xml</code> (hoặc viết thẳng chuỗi tiếng Việt nếu chưa cần đa ngữ).</p>
+<p>Đặt validation <strong>trước</strong> mọi lệnh ghi để cấu hình sai thì không setting nào được lưu, thay vì lưu một nửa. Đây là cùng nguyên tắc với <code>ValidatePasswordExpirationSettings</code> ở tính năng hết hạn mật khẩu.</p>
+<h3 id="35-uong-externalopenid-khong-bi-anh-huong-ung-nhu-mong-muon">3.5. Đường external/OpenID không bị ảnh hưởng — đúng như mong muốn<a class="headerlink" href="#35-uong-externalopenid-khong-bi-anh-huong-ung-nhu-mong-muon" title="Permanent link">&para;</a></h3>
+<p>Đăng nhập qua OpenID Connect (<code>AccountController.ExternalLoginCallback</code>) không dùng mật khẩu nội bộ nên <strong>không</strong> kích hoạt <code>AccessFailedAsync</code>. Chính sách khóa chỉ áp cho đăng nhập bằng mật khẩu — hợp lý, vì không có "mật khẩu sai" để mà đếm.</p>
+<hr />
+<h2 id="4-luong-hoat-ong">4. Luồng hoạt động<a class="headerlink" href="#4-luong-hoat-ong" title="Permanent link">&para;</a></h2>
+<h3 id="41-em-va-khoa-khi-sai-mat-khau">4.1. Đếm và khóa (khi sai mật khẩu)<a class="headerlink" href="#41-em-va-khoa-khi-sai-mat-khau" title="Permanent link">&para;</a></h3>
+<p>Xem sơ đồ ở <a href="#semantics">mục 3.3</a>. Điểm mấu chốt: <code>AbpLogInManager</code> chỉ gọi <code>TryLockOutAsync</code> → <code>AccessFailedAsync</code> <strong>khi <code>UserLockOut.IsEnabled = true</code></strong>. Tắt chính sách thì hàm override không bao giờ chạy, không tốn gì.</p>
+<h3 id="42-khi-tai-khoan-ang-bi-khoa">4.2. Khi tài khoản đang bị khóa<a class="headerlink" href="#42-khi-tai-khoan-ang-bi-khoa" title="Permanent link">&para;</a></h3>
+<p><code>AbpLogInManager</code> kiểm tra <code>LockoutEndDateUtc</code> <strong>trước</strong> khi verify mật khẩu. Tài khoản đang khóa thì bị từ chối <strong>kể cả khi nhập đúng mật khẩu</strong>, trả <code>AbpLoginResultType.LockedOut</code>. <code>AbpLoginResultTypeHelper.CreateExceptionForFailedLoginAttempt</code> sinh thông báo tương ứng cho người dùng.</p>
+<h3 id="43-khi-ang-nhap-thanh-cong">4.3. Khi đăng nhập thành công<a class="headerlink" href="#43-khi-ang-nhap-thanh-cong" title="Permanent link">&para;</a></h3>
+<p><code>AbpLogInManager</code> gọi <code>ResetAccessFailedCountAsync</code> → bộ đếm về 0 và <code>LastFailedLoginAttemptTime</code> về <code>null</code>. Cửa sổ đếm bắt đầu lại sạch từ lần sai kế tiếp.</p>
+<h3 id="44-het-thoi-gian-khoa">4.4. Hết thời gian khóa<a class="headerlink" href="#44-het-thoi-gian-khoa" title="Permanent link">&para;</a></h3>
+<p><code>LockoutEndDateUtc</code> là mốc trong quá khứ → ABP tự cho đăng nhập lại. Không cần thao tác admin, không cần job dọn dẹp.</p>
+<hr />
+<h2 id="5-danh-sach-file">5. Danh sách file<a class="headerlink" href="#5-danh-sach-file" title="Permanent link">&para;</a></h2>
+<h3 id="ekmapservercore">eKMapServer.Core<a class="headerlink" href="#ekmapservercore" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization/Users/User.cs</code></td>
+<td>Thêm <code>LastFailedLoginAttemptTime</code> (nullable)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Authorization/Users/UserManager.cs</code></td>
+<td>Override <code>AccessFailedAsync</code> + <code>ResetAccessFailedCountAsync</code> (logic cửa sổ)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Configuration/AppSettings.cs</code></td>
+<td><code>UserLockOut.FailedAttemptWindowSeconds</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Configuration/AppSettingProvider.cs</code></td>
+<td>Mặc định <code>600</code>, scope Application + Tenant, <code>isVisibleToClients: true</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Localization/SourceFiles/eKMapServer.xml</code> + <code>-vi.xml</code></td>
+<td>Key <code>FailedLoginWindow</code> + 3 key lỗi validation (<code>MaxFailedAccessAttemptsMustBeAtLeastOne</code>, <code>FailedAttemptWindowMustBeAtLeast60Seconds</code>, <code>LockoutDurationMustBeAtLeast60Seconds</code>)</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ekmapserverapplication">eKMapServer.Application<a class="headerlink" href="#ekmapserverapplication" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Configuration/Tenants/Dto/UserLockOutSettingsEditDto.cs</code></td>
+<td>Thêm <code>FailedAttemptWindowSeconds</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Configuration/Tenants/TenantSettingsAppService.cs</code></td>
+<td>Đọc/ghi setting mới</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Configuration/Host/HostSettingsAppService.cs</code></td>
+<td>Đọc/ghi setting mới</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><em>(cả hai AppService)</em></td>
+<td>Validation <code>Max ≥ 1</code>, <code>Window ≥ 60</code>, <code>Lockout ≥ 60</code> guard bằng <code>IsEnabled</code> (<a href="#validation">3.4</a>); cần <code>using Abp.UI;</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ekmapserverentityframeworkcore">eKMapServer.EntityFrameworkCore<a class="headerlink" href="#ekmapserverentityframeworkcore" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Migrations/20260715022326_Add_LastFailedLoginAttemptTime.cs</code></td>
+<td>Cột <code>datetime2 NULL</code> trên <code>AbpUsers</code></td>
+<td>✅ (chưa chắc đã apply)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="angular-administrator">Angular (Administrator)<a class="headerlink" href="#angular-administrator" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/app/pages/settings/settings.component.html</code></td>
+<td>Ô nhập <code>FailedAttemptWindowSeconds</code>, binding <code>settingSystem.security.userLockOut.failedAttemptWindowSeconds</code>, ẩn/hiện theo <code>isEnabled</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Service proxy</td>
+<td><strong>Không cần regenerate.</strong> <code>settingSystem</code> là <code>any</code>, gửi qua ABP dynamic proxy (<code>abp.services.app.hostSettings.updateAllSettings</code>) → field mới tự round-trip dưới dạng JSON</td>
+<td>✅ không cần</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-trien-khai">6. Triển khai<a class="headerlink" href="#6-trien-khai" title="Permanent link">&para;</a></h2>
+<h3 id="buoc-1-apply-migration">Bước 1 — Apply migration<a class="headerlink" href="#buoc-1-apply-migration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>eKMapServer_Portal/Services/src/eKMapServer.EntityFrameworkCore
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dotnet<span class="w"> </span>ef<span class="w"> </span>database<span class="w"> </span>update
+</code></pre></div>
+<p><strong>Phải chạy trước khi khởi động code mới.</strong> Code mới đọc <code>user.LastFailedLoginAttemptTime</code>; cột chưa có thì EF ném <code>Invalid column name</code> ở mọi query load user — hỏng luôn đăng nhập.</p>
+<p>SQL sinh ra phải là <strong>đúng một</strong> lệnh (nếu ra nhiều <code>AlterColumn</code> thừa, xem <code>migration-identity-columns-issue.md</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="p">[</span><span class="n">AbpUsers</span><span class="p">]</span><span class="w"> </span><span class="k">ADD</span><span class="w"> </span><span class="p">[</span><span class="n">LastFailedLoginAttemptTime</span><span class="p">]</span><span class="w"> </span><span class="n">datetime2</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<p><strong>Không cần backfill.</strong> <code>NULL</code> = chưa có lần sai nào, hoàn toàn đúng cho user cũ.</p>
+<h3 id="buoc-2-build-angular">Bước 2 — Build Angular<a class="headerlink" href="#buoc-2-build-angular" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd</span><span class="w"> </span>eKMapServer_App/Administrator<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>publish
+</code></pre></div>
+Copy <code>dist/*</code> vào <code>eKMapServer.Web.Mvc/wwwroot/Administrator/</code>. (Ô cấu hình nằm ở app Administrator; app Manager không có form này.)</p>
+<h3 id="buoc-3-kiem-tra-cau-hinh">Bước 3 — Kiểm tra cấu hình<a class="headerlink" href="#buoc-3-kiem-tra-cau-hinh" title="Permanent link">&para;</a></h3>
+<p>Xác nhận <code>App.UserManagement.UserLockOut.FailedAttemptWindowSeconds</code> trong <code>AbpSettings</code>; không có row thì dùng mặc định <strong>600</strong>. Ba tham số của ABP (<code>IsEnabled</code>, <code>Max</code>, <code>DefaultAccountLockoutSeconds</code>) vốn đã có mặc định riêng của ABP.Zero.</p>
+<hr />
+<h2 id="7-kiem-thu">7. Kiểm thử<a class="headerlink" href="#7-kiem-thu" title="Permanent link">&para;</a></h2>
+<p>Cấu hình test: <code>Max = 3</code>, <code>Window = 60s</code>, <code>Lockout = 120s</code> cho nhanh.</p>
+<table>
+<thead>
+<tr>
+<th>Kịch bản</th>
+<th>Thao tác</th>
+<th>Kết quả mong đợi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Khóa trong cửa sổ</td>
+<td>Sai 3 lần trong vòng 60s</td>
+<td>Lần thử thứ 4 bị từ chối kể cả khi mật khẩu đúng</td>
+</tr>
+<tr>
+<td>Cửa sổ hết hạn → không khóa</td>
+<td>Sai 2 lần, chờ &gt; 60s, sai tiếp 1 lần</td>
+<td><strong>Không</strong> khóa (bộ đếm đã reset về 0)</td>
+</tr>
+<tr>
+<td>Login đúng reset bộ đếm</td>
+<td>Sai 2 lần rồi đăng nhập đúng</td>
+<td><code>AccessFailedCount = 0</code>, <code>LastFailedLoginAttemptTime = NULL</code></td>
+</tr>
+<tr>
+<td>Tự mở khóa</td>
+<td>Bị khóa, chờ &gt; 120s</td>
+<td>Đăng nhập lại bình thường, không cần admin</td>
+</tr>
+<tr>
+<td>Phủ cả hai đường</td>
+<td>Lặp kịch bản khóa qua <strong>cả</strong> form MVC và <code>api/TokenAuth</code></td>
+<td>Cùng hành vi — xác nhận chokepoint phủ cả hai</td>
+</tr>
+<tr>
+<td>Tắt chính sách</td>
+<td><code>IsEnabled = false</code>, sai nhiều lần</td>
+<td>Không bao giờ khóa</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Test validation (<a href="#validation">3.4</a>, sau khi làm):</strong></p>
+<ul>
+<li>POST thẳng API lưu setting với <code>Max = 0</code> / <code>Window = 10</code> / <code>Lockout = 5</code> (bỏ qua form) → phải bị <code>UserFriendlyException</code> từ chối, không setting nào được lưu.</li>
+</ul>
+<p><strong>Kiểm tra trực tiếp DB khi test:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">UserName</span><span class="p">,</span><span class="w"> </span><span class="n">AccessFailedCount</span><span class="p">,</span><span class="w"> </span><span class="n">LockoutEndDateUtc</span><span class="p">,</span><span class="w"> </span><span class="n">LastFailedLoginAttemptTime</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">AbpUsers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">UserName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">-- Ép hết hạn khóa để test tự mở khóa:</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">AbpUsers</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">LockoutEndDateUtc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DATEADD</span><span class="p">(</span><span class="k">MINUTE</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GETUTCDATE</span><span class="p">())</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">UserName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;admin&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Lưu ý <code>LockoutEndDateUtc</code> là giờ <strong>UTC</strong> (ABP quản lý cột này theo UTC), khác với <code>LastFailedLoginAttemptTime</code> ghi bằng <code>Clock.Now</code> (giờ local server, do <code>Clock.Provider</code> mặc định <code>Unspecified</code>).</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

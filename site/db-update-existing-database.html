@@ -1,0 +1,1458 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="interface-tab-guide.html">
+      
+      
+        <link rel="next" href="migration-identity-columns-issue.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Cập nhật DB đang chạy lên schema hiện tại - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cap-nhat-db-ang-chay-len-schema-hien-tai" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cập nhật DB đang chạy lên schema hiện tại
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="login-lockout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="session-timeout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="system-log-classification-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interface-tab-guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="db-update-existing-database.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-bai-toan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bài toán
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nhung-gi-uoc-them-moi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Những gì được thêm mới
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Những gì được thêm mới">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#khong-ung-toi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KHÔNG đụng tới
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-hai-cai-bay-ca-hai-eu-vo-hinh-neu-chi-nhin-danh-sach-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hai cái bẫy — cả hai đều VÔ HÌNH nếu chỉ nhìn danh sách migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Hai cái bẫy — cả hai đều VÔ HÌNH nếu chỉ nhìn danh sách migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. InitialBaseline là ảnh chụp — không được chạy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#khong-co-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. ChangePassWordForLogInNext không có migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backfill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. LastPasswordChangeTime phải backfill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cach-chay-tren-db-co-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cách chạy trên DB có sẵn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cách chạy trên DB có sẵn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-cua-phan-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log của PHẦN 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phan-2-bon-con-so-bat-buoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PHẦN 2 — bốn con số bắt buộc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-e-lan-sau-khong-lap-lai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Để lần sau không lặp lại
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Để lần sau không lặp lại">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-thu-tao-bang-la-dbset-khong-phai-ke-thua-abp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Thứ tạo bảng là DbSet, KHÔNG phải kế thừa ABP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quy-tac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Bốn quy tắc cho migration tiếp theo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshot-da-sua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Tin tốt: lệch snapshot đã được sửa TẬN GỐC
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-bai-toan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bài toán
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-nhung-gi-uoc-them-moi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Những gì được thêm mới
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Những gì được thêm mới">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#khong-ung-toi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KHÔNG đụng tới
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-hai-cai-bay-ca-hai-eu-vo-hinh-neu-chi-nhin-danh-sach-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hai cái bẫy — cả hai đều VÔ HÌNH nếu chỉ nhìn danh sách migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Hai cái bẫy — cả hai đều VÔ HÌNH nếu chỉ nhìn danh sách migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. InitialBaseline là ảnh chụp — không được chạy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#khong-co-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. ChangePassWordForLogInNext không có migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backfill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. LastPasswordChangeTime phải backfill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cach-chay-tren-db-co-san" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Cách chạy trên DB có sẵn
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Cách chạy trên DB có sẵn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-cua-phan-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Log của PHẦN 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phan-2-bon-con-so-bat-buoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PHẦN 2 — bốn con số bắt buộc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-e-lan-sau-khong-lap-lai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Để lần sau không lặp lại
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Để lần sau không lặp lại">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-thu-tao-bang-la-dbset-khong-phai-ke-thua-abp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Thứ tạo bảng là DbSet, KHÔNG phải kế thừa ABP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quy-tac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Bốn quy tắc cho migration tiếp theo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#snapshot-da-sua" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Tin tốt: lệch snapshot đã được sửa TẬN GỐC
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cap-nhat-db-ang-chay-len-schema-hien-tai">Cập nhật DB đang chạy lên schema hiện tại<a class="headerlink" href="#cap-nhat-db-ang-chay-len-schema-hien-tai" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-17 · <strong>Script:</strong> <code>Test by SQL/update_db_to_current.sql</code> · <strong>Trạng thái:</strong> 🔶 Đã viết, <strong>chưa chạy</strong> trên DB nào</p>
+<hr />
+<h2 id="1-bai-toan">1. Bài toán<a class="headerlink" href="#1-bai-toan" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    A["🗄️ DB production&lt;br/&gt;đã có sẵn, ĐANG PHỤC VỤ THẬT"] --&gt; B{"Làm sao đưa&lt;br/&gt;schema mới vào?"}
+    B --&gt; C["❌ Dựng lại DB mới"]
+    B --&gt; D["❌ dotnet ef database update"]
+    B --&gt; E["✅ Script SQL chỉ THÊM"]
+
+    style C fill:#ffcdd2,stroke:#c62828
+    style D fill:#ffcdd2,stroke:#c62828
+    style E fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<hr />
+<h2 id="2-nhung-gi-uoc-them-moi">2. Những gì được thêm mới<a class="headerlink" href="#2-nhung-gi-uoc-them-moi" title="Permanent link">&para;</a></h2>
+<p><strong>Tổng: 3 cột + 1 bảng.</strong> Chỉ <code>ADD</code> và <code>CREATE</code> — không <code>ALTER COLUMN</code>, không <code>DROP</code>, không rebuild bảng nào.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph U["✏️ Bảng AbpUsers (ĐANG CÓ DỮ LIỆU THẬT)"]
+        C1["ChangePassWordForLogInNext&lt;br/&gt;&lt;b&gt;bit NOT NULL&lt;/b&gt;&lt;br/&gt;❌ KHÔNG có migration"]
+        C2["LastPasswordChangeTime&lt;br/&gt;&lt;b&gt;datetime2 NULL&lt;/b&gt;&lt;br/&gt;⚠️ PHẢI backfill"]
+        C3["LastFailedLoginAttemptTime&lt;br/&gt;&lt;b&gt;datetime2 NULL&lt;/b&gt;&lt;br/&gt;✅ không cần gì"]
+    end
+    subgraph T["🆕 Bảng mới (rủi ro = 0)"]
+        T1["tenantBranding&lt;br/&gt;27 cột"]
+    end
+    subgraph H["📒 Sổ migration"]
+        H1["__EFMigrationsHistory&lt;br/&gt;9 row — chỉ GHI SỔ, không thực thi"]
+    end
+
+    style C1 fill:#ffcdd2,stroke:#c62828
+    style C2 fill:#ffe0b2,stroke:#e65100
+    style C3 fill:#c8e6c9,stroke:#2e7d32
+    style T fill:#e8f5e9,stroke:#2e7d32</code></pre>
+<h3 id="khong-ung-toi">KHÔNG đụng tới<a class="headerlink" href="#khong-ung-toi" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Hạng mục</th>
+<th>Vì sao</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>AbpSettings</code></strong></td>
+<td>Chỉ là row key–value trong bảng có sẵn — <strong>không đổi schema</strong>. Các setting mới (<code>SessionTimeOut</code>, <code>UserLockOut</code>, <code>PasswordExpirationDays</code>, <code>AdminIpRestriction</code>) đều có default trong <code>AppSettingProvider</code> ⇒ <strong>không có row nào cũng chạy đúng</strong></td>
+</tr>
+<tr>
+<td><strong>41 lệnh <code>AlterColumn</code></strong></td>
+<td>Từng bị EF sinh ra do lệch ModelSnapshot (<a href="migration-identity-columns-issue.html">chi tiết</a>) — đã xoá sạch khỏi migration và <strong>lệch snapshot đã sửa tận gốc</strong> (<a href="#snapshot-da-sua">§6.3</a>). <strong>Không</strong> đưa lại vào script</td>
+</tr>
+<tr>
+<td><strong><a href="admin-ip-restriction-feature.html">Giới hạn IP quản trị</a></strong></td>
+<td>Settings thuần — không phát sinh thay đổi DB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-hai-cai-bay-ca-hai-eu-vo-hinh-neu-chi-nhin-danh-sach-migration">3. Hai cái bẫy — cả hai đều VÔ HÌNH nếu chỉ nhìn danh sách migration<a class="headerlink" href="#3-hai-cai-bay-ca-hai-eu-vo-hinh-neu-chi-nhin-danh-sach-migration" title="Permanent link">&para;</a></h2>
+<h3 id="baseline">3.1. <code>InitialBaseline</code> là ảnh chụp — <strong>không được chạy</strong><a class="headerlink" href="#baseline" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    A["🗄️ DB production&lt;br/&gt;dựng từ trước khi repo có migration"] -.-&gt;|"❌ KHÔNG BAO GIỜ chạy"| B["20260602080713_InitialBaseline&lt;br/&gt;1715 dòng CreateTable&lt;br/&gt;&lt;i&gt;chỉ là ẢNH CHỤP model&lt;/i&gt;"]
+    B --&gt;|"✅ chỉ ĐÓNG DẤU vào&lt;br/&gt;__EFMigrationsHistory"| C["EF coi như đã áp dụng"]
+
+    D["dotnet ef database update"] --&gt;|"cố chạy baseline"| E["💥 There is already an object&lt;br/&gt;named 'AbpUsers'"]
+
+    style B fill:#ffe0b2,stroke:#e65100
+    style E fill:#ffcdd2,stroke:#c62828
+    style C fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p><em>(Nếu lỡ chạy: EF chạy mỗi migration trong transaction ⇒ </em><em>rollback sạch, DB không đổi gì</em><em>. Cứ chạy script này rồi thử lại.)</em></p>
+<h3 id="khong-co-migration">3.2. <code>ChangePassWordForLogInNext</code> không có migration<a class="headerlink" href="#khong-co-migration" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>timeline
+    title Vì sao cột này biến mất khỏi tầm nhìn
+    21/05 — commit init : Migrations/ chỉ có ModelSnapshot&lt;br/&gt;KHÔNG có migration nào
+    29/05 — commit 228a989 : Thêm ChangePassWordForLogInNext vào User.cs&lt;br/&gt;(tính năng "đổi mật khẩu lần đầu")
+    02/06 — sinh InitialBaseline : EF nướng cột này THẲNG vào&lt;br/&gt;CreateTable(AbpUsers) của baseline&lt;br/&gt;thay vì tạo migration riêng</code></pre>
+<pre class="mermaid"><code>flowchart TD
+    A["Cột nằm TRONG InitialBaseline"] --&gt; B["Baseline chỉ được ĐÓNG DẤU,&lt;br/&gt;không CHẠY (§3.1)"]
+    B --&gt; C["❌ Cột KHÔNG BAO GIỜ được tạo&lt;br/&gt;trên DB production"]
+    C --&gt; D["AccountController.cs:153 đọc nó&lt;br/&gt;ở MỖI lần đăng nhập"]
+    D --&gt; E["💥 Invalid column name&lt;br/&gt;⇒ KHÔNG AI ĐĂNG NHẬP ĐƯỢC"]
+
+    style C fill:#ffcdd2,stroke:#c62828
+    style E fill:#ffcdd2,stroke:#c62828,stroke-width:3px</code></pre>
+<div class="admonition danger">
+<p class="admonition-title"><code>dotnet ef database update</code> không cứu được</p>
+<p>Theo sổ migration thì <strong>mọi thứ "đã up to date"</strong> — trong khi cột vẫn thiếu và đăng nhập vẫn chết.</p>
+<p>→ Đây là lý do phải soát delta từ <strong>CODE</strong> (entity + <code>DbSet</code>), không chỉ từ danh sách migration.</p>
+</div>
+<hr />
+<h2 id="backfill">4. <code>LastPasswordChangeTime</code> phải backfill<a class="headerlink" href="#backfill" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    A["Thêm cột LastPasswordChangeTime&lt;br/&gt;= NULL cho mọi user"] --&gt; B["PasswordExpirationChecker.cs:37&lt;br/&gt;&lt;i&gt;LastPasswordChangeTime ?? CreationTime&lt;/i&gt;"]
+    B --&gt; C["NULL ⇒ rơi về CreationTime"]
+    C --&gt; D{"User tạo quá 90 ngày trước?&lt;br/&gt;&lt;i&gt;(mặc định, BẬT sẵn)&lt;/i&gt;"}
+    D --&gt;|"đúng với hầu hết user"| E["💥 Expired ngay&lt;br/&gt;⇒ TOÀN BỘ user bị ép&lt;br/&gt;đổi mật khẩu ở lần đăng nhập kế tiếp"]
+
+    style E fill:#ffcdd2,stroke:#c62828,stroke-width:3px</code></pre>
+<p><strong>Xử lý:</strong> backfill <code>= GETDATE()</code> — coi như <em>"vừa đổi mật khẩu lúc nâng cấp"</em>, đồng hồ 90 ngày đếm lại từ thời điểm deploy.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Thêm cột"] --&gt; B["UPDATE ... SET = GETDATE()&lt;br/&gt;WHERE ... IS NULL"]
+    B --&gt; C["✅ Không ai bị ép đổi mật khẩu"]
+    style C fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<div class="admonition bug">
+<p class="admonition-title">Phải <code>GETDATE()</code>, KHÔNG phải <code>GETUTCDATE()</code></p>
+<pre class="mermaid"><code>flowchart TD
+    A["grep Clock.Provider trong repo&lt;br/&gt;= 0 kết quả"] --&gt; B["⇒ ABP dùng mặc định&lt;br/&gt;ClockProviders.Unspecified"]
+    B --&gt; C["⇒ Clock.Now = DateTime.Now&lt;br/&gt;= giờ LOCAL của server"]
+    C --&gt; D["Backfill bằng UTC sẽ lệch 7 giờ&lt;br/&gt;so với mốc đem ra so sánh"]
+    style D fill:#ffe0b2,stroke:#e65100</code></pre>
+</div>
+<p>Backfill <strong>chỉ chạy đúng lúc cột được tạo lần đầu</strong> ⇒ chạy lại script không bao giờ đè lên mốc thật của user.</p>
+<hr />
+<h2 id="5-cach-chay-tren-db-co-san">5. Cách chạy trên DB có sẵn<a class="headerlink" href="#5-cach-chay-tren-db-co-san" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    P0["🔍 PHẦN 0 — KIỂM TRA&lt;br/&gt;&lt;b&gt;CHỈ ĐỌC, không sửa gì&lt;/b&gt;"] --&gt; P0R["Báo DB đang thiếu đúng những gì&lt;br/&gt;+ bao nhiêu user sẽ bị ép đổi mật khẩu&lt;br/&gt;nếu không backfill"]
+    P0R --&gt; BK["💾 BACKUP DB"]
+    BK --&gt; P1["⚙️ PHẦN 1 — CẬP NHẬT&lt;br/&gt;&lt;i&gt;trong transaction&lt;/i&gt;"]
+    P1 --&gt; P1R{"Lỗi bất kỳ chỗ nào?"}
+    P1R --&gt;|"có"| RB["↩️ ROLLBACK sạch&lt;br/&gt;DB KHÔNG đổi gì"]
+    P1R --&gt;|"không"| CM["✅ COMMIT"]
+    CM --&gt; P2["✔️ PHẦN 2 — HẬU KIỂM"]
+    P2 --&gt; EF["🧪 dotnet ef database update&lt;br/&gt;phải báo 'already up to date'"]
+    EF --&gt; DP["🚀 Deploy code&lt;br/&gt;+ ĐĂNG NHẬP THỬ"]
+
+    style P0 fill:#e3f2fd,stroke:#1565c0
+    style BK fill:#fff9c4,stroke:#f57f17
+    style RB fill:#ffe0b2,stroke:#e65100
+    style CM fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p>Script <strong>idempotent</strong> — mọi bước đều <code>IF NOT EXISTS</code>, chạy lại nhiều lần vẫn an toàn.</p>
+<h3 id="log-cua-phan-1">Log của PHẦN 1<a class="headerlink" href="#log-cua-phan-1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[1] Đã đóng dấu InitialBaseline.
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>[2] Đã thêm ChangePassWordForLogInNext (DEFAULT 0 — không ép ai đổi mật khẩu).
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>[3] Đã thêm LastPasswordChangeTime + BACKFILL GETDATE() cho toàn bộ user.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>[4] Đã thêm LastFailedLoginAttemptTime.
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>[5] Đã tạo bảng tenantBranding (27 cột).
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>[6] Đã đóng dấu 8 migration.
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>=== HOÀN TẤT — ĐÃ COMMIT ===
+</code></pre></div>
+<h3 id="phan-2-bon-con-so-bat-buoc">PHẦN 2 — bốn con số bắt buộc<a class="headerlink" href="#phan-2-bon-con-so-bat-buoc" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Kiểm tra</th>
+<th>Bắt buộc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__EFMigrationsHistory</code></td>
+<td><strong>9</strong> row</td>
+</tr>
+<tr>
+<td><code>tenantBranding</code> số cột</td>
+<td><strong>27</strong></td>
+</tr>
+<tr>
+<td>User còn <code>NULL LastPasswordChangeTime</code></td>
+<td><strong>0</strong> ⭐</td>
+</tr>
+<tr>
+<td>User có <code>ChangePassWordForLogInNext = 1</code></td>
+<td><strong>0</strong> ⭐</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Hai dòng ⭐ phân biệt <em>"nâng cấp êm"</em> với <em>"sáng mai cả cơ quan không đăng nhập được"</em>.</p>
+</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Mức độ khoá bảng — nói cho chính xác</p>
+<pre class="mermaid"><code>flowchart TD
+    A["CREATE TABLE (bảng mới)"] --&gt; R1["✅ 0 rủi ro"]
+    B["ADD COLUMN ... NULL&lt;br/&gt;(2 cột datetime2)"] --&gt; R2["✅ metadata-only ở MỌI edition&lt;br/&gt;— tức thì"]
+    C["ADD COLUMN ... NOT NULL DEFAULT&lt;br/&gt;(ChangePassWordForLogInNext)"] --&gt; D{"SQL Server edition?"}
+    D --&gt;|"Enterprise / Developer"| R3["✅ metadata-only"]
+    D --&gt;|"Standard"| R4["⚠️ REBUILD bảng AbpUsers&lt;br/&gt;+ khoá Sch-M"]
+
+    style R1 fill:#c8e6c9,stroke:#2e7d32
+    style R2 fill:#c8e6c9,stroke:#2e7d32
+    style R3 fill:#c8e6c9,stroke:#2e7d32
+    style R4 fill:#ffe0b2,stroke:#e65100</code></pre>
+<p>Bảng user vài nghìn dòng thì rebuild cũng xong tức thì. <strong>PHẦN 0 in ra Edition + số dòng <code>AbpUsers</code></strong> để tự lượng sức — đừng đoán.</p>
+</div>
+<hr />
+<h2 id="6-e-lan-sau-khong-lap-lai">6. Để lần sau không lặp lại<a class="headerlink" href="#6-e-lan-sau-khong-lap-lai" title="Permanent link">&para;</a></h2>
+<h3 id="61-thu-tao-bang-la-dbset-khong-phai-ke-thua-abp">6.1. Thứ tạo bảng là <code>DbSet</code>, KHÔNG phải kế thừa ABP<a class="headerlink" href="#61-thu-tao-bang-la-dbset-khong-phai-ke-thua-abp" title="Permanent link">&para;</a></h3>
+<p>Hiểu nhầm phổ biến: <em>"chỉ class kế thừa ABP entity mới tạo bảng"</em> — <strong>sai cả hai chiều</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph SAME["Cùng kế thừa FullAuditedEntity của ABP"]
+        A["TenantBranding"]
+        B["GSVDataStore"]
+    end
+    A --&gt;|"CÓ DbSet trong&lt;br/&gt;eKMapServerDbContext"| A2["✅ có bảng"]
+    B --&gt;|"KHÔNG có DbSet"| B2["❌ KHÔNG có bảng"]
+
+    style A2 fill:#c8e6c9,stroke:#2e7d32
+    style B2 fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Bằng chứng trong repo: <code>GSVDataStore</code>, <code>GSVInvoices</code>, <code>GSVMapUser</code>, <code>GSVTokenKey</code>, <code>GSVItem</code> <strong>đều kế thừa <code>FullAuditedEntity</code>/<code>Entity</code> nhưng không có bảng nào</strong>.</p>
+<p><strong>Thứ thực sự tạo bảng là được đưa vào EF model</strong>, qua một trong ba đường:</p>
+<pre class="mermaid"><code>flowchart LR
+    A["DbSet&amp;lt;T&amp;gt; trong DbContext"] --&gt; M["📐 EF Model"]
+    B["Navigation property từ&lt;br/&gt;entity đã map trỏ tới&lt;br/&gt;&lt;i&gt;⚠️ dễ sót nhất&lt;/i&gt;"] --&gt; M
+    C["modelBuilder.Entity&amp;lt;T&amp;gt;()&lt;br/&gt;trong OnModelCreating"] --&gt; M
+    M --&gt; T["🗄️ Tạo bảng"]
+
+    style B fill:#ffe0b2,stroke:#e65100</code></pre>
+<p>EF Core <strong>không biết ABP là gì</strong>. <code>Entity&lt;T&gt;</code>/<code>FullAuditedEntity</code> chỉ cho sẵn <code>Id</code> + cột audit. <code>[Table("...")]</code> chỉ <em>đặt tên</em> bảng nếu entity được map, <strong>không</strong> làm entity được map.</p>
+<div class="admonition warning">
+<p class="admonition-title">Chiều ngược lại mới nguy hiểm</p>
+<p>Class POCO thuần, <strong>không kế thừa gì của ABP, vẫn tạo bảng</strong> nếu có <code>DbSet</code> hoặc bị navigation trỏ tới. <em>"Không kế thừa ABP"</em> <strong>không phải tấm khiên</strong>.</p>
+<p>Câu hỏi đúng để tự kiểm: <strong>"class này có vào được EF model không?"</strong> — không phải <em>"nó có kế thừa ABP không?"</em>.</p>
+<p>DTO thì an toàn: không nằm trong DbContext, không ai trỏ tới.</p>
+</div>
+<h3 id="quy-tac">6.2. Bốn quy tắc cho migration tiếp theo<a class="headerlink" href="#quy-tac" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    R1["1️⃣ ĐỌC KỸ migration EF sinh ra&lt;br/&gt;trước khi commit"] --&gt; R1D["Đã từng có lần migrations add kèm&lt;br/&gt;41 lệnh AlterColumn rác&lt;br/&gt;⇒ rebuild 41 bảng chính.&lt;br/&gt;&lt;i&gt;Nay snapshot đã đồng bộ (§6.3)&lt;br/&gt;nhưng vẫn phải đọc&lt;/i&gt;"]
+    R2["2️⃣ KHÔNG BAO GIỜ sinh lại&lt;br/&gt;InitialBaseline"] --&gt; R2D["Nó nuốt các thay đổi chưa có&lt;br/&gt;migration vào bụng — đúng cách&lt;br/&gt;ChangePassWordForLogInNext biến mất"]
+    R3["3️⃣ Cột NOT NULL vào bảng có dữ liệu&lt;br/&gt;⇒ LUÔN kèm DEFAULT"] --&gt; R3D["Và giá trị mặc định phải có&lt;br/&gt;ý nghĩa nghiệp vụ đúng"]
+    R4["4️⃣ Code có fallback khi NULL&lt;br/&gt;⇒ LUÔN hỏi: có cần backfill?"] --&gt; R4D["LastPasswordChangeTime là ví dụ:&lt;br/&gt;fallback trông vô hại nhưng&lt;br/&gt;thành sự cố diện rộng"]
+
+    style R2 fill:#ffe0b2,stroke:#e65100
+    style R4 fill:#ffe0b2,stroke:#e65100</code></pre>
+<h3 id="snapshot-da-sua">6.3. Tin tốt: lệch snapshot đã được sửa TẬN GỐC<a class="headerlink" href="#snapshot-da-sua" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A["ModelSnapshot.cs&lt;br/&gt;&lt;b&gt;42&lt;/b&gt; UseIdentityColumn()"] --- B{"="}
+    B --- C["Designer của migration&lt;br/&gt;mới nhất&lt;br/&gt;&lt;b&gt;42&lt;/b&gt; UseIdentityColumn()"]
+    B --&gt; D["✅ Snapshot ĐỒNG BỘ&lt;br/&gt;⇒ migration sau KHÔNG còn&lt;br/&gt;đẻ ra 41 lệnh rác nữa"]
+
+    style D fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p>Đã kiểm chứng ở thời điểm viết: <code>ModelSnapshot.cs</code> và <code>20260715022326_Add_LastFailedLoginAttemptTime.Designer.cs</code> <strong>giống hệt nhau</strong> (591 dòng khai báo, diff rỗng). Sự cố 41 <code>AlterColumn</code> được xử lý tận gốc từ 14/07 — không phải chỉ vá phần ngọn (<a href="migration-identity-columns-issue.html#cach-xu-ly">chi tiết</a>).</p>
+<p>→ <strong>Không còn nợ kỹ thuật ở đây.</strong> Nhưng vẫn giữ nguyên quy tắc 1 ở <a href="#quy-tac">§6.2</a>: đọc kỹ migration trước khi commit. Cách phát hiện lệch tái diễn: so <code>ModelSnapshot.cs</code> với <code>.Designer.cs</code> của migration mới nhất — hai file phải mô tả cùng một model.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

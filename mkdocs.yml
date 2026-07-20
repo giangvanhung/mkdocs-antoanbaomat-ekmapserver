@@ -1,0 +1,63 @@
+site_name: eKMapServer — Tài liệu kỹ thuật
+site_description: Báo cáo tính năng và sự cố kỹ thuật của eKMapServer
+docs_dir: docs
+use_directory_urls: false
+
+theme:
+  name: material
+  language: vi
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Chuyển sang chế độ tối
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Chuyển sang chế độ sáng
+
+nav:
+  - Trang chủ: index.md
+  - Tính năng:
+      - Hết hạn mật khẩu & Đổi mật khẩu bắt buộc: password-expiration-feature.md
+      - Khóa tài khoản khi đăng nhập sai: login-lockout-feature.md
+      - Tự động đóng phiên khi không hoạt động: session-timeout-feature.md
+      - Giới hạn địa chỉ mạng được phép quản trị từ xa: admin-ip-restriction-feature.md
+      - Phân loại nhật ký hệ thống theo 05 nhóm: system-log-classification-feature.md
+  - Hướng dẫn sử dụng:
+      - Tab Giao diện (tuỳ biến trang Đăng nhập): interface-tab-guide.md
+  - Vận hành:
+      - Cập nhật DB đang chạy lên schema hiện tại: db-update-existing-database.md
+  - Sự cố kỹ thuật:
+      - Migration sinh cột thừa: migration-identity-columns-issue.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true

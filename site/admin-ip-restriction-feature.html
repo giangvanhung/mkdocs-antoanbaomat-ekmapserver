@@ -1,0 +1,2604 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="session-timeout-feature.html">
+      
+      
+        <link rel="next" href="system-log-classification-feature.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Giới hạn địa chỉ mạng được phép quản trị từ xa - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gioi-han-ia-chi-mang-uoc-phep-truy-cap-khu-vuc-quan-tri-he-thong" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Giới hạn địa chỉ mạng được phép quản trị từ xa
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="login-lockout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="session-timeout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chuc-nang-nay-lam-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chức năng này làm gì
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Chức năng này làm gì">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-bi-anh-huong-ai-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ai bị ảnh hưởng, ai không
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ban-do-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bản đồ code — cái gì nằm ở đâu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ba-setting-toan-bo-du-lieu-cua-chuc-nang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ba setting — toàn bộ dữ liệu của chức năng
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ba setting — toàn bộ dữ liệu của chức năng">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vong-oi-mot-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vòng đời một rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hai-lop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hai lớp chính sách IP — khác trục, không được trộn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#luong-cuong-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Luồng CƯỠNG CHẾ — một request đi từ đâu đến đâu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Luồng CƯỠNG CHẾ — một request đi từ đâu đến đâu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-toan-canh-request-i-qua-nhung-tram-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Toàn cảnh: request đi qua những trạm nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-ben-trong-middleware-5-cua-gat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Bên trong middleware: 5 cửa gạt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deny-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Hình dạng phản hồi khi bị chặn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Luồng CẤU HÌNH — admin thêm rule và lưu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Luồng CẤU HÌNH — admin thêm rule và lưu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-man-hinh-tab-securitysettings-trang-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Màn hình (tab Securitysettings, trang Settings)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-bam-luu-thi-chuyen-gi-xay-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Bấm Lưu thì chuyện gì xảy ra
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-lockout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Chống tự khoá — ba lớp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Cơ chế khớp IP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Cơ chế khớp IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-ip-la-mot-con-so-khong-phai-chuoi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. IP là một CON SỐ, không phải chuỗi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-24-nghia-la-24-bit-au-phai-giong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. /24 nghĩa là "24 bit đầu phải giống"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-khop-mot-phep-and-roi-so-sanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Khớp = một phép AND rồi so sánh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-chuan-hoa-moi-thu-ve-mot-dang-cidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Chuẩn hoá: mọi thứ về một dạng CIDR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cam-bay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Hai cạm bẫy về mạng
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Hai cạm bẫy về mạng">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-reverse-proxy-che-mat-ip-that-forwardedheaders-la-bat-buoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1. Reverse proxy che mất IP thật — ForwardedHeaders là bắt buộc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-nat-vi-sao-admin-khong-biet-ip-cua-chinh-minh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2. NAT — vì sao admin không biết IP của chính mình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Danh sách file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-4-bat-chinh-sach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 4 — bật chính sách
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-5-kiem-chung-chua-lam-thi-coi-nhu-chua-biet-chinh-sach-co-ung-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 5 — kiểm chứng (chưa làm thì coi như CHƯA BIẾT chính sách có đúng không)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Kiểm thử
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Kiểm thử">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiem-thu-tich-hop-can-chay-that-khi-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kiểm thử tích hợp (cần chạy thật khi triển khai)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Đăng nhập KHÔNG bị chặn theo đường dẫn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Ngoài phạm vi
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="system-log-classification-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interface-tab-guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="db-update-existing-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-chuc-nang-nay-lam-gi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Chức năng này làm gì
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Chức năng này làm gì">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-bi-anh-huong-ai-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ai bị ảnh hưởng, ai không
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ban-do-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bản đồ code — cái gì nằm ở đâu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ba-setting-toan-bo-du-lieu-cua-chuc-nang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Ba setting — toàn bộ dữ liệu của chức năng
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Ba setting — toàn bộ dữ liệu của chức năng">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vong-oi-mot-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vòng đời một rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hai-lop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hai lớp chính sách IP — khác trục, không được trộn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#luong-cuong-che" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Luồng CƯỠNG CHẾ — một request đi từ đâu đến đâu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Luồng CƯỠNG CHẾ — một request đi từ đâu đến đâu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-toan-canh-request-i-qua-nhung-tram-nao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Toàn cảnh: request đi qua những trạm nào
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-ben-trong-middleware-5-cua-gat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Bên trong middleware: 5 cửa gạt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deny-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3. Hình dạng phản hồi khi bị chặn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Luồng CẤU HÌNH — admin thêm rule và lưu
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Luồng CẤU HÌNH — admin thêm rule và lưu">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-man-hinh-tab-securitysettings-trang-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Màn hình (tab Securitysettings, trang Settings)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-bam-luu-thi-chuyen-gi-xay-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Bấm Lưu thì chuyện gì xảy ra
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-lockout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Chống tự khoá — ba lớp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Cơ chế khớp IP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Cơ chế khớp IP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-ip-la-mot-con-so-khong-phai-chuoi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1. IP là một CON SỐ, không phải chuỗi
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-24-nghia-la-24-bit-au-phai-giong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2. /24 nghĩa là "24 bit đầu phải giống"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-khop-mot-phep-and-roi-so-sanh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3. Khớp = một phép AND rồi so sánh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-chuan-hoa-moi-thu-ve-mot-dang-cidr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4. Chuẩn hoá: mọi thứ về một dạng CIDR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cam-bay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Hai cạm bẫy về mạng
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Hai cạm bẫy về mạng">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-reverse-proxy-che-mat-ip-that-forwardedheaders-la-bat-buoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1. Reverse proxy che mất IP thật — ForwardedHeaders là bắt buộc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-nat-vi-sao-admin-khong-biet-ip-cua-chinh-minh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2. NAT — vì sao admin không biết IP của chính mình
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Danh sách file
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Triển khai
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Triển khai">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buoc-4-bat-chinh-sach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 4 — bật chính sách
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buoc-5-kiem-chung-chua-lam-thi-coi-nhu-chua-biet-chinh-sach-co-ung-khong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bước 5 — kiểm chứng (chưa làm thì coi như CHƯA BIẾT chính sách có đúng không)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Kiểm thử
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Kiểm thử">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kiem-thu-tich-hop-can-chay-that-khi-trien-khai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kiểm thử tích hợp (cần chạy thật khi triển khai)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Đăng nhập KHÔNG bị chặn theo đường dẫn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Ngoài phạm vi
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="gioi-han-ia-chi-mang-uoc-phep-truy-cap-khu-vuc-quan-tri-he-thong">Giới hạn địa chỉ mạng được phép truy cập khu vực quản trị hệ thống<a class="headerlink" href="#gioi-han-ia-chi-mang-uoc-phep-truy-cap-khu-vuc-quan-tri-he-thong" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-17 · <strong>Trạng thái:</strong> ✅ Đã triển khai (52 unit test pass) · <strong>Không có migration, không cần chạy SQL</strong></p>
+<hr />
+<h2 id="1-chuc-nang-nay-lam-gi">1. Chức năng này làm gì<a class="headerlink" href="#1-chuc-nang-nay-lam-gi" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Chỉ những địa chỉ IP / dải mạng <strong>đã khai báo trước</strong> mới truy cập được <strong>khu vực quản trị hệ thống</strong> từ bên ngoài. Mọi địa chỉ khác bị chặn.</p>
+</blockquote>
+<p>Yêu cầu:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Yêu cầu</th>
+<th>Đáp ứng ở</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>a)</strong></td>
+<td><strong>Giao diện</strong> cho phép cấu hình danh sách địa chỉ IP / dải mạng được phép truy cập khu vực quản trị hệ thống từ bên ngoài</td>
+<td><a href="#ui">§6 — màn hình cấu hình</a></td>
+</tr>
+<tr>
+<td><strong>b)</strong></td>
+<td><strong>Chức năng</strong> cho phép cấu hình danh sách nói trên</td>
+<td><a href="#ui">§6.2 — lưu &amp; validate</a> + <a href="#luong-cuong-che">§5 — cưỡng chế</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Vì sao (b) bao gồm cả phần cưỡng chế</p>
+<p>Câu (b) nói <em>"chức năng cho phép cấu hình"</em>. Đọc sát chữ thì đó chỉ là phần backend lưu cấu hình. Nhưng <strong>cấu hình một danh sách mà không cưỡng chế thì chỉ còn cái vỏ</strong> — danh sách nằm im, không chặn ai. Nên (b) được hiểu là "chức năng đằng sau giao diện", gồm cả lưu, validate và thi hành.</p>
+</div>
+<h3 id="ai-bi-anh-huong-ai-khong">Ai bị ảnh hưởng, ai không<a class="headerlink" href="#ai-bi-anh-huong-ai-khong" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A["👤 Quản trị viên&lt;br/&gt;trong danh sách"] --&gt;|"✅ vào được"| S["🖥️ eKMapServer"]
+    B["👤 Quản trị viên&lt;br/&gt;NGOÀI danh sách"] --&gt;|"❌ 403"| S
+    C["👤 Người dùng Manager&lt;br/&gt;(không phải admin)"] --&gt;|"✅ không bị đụng"| S
+    D["🤖 Hệ thống khách&lt;br/&gt;gọi API bằng apikey"] --&gt;|"✅ không bị đụng"| S
+
+    style B fill:#ffcdd2,stroke:#c62828
+    style A fill:#c8e6c9,stroke:#2e7d32
+    style C fill:#c8e6c9,stroke:#2e7d32
+    style D fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Đây là danh sách ĐƯỢC PHÉP, không phải danh sách BỊ CHẶN</p>
+<p>Khác biệt nằm ở <strong>mặc định khi không khớp gì cả</strong>:</p>
+<pre class="mermaid"><code>flowchart TD
+    Q{"IP có trong danh sách?"}
+    Q --&gt;|"có"| A["✅ cho qua"]
+    Q --&gt;|"KHÔNG"| B["❌ CHẶN"]
+    style B fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Gọi là <strong>default-deny</strong>. Lý do bắt buộc phải vậy: kẻ tấn công đến từ <strong>bất kỳ IP nào trên đời</strong> — không liệt kê hết được. Còn người được phép thì <strong>hữu hạn và biết trước</strong> (văn phòng, VPN, vài IP tĩnh). Nên liệt kê cái hữu hạn, chặn phần còn lại.</p>
+<p>→ Hệ quả trực tiếp: <strong>khai thiếu IP của chính mình là tự khoá vĩnh viễn</strong>. Xem <a href="#self-lockout">§7</a>.</p>
+</div>
+<hr />
+<h2 id="ban-do-code">2. Bản đồ code — cái gì nằm ở đâu<a class="headerlink" href="#ban-do-code" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    subgraph CORE["📦 eKMapServer.Core (thư viện thuần, KHÔNG có ASP.NET)"]
+        P["AdminIpPolicy.cs&lt;br/&gt;&lt;i&gt;ParseRules · IsAllowed · Normalize&lt;/i&gt;"]
+        N["AdminIpNetwork.cs&lt;br/&gt;&lt;i&gt;Contains — so N bit đầu&lt;/i&gt;"]
+        R["AdminIpRuleDto.cs&lt;br/&gt;&lt;i&gt;hình dạng 1 rule&lt;/i&gt;"]
+        SET["AppSettings.cs + AppSettingProvider.cs&lt;br/&gt;&lt;i&gt;khai 3 setting&lt;/i&gt;"]
+        P --&gt; N
+        P --&gt; R
+    end
+
+    subgraph APP["📦 eKMapServer.Application"]
+        HS["HostSettingsAppService.cs&lt;br/&gt;&lt;i&gt;đọc/ghi + GUARD chống tự khoá&lt;/i&gt;"]
+        SESS["SessionAppService.cs&lt;br/&gt;&lt;i&gt;trả ClientIpAddress cho form&lt;/i&gt;"]
+    end
+
+    subgraph FILTER["📦 eKMapServer.Web.Filter"]
+        MW["AdminIpRestrictionMiddleware.cs&lt;br/&gt;&lt;i&gt;CƯỠNG CHẾ&lt;/i&gt;"]
+        CH["ContextHelper.GetClientIpAddress()"]
+        MW --&gt; CH
+    end
+
+    subgraph MVC["📦 eKMapServer.Web.Mvc"]
+        ST["Startup.cs&lt;br/&gt;&lt;i&gt;cắm middleware + ForwardedHeaders&lt;/i&gt;"]
+        CFG["appsettings.json&lt;br/&gt;&lt;i&gt;van cứu hộ + KnownProxies&lt;/i&gt;"]
+    end
+
+    subgraph NG["🅰️ Angular Administrator"]
+        UI["settings.component.ts/html&lt;br/&gt;&lt;i&gt;bảng CRUD rule&lt;/i&gt;"]
+    end
+
+    HS --&gt; P
+    SESS --&gt; P
+    MW --&gt; P
+    ST --&gt; MW
+    ST --&gt; CFG
+    UI --&gt;|"abp.services.app.hostSettings"| HS
+    UI --&gt;|"abp.services.app.session"| SESS
+
+    style P fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style MW fill:#ffe0b2,stroke:#e65100,stroke-width:2px
+    style HS fill:#ffe0b2,stroke:#e65100,stroke-width:2px</code></pre>
+<div class="admonition question">
+<p class="admonition-title">Vì sao <code>AdminIpPolicy</code> nằm ở <code>Core</code> mà không nằm cạnh middleware?</p>
+<p>Vì <strong>hai nơi cùng cần nó</strong>, và chúng ở hai tầng khác nhau:</p>
+<pre class="mermaid"><code>flowchart LR
+    MW["Middleware&lt;br/&gt;(Web.Filter)"] --&gt;|"cưỡng chế"| P["AdminIpPolicy&lt;br/&gt;(Core)"]
+    HS["AppService&lt;br/&gt;(Application)"] --&gt;|"guard khi lưu"| P
+
+    style P fill:#fff9c4,stroke:#f57f17,stroke-width:3px</code></pre>
+<p>Chiều phụ thuộc project là <code>Application ← Web.Core ← Web.Filter</code>. Đặt policy ở <code>Web.Filter</code> thì <strong>AppService không gọi được</strong> ⇒ mất guard chống tự khoá. <code>Core</code> là nơi duy nhất cả hai với tới.</p>
+<p>Hệ quả: <code>Core</code> không có ASP.NET Core ⇒ <strong>không dùng được <code>HttpOverrides.IPNetwork</code></strong> ⇒ tự viết <code>AdminIpNetwork</code> (<code>net5.0</code> cũng chưa có <code>System.Net.IPNetwork</code>, mãi .NET 8 mới có). Bù lại: <strong>52 test</strong> phủ kín phép so bit.</p>
+</div>
+<hr />
+<h2 id="3-ba-setting-toan-bo-du-lieu-cua-chuc-nang">3. Ba setting — toàn bộ dữ liệu của chức năng<a class="headerlink" href="#3-ba-setting-toan-bo-du-lieu-cua-chuc-nang" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    subgraph DB["🗄️ Bảng AbpSettings (có sẵn, nvarchar(max))"]
+        S1["App.Security.AdminIpRestriction.IsEnabled&lt;br/&gt;&lt;b&gt;false&lt;/b&gt;"]
+        S2["App.Security.AdminIpRestriction.Rules&lt;br/&gt;&lt;b&gt;[] — mảng JSON&lt;/b&gt;"]
+        S3["App.Security.AdminIpRestriction.AlwaysAllowLoopback&lt;br/&gt;&lt;b&gt;true&lt;/b&gt;"]
+    end
+    style DB fill:#e3f2fd,stroke:#1565c0</code></pre>
+<p>Một rule trông như thế này:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cidr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;192.168.1.0/24&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Văn phòng Hà Nội&quot;</span><span class="p">,</span><span class="w">        </span><span class="nt">&quot;isActive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;createdTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-17T10:00:00&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cidr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;203.0.113.9&quot;</span><span class="p">,</span><span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IP tĩnh anh A làm từ xa&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;isActive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;createdTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-17T10:05:00&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;cidr&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.0.0.0/8&quot;</span><span class="p">,</span><span class="w">     </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VPN — tạm tắt&quot;</span><span class="p">,</span><span class="w">           </span><span class="nt">&quot;isActive&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;createdBy&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;createdTime&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-16T09:00:00&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">]</span>
+</code></pre></div>
+<h3 id="vong-oi-mot-rule">Vòng đời một rule<a class="headerlink" href="#vong-oi-mot-rule" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Moi: admin bấm "Thêm rule"
+    Moi --&gt; Active: Lưu (isActive = true)
+    Active --&gt; Inactive: bỏ tick "Bật"&lt;br/&gt;(vd. VPN bảo trì)
+    Inactive --&gt; Active: tick lại
+    Active --&gt; [*]: xoá
+    Inactive --&gt; [*]: xoá
+
+    note right of Inactive
+        Rule TẮT không được tính
+        khi khớp IP — y hệt như
+        không tồn tại.
+    end note</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Vì sao <code>description</code> bắt buộc</p>
+<p>Nhìn <code>10.0.0.0/24</code> sáu tháng sau, không ai nhớ đó là mạng gì → <strong>không ai dám xoá</strong> → danh sách phình mãi → mất hết ý nghĩa bảo vệ. Ép mô tả là <strong>kiểm soát vận hành</strong>, không phải hình thức.</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Không cần chạy SQL nào {#khong-can-sql}</p>
+<p><code>AbpSettings</code> <strong>không phải danh mục setting</strong> — nó chỉ lưu <strong>giá trị đã bị đổi khác mặc định</strong>.</p>
+<pre class="mermaid"><code>flowchart TD
+    Q1{"Có row trong&lt;br/&gt;AbpSettings?"} --&gt;|"có"| V1["dùng giá trị đó"]
+    Q1 --&gt;|"không"| Q2{"appsettings.json có&lt;br/&gt;key App:&amp;lt;tên setting&amp;gt;?"}
+    Q2 --&gt;|"có"| V2["dùng giá trị đó"]
+    Q2 --&gt;|"không"| V3["dùng default hardcode&lt;br/&gt;trong AppSettingProvider&lt;br/&gt;&lt;b&gt;false / [] / true&lt;/b&gt;"]
+
+    style V3 fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p>→ Deploy code xong, 3 setting <strong>tự có giá trị</strong>, bảng <code>AbpSettings</code> vẫn trống trơn. Row đầu tiên chỉ sinh khi admin bấm Lưu.</p>
+</div>
+<hr />
+<h2 id="hai-lop">4. Hai lớp chính sách IP — khác trục, không được trộn<a class="headerlink" href="#hai-lop" title="Permanent link">&para;</a></h2>
+<p>Hệ thống đã có <strong>một</strong> lớp allowlist IP từ trước. Lớp mới <strong>không</strong> thay thế nó.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph L1["🔵 LỚP DỊCH VỤ (đã có từ trước)"]
+        Q1["&lt;i&gt;Câu hỏi:&lt;/i&gt;&lt;br/&gt;token này được gọi từ IP nào?"]
+        D1["Độ mịn: &lt;b&gt;từng apikey&lt;/b&gt;"]
+        C1["Cấu hình ở: màn hình apikey (Manager)"]
+        W1["Đường: &lt;b&gt;/ekmapserver/*&lt;/b&gt;"]
+        F1["Code: GSVToken.IpAddress&lt;br/&gt;GISController.IsValidTokenAddress"]
+    end
+
+    subgraph L2["🟠 LỚP QUẢN TRỊ (chức năng này)"]
+        Q2["&lt;i&gt;Câu hỏi:&lt;/i&gt;&lt;br/&gt;ai được quản trị, từ IP nào?"]
+        D2["Độ mịn: &lt;b&gt;toàn hệ thống&lt;/b&gt;"]
+        C2["Cấu hình ở: trang Settings (Administrator)"]
+        W2["Đường: &lt;b&gt;mọi thứ TRỪ /ekmapserver&lt;/b&gt;"]
+        F2["Code: AdminIpPolicy + middleware"]
+    end
+
+    style L1 fill:#e3f2fd,stroke:#1565c0
+    style L2 fill:#fff3e0,stroke:#e65100</code></pre>
+<p>→ Vì vậy middleware <strong>loại trừ <code>/ekmapserver</code></strong>: surface đó đã có lớp của nó quản. Áp thêm allowlist quản trị lên đó nghĩa là bắt mọi hệ thống khách phải nằm trong dải mạng của quản trị viên — <strong>vô nghĩa nghiệp vụ và chết dịch vụ ngay khi bật</strong>.</p>
+<div class="admonition bug">
+<p class="admonition-title">Bug thật trong lớp dịch vụ — đừng sao chép</p>
+<p><code>GISController.Validation.cs:69</code> khớp IP bằng <strong>tiền tố chuỗi</strong>, và còn ngược chiều:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IpAdress</span><span class="p">.</span><span class="n">StartsWith</span><span class="p">(</span><span class="n">ip</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">null</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// ❌ SAI</span>
+</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    A["allowlist: 192.168.1.10"] --&gt; C{"StartsWith?"}
+    B["client: 192.168.1.1"] --&gt; C
+    C --&gt;|"'192.168.1.10'.StartsWith('192.168.1.1')&lt;br/&gt;= TRUE"| D["❌ CHO QUA&lt;br/&gt;một máy KHÁC hoàn toàn"]
+    style D fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Lớp quản trị <strong>bắt buộc</strong> khớp trên bit (<a href="#matching">§8</a>). Lỗi ở lớp token nằm ngoài phạm vi — cần sửa riêng.</p>
+</div>
+<hr />
+<h2 id="luong-cuong-che">5. Luồng CƯỠNG CHẾ — một request đi từ đâu đến đâu<a class="headerlink" href="#luong-cuong-che" title="Permanent link">&para;</a></h2>
+<h3 id="51-toan-canh-request-i-qua-nhung-tram-nao">5.1. Toàn cảnh: request đi qua những trạm nào<a class="headerlink" href="#51-toan-canh-request-i-qua-nhung-tram-nao" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant B as 🌐 Trình duyệt
+    participant K as Kestrel
+    participant FH as UseForwardedHeaders
+    participant AU as UseAuthentication
+    participant MW as ⭐ AdminIpRestriction
+    participant EP as Endpoint (/Administrator…)
+
+    B-&gt;&gt;K: GET /Administrator
+    K-&gt;&gt;FH: RemoteIpAddress = IP đối tác TCP
+    Note over FH: Nếu có proxy tin cậy:&lt;br/&gt;đọc X-Forwarded-For&lt;br/&gt;→ sửa RemoteIpAddress = IP THẬT
+    FH-&gt;&gt;AU: 
+    Note over AU: Giải mã cookie&lt;br/&gt;→ dựng HttpContext.User&lt;br/&gt;(kèm role claim)
+    AU-&gt;&gt;MW: 
+    Note over MW: 5 cửa gạt (5.2)&lt;br/&gt;rồi mới so IP
+
+    alt IP được phép
+        MW-&gt;&gt;EP: cho qua
+        EP--&gt;&gt;B: 200 + trang
+    else IP không được phép
+        MW--&gt;&gt;B: ❌ 403 + ghi log
+        Note over MW: Endpoint KHÔNG BAO GIỜ chạy
+    end</code></pre>
+<div class="admonition info">
+<p class="admonition-title">Vì sao middleware phải nằm đúng chỗ đó</p>
+<pre class="mermaid"><code>flowchart LR
+    A["UseForwardedHeaders"] --&gt; B["UseAuthentication"] --&gt; C["⭐ AdminIpRestriction"] --&gt; D["UseAuthorization"] --&gt; E["Endpoint"]
+    style C fill:#ffe0b2,stroke:#e65100,stroke-width:3px</code></pre>
+<table>
+<thead>
+<tr>
+<th>Mốc</th>
+<th>Vì sao</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sau</strong> <code>UseForwardedHeaders</code></td>
+<td>Cần IP đã được sửa đúng, không phải IP proxy</td>
+</tr>
+<tr>
+<td><strong>Sau</strong> <code>UseAuthentication</code></td>
+<td>Cần <code>HttpContext.User</code> để biết ai là Admin. Đặt trước ⇒ <code>User</code> luôn ẩn danh ⇒ <strong>mất một nửa phạm vi cưỡng chế, mà lại IM LẶNG</strong></td>
+</tr>
+<tr>
+<td><strong>Trước</strong> <code>UseAuthorization</code> + endpoint</td>
+<td>Từ chối phải xảy ra <strong>trước khi code nghiệp vụ chạy</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="52-ben-trong-middleware-5-cua-gat">5.2. Bên trong middleware: 5 cửa gạt<a class="headerlink" href="#52-ben-trong-middleware-5-cua-gat" title="Permanent link">&para;</a></h3>
+<p>Mỗi cửa gạt ra là <strong>cho qua luôn</strong> — chỉ số ít request thật sự đi tới phép so IP.</p>
+<pre class="mermaid"><code>flowchart TD
+    R["📥 Request"] --&gt; G1{"1️⃣ appsettings.json&lt;br/&gt;Disabled = true?"}
+    G1 --&gt;|"có"| P1["✅ cho qua&lt;br/&gt;&lt;i&gt;van cứu hộ&lt;/i&gt;"]
+    G1 --&gt;|"không"| G2{"2️⃣ Path bắt đầu&lt;br/&gt;/ekmapserver?"}
+    G2 --&gt;|"có"| P2["✅ cho qua&lt;br/&gt;&lt;i&gt;dịch vụ GIS — lớp token lo&lt;/i&gt;"]
+    G2 --&gt;|"không"| G3{"3️⃣ IsEnabled = false?"}
+    G3 --&gt;|"tắt"| P3["✅ cho qua"]
+    G3 --&gt;|"bật"| G4{"4️⃣ Truy cập KHU VỰC&lt;br/&gt;quản trị?"}
+    G4 --&gt;|"không"| P4["✅ cho qua&lt;br/&gt;&lt;i&gt;user Manager làm việc&lt;/i&gt;"]
+    G4 --&gt;|"có"| G5{"5️⃣ IP khớp rule&lt;br/&gt;đang bật?"}
+    G5 --&gt;|"khớp"| P5["✅ cho qua"]
+    G5 --&gt;|"KHÔNG khớp"| D["❌ 403 + ghi log"]
+
+    style D fill:#ffcdd2,stroke:#c62828,stroke-width:3px
+    style P1 fill:#c8e6c9,stroke:#2e7d32
+    style P2 fill:#c8e6c9,stroke:#2e7d32
+    style P3 fill:#c8e6c9,stroke:#2e7d32
+    style P4 fill:#c8e6c9,stroke:#2e7d32
+    style P5 fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p><strong>Cửa 4 — "khu vực quản trị hệ thống" nhận diện thế nào</strong> {#khu-vuc}</p>
+<pre class="mermaid"><code>flowchart TD
+    Q["Truy cập khu vực quản trị?"] --&gt; A{"Path là&lt;br/&gt;/Administrator hoặc /hangfire?"}
+    A --&gt;|"có"| Y["✅ CÓ → kiểm IP"]
+    A --&gt;|"không"| B{"Đã đăng nhập VÀ&lt;br/&gt;có role 'Admin'?"}
+    B --&gt;|"có"| Y
+    B --&gt;|"không"| N["❌ không — cho qua&lt;br/&gt;&lt;i&gt;user Manager làm việc bình thường&lt;/i&gt;"]
+
+    style Y fill:#ffe0b2,stroke:#e65100
+    style N fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Vì sao chặn theo ĐƯỜNG DẪN thôi là THỦNG</p>
+<p>Trang <code>/Administrator</code> <strong>chỉ là cái vỏ HTML + JS</strong>. Mọi việc thật sự đi qua đường khác — trích từ chính app đang chạy (<code>/AbpServiceProxies/GetAll</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/api/services/app/HostSettings/UpdateAllSettings   ← SỬA CẤU HÌNH HỆ THỐNG
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/api/services/app/User/Create                      ← TẠO TÀI KHOẢN
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>/api/services/app/Role/Create                      ← TẠO VAI TRÒ
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/api/services/app/AuditLog/DeleteLog               ← XOÁ NHẬT KÝ
+</code></pre></div>
+<p><strong>Không đường nào bắt đầu bằng <code>/Administrator</code>.</strong></p>
+<pre class="mermaid"><code>flowchart TD
+    A["👤 Admin ngoài allowlist&lt;br/&gt;(vẫn giữ cookie hợp lệ)"] --&gt; B["① GET /Administrator"]
+    B --&gt; B1["✅ 403 — chặn được cái vỏ"]
+    A --&gt; C["② curl POST /api/services/app/&lt;br/&gt;HostSettings/UpdateAllSettings&lt;br/&gt;+ cookie admin"]
+    C --&gt; D{"Chỉ chặn theo đường dẫn?"}
+    D --&gt;|"CÓ"| E["❌ path không phải /Administrator&lt;br/&gt;⇒ CHO QUA&lt;br/&gt;⇒ sửa được cấu hình từ IP ngoài"]
+    D --&gt;|"+ cửa danh tính"| F["✅ cookie mang role Admin&lt;br/&gt;⇒ kiểm IP ⇒ 403"]
+
+    style E fill:#ffcdd2,stroke:#c62828,stroke-width:3px
+    style F fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p><strong>Khoá cửa chính, để ngỏ cửa sổ.</strong> Kẻ tấn công không cần cái vỏ Angular — họ gọi thẳng API.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Sao không gộp <code>/api/services/app</code> vào danh sách khu vực cho gọn?</p>
+<p>Vì <strong>user Manager cũng gọi đúng tiền tố đó</strong> (<code>/api/services/app/GSVMap/...</code>). ABP đặt <strong>mọi</strong> app service dưới một tiền tố duy nhất — không tách được bằng đường dẫn. Gộp vào là chặn oan Manager.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Điều kiện</th>
+<th>Bắt được gì</th>
+<th>Vì sao chưa đủ một mình</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Đường dẫn</strong> (<code>/Administrator</code>, <code>/hangfire</code>)</td>
+<td>Cửa vào chính, <strong>kể cả khi chưa đăng nhập</strong></td>
+<td>Không bao được API quản trị ở <code>/api/services/app/*</code></td>
+</tr>
+<tr>
+<td><strong>Danh tính Admin</strong></td>
+<td>Mọi request của tài khoản quản trị, <strong>mọi đường dẫn</strong> — kể cả API nói trên</td>
+<td>Không bao được lúc <strong>chưa</strong> có danh tính</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Cửa danh tính KHÔNG mở rộng phạm vi ra ngoài yêu cầu</p>
+<p>Câu hỏi mấu chốt: <em>gọi <code>HostSettings/UpdateAllSettings</code> có phải là "truy cập khu vực quản trị hệ thống" không?</em> — <strong>Có.</strong> Đó chính là chức năng quản trị, chỉ khác cái URL.</p>
+<p>Yêu cầu muốn bảo vệ <strong>năng lực quản trị</strong>, không phải bảo vệ một trang HTML. Cửa danh tính chỉ <strong>nhận diện đúng và đủ</strong> khu vực đó, kể cả khi nó được truy cập qua URL không mang chữ "Administrator".</p>
+<p>Bỏ cửa này thì vẫn "qua bài kiểm tra" nếu người duyệt chỉ thử mở <code>/Administrator</code> từ ngoài — nhưng tính năng <strong>thực chất là thủng</strong>.</p>
+</div>
+<div class="admonition check">
+<p class="admonition-title">Role claim nằm sẵn trong cookie — <code>IsInRole</code> không tốn query</p>
+<p>Đã kiểm chứng: <code>UserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory&lt;User, Role&gt;</code> kế thừa factory của ASP.NET Identity, nên role claim được nhét vào cookie lúc đăng nhập.</p>
+<p>Tương tự, đọc setting mỗi request <strong>không chạm DB</strong>: <code>Abp.dll</code> có <code>AbpApplicationSettingsCache</code>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title"><code>StartsWithSegments</code> chứ KHÔNG phải <code>string.StartsWith</code></p>
+<pre class="mermaid"><code>flowchart LR
+    A["/ekmapserverEVIL/..."] --&gt; B{"string.StartsWith&lt;br/&gt;('/ekmapserver')"}
+    B --&gt;|"TRUE 😱"| C["❌ lách sạch chính sách"]
+    A --&gt; D{"PathString.StartsWithSegments"}
+    D --&gt;|"FALSE ✅"| E["bị chặn đúng"]
+    style C fill:#ffcdd2,stroke:#c62828
+    style E fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p><code>StartsWithSegments</code> khớp theo <strong>ranh giới <code>/</code></strong> và <strong>không phân biệt hoa thường</strong>. Đây đúng <strong>cùng loại lỗi</strong> với bug <code>StartsWith</code> ở lớp token (<a href="#hai-lop">§4</a>) — trong repo này nó đã cắn một lần rồi.</p>
+</div>
+<h3 id="deny-response">5.3. Hình dạng phản hồi khi bị chặn<a class="headerlink" href="#deny-response" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    D["❌ Bị chặn"] --&gt; Q{"Loại request?"}
+    Q --&gt;|"AJAX&lt;br/&gt;(X-Requested-With / Accept: json)"| A["403 + JSON dạng lỗi ABP&lt;br/&gt;&lt;i&gt;Angular hiện được thông báo&lt;/i&gt;"]
+    Q --&gt;|"Điều hướng trang"| B["403 + text thông báo"]
+    D --&gt; L["📝 log4net: IP, path, user, thời điểm"]
+
+    style L fill:#e1f5fe,stroke:#0277bd</code></pre>
+<div class="admonition warning">
+<p class="admonition-title">Không tiết lộ chi tiết chính sách cho phía bị chặn</p>
+<p>Thông báo chỉ là <em>"Địa chỉ mạng của bạn không được phép truy cập chức năng quản trị."</em> — <strong>không</strong> kèm allowlist, không kèm "dải được phép là X". Đây là mặt tiền đối diện kẻ tấn công tiềm năng; chi tiết chỉ nằm trong <strong>log server</strong>.</p>
+<p>Log là bắt buộc: không có nó thì ca <em>"bị tấn công"</em> và ca <em>"admin thật bị chặn oan"</em> <strong>nhìn giống hệt nhau</strong>.</p>
+</div>
+<hr />
+<h2 id="ui">6. Luồng CẤU HÌNH — admin thêm rule và lưu<a class="headerlink" href="#ui" title="Permanent link">&para;</a></h2>
+<h3 id="61-man-hinh-tab-securitysettings-trang-settings">6.1. Màn hình (tab <em>Securitysettings</em>, trang Settings)<a class="headerlink" href="#61-man-hinh-tab-securitysettings-trang-settings" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌─ Giới hạn địa chỉ mạng quản trị ─────────────────────────────────────────┐
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│ ☑ Bật giới hạn địa chỉ mạng được phép quản trị từ xa                     │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│                                                                          │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  Bật │ Dải mạng / IP      │ Mô tả                    │                   │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│  ────┼────────────────────┼──────────────────────────┼────────────────── │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   ☑  │ 192.168.1.0/24     │ Văn phòng Hà Nội         │ 🗑                │
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│   ☑  │ 203.0.113.9        │ IP tĩnh anh A làm từ xa  │ 🗑                │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ☐  │ 10.0.0.0/8         │ VPN — tạm tắt            │ 🗑                │
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│                                                          [ + Thêm rule ] │
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│                                                                          │
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│  ☑ Luôn cho phép localhost (127.0.0.1, ::1)                              │
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│                                                                          │
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│  ✅ Địa chỉ hiện tại của bạn: 192.168.1.25 — đang được cho phép bởi rule │
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│     &quot;Văn phòng Hà Nội&quot;.                                                  │
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│                                                                          │
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>│  ℹ Chính sách này KHÔNG áp dụng cho dịch vụ GIS (/ekmapserver).          │
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>└──────────────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p>Bốn chi tiết là <strong>yêu cầu chức năng</strong>, không phải trang trí:</p>
+<pre class="mermaid"><code>flowchart TD
+    U1["1️⃣ Hiện IP hiện tại&lt;br/&gt;+ rule nào đang cho phép"] --&gt; R1["Người dùng KHÔNG THỂ tự biết IP&lt;br/&gt;server nhìn thấy (§9 — NAT).&lt;br/&gt;Không hiện ⇒ khai mò ⇒ bị guard&lt;br/&gt;từ chối mà không hiểu vì sao"]
+    U2["2️⃣ Cảnh báo live&lt;br/&gt;khi đang gõ"] --&gt; R2["Bắt lỗi TRƯỚC khi bấm Lưu,&lt;br/&gt;tốt hơn nhiều so với báo sau"]
+    U3["3️⃣ Xác nhận 2 bước&lt;br/&gt;khi tắt → bật"] --&gt; R3["Một trong số rất ít setting mà&lt;br/&gt;lưu sai = mất đường quay lại.&lt;br/&gt;Ma sát ở đây là CỐ Ý"]
+    U4["4️⃣ Ghi chú về /ekmapserver"] --&gt; R4["Chặn trước câu hỏi 'bật cái này&lt;br/&gt;có chết dịch vụ bản đồ không?'&lt;br/&gt;Không nói rõ ⇒ admin KHÔNG DÁM BẬT"]
+
+    style U1 fill:#fff9c4,stroke:#f57f17
+    style U2 fill:#fff9c4,stroke:#f57f17
+    style U3 fill:#fff9c4,stroke:#f57f17
+    style U4 fill:#fff9c4,stroke:#f57f17</code></pre>
+<h3 id="62-bam-luu-thi-chuyen-gi-xay-ra">6.2. Bấm Lưu thì chuyện gì xảy ra<a class="headerlink" href="#62-bam-luu-thi-chuyen-gi-xay-ra" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant A as 👤 Admin
+    participant NG as 🅰️ Angular
+    participant HS as HostSettingsAppService
+    participant P as AdminIpPolicy
+    participant SM as SettingManager
+    participant DB as 🗄️ AbpSettings
+
+    Note over NG: Lúc mở trang: gọi session.getCurrentLoginInformations()&lt;br/&gt;→ biết ClientIpAddress của chính admin
+    A-&gt;&gt;NG: sửa rule, bấm Lưu
+    NG-&gt;&gt;NG: adminIpError() — kiểm ở client
+    alt client thấy sai
+        NG--&gt;&gt;A: ❌ báo lỗi ngay, KHÔNG gọi server
+    end
+    NG-&gt;&gt;NG: nếu tắt→bật: hỏi xác nhận
+    NG-&gt;&gt;HS: updateAllSettings(settingSystem)
+
+    Note over HS: Toàn bộ validate ở ĐẦU hàm,&lt;br/&gt;TRƯỚC mọi lệnh ghi
+    HS-&gt;&gt;P: ParseRules(rules)
+    alt CIDR sai cú pháp
+        P--&gt;&gt;HS: FormatException
+        HS--&gt;&gt;NG: ❌ UserFriendlyException — KHÔNG ghi gì
+    end
+    HS-&gt;&gt;HS: mọi rule có description?
+    HS-&gt;&gt;HS: nếu IsEnabled: có rule nào đang bật?
+    HS-&gt;&gt;P: ⭐ IsAllowed(IP của CHÍNH admin đang lưu)
+    alt không khớp → sẽ tự khoá
+        P--&gt;&gt;HS: false
+        HS--&gt;&gt;NG: ❌ "Danh sách không cho phép địa chỉ&lt;br/&gt;hiện tại của bạn (192.168.1.25)"
+        Note over HS: KHÔNG ghi một dòng nào
+    end
+
+    HS-&gt;&gt;HS: gán CreatedBy = AbpSession.UserId&lt;br/&gt;CreatedTime = Clock.Now
+    HS-&gt;&gt;SM: ChangeSettingForApplicationAsync × 3
+    SM-&gt;&gt;DB: ghi Rules (JSON) + AlwaysAllowLoopback + IsEnabled
+    HS--&gt;&gt;NG: ✅
+    NG--&gt;&gt;A: "Cập nhật thành công"</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Vì sao guard ở SERVER là bắt buộc, client chặn không đủ</p>
+<pre class="mermaid"><code>flowchart TD
+    A["Admin gõ '10.0.0.0/8'"] --&gt; B{"Cú pháp đúng?"}
+    B --&gt;|"ĐÚNG — form thấy hợp lệ"| C["Client cho qua ✅"]
+    C --&gt; D{"Nhưng IP thật của admin&lt;br/&gt;có nằm trong 10.0.0.0/8?"}
+    D --&gt;|"KHÔNG — admin đang ở 192.168.1.25"| E["❌ TỰ KHOÁ"]
+    E --&gt; F["Chỉ SERVER biết IP thật&lt;br/&gt;của người đang bấm Lưu"]
+
+    style E fill:#ffcdd2,stroke:#c62828
+    style F fill:#fff9c4,stroke:#f57f17,stroke-width:3px</code></pre>
+<p>Client <strong>không thể</strong> biết. Và POST thẳng qua Postman thì bỏ qua client hoàn toàn.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title"><code>createdBy</code> do SERVER gán</p>
+<p>Client gửi lên bao nhiêu cũng bị ghi đè bằng <code>AbpSession.UserId</code>. Nếu tin client thì dấu vết <em>"ai thêm rule này"</em> giả mạo được ⇒ vô giá trị. Rule đã có từ trước thì <strong>giữ nguyên dấu vết gốc</strong>, không bị làm mới mỗi lần lưu.</p>
+</div>
+<hr />
+<h2 id="self-lockout">7. Chống tự khoá — ba lớp<a class="headerlink" href="#self-lockout" title="Permanent link">&para;</a></h2>
+<p>Đây là rủi ro lớn nhất của chức năng, và là <strong>cái giá của mô hình allowlist</strong> (<a href="#1-chức-năng-này-làm-gì">§1</a>).</p>
+<pre class="mermaid"><code>flowchart TD
+    X["😱 Admin khai nhầm allowlist"] --&gt; L1{"🛡️ Lớp 1&lt;br/&gt;Guard khi lưu&lt;br/&gt;&lt;i&gt;server kiểm IP người đang lưu&lt;/i&gt;"}
+    L1 --&gt;|"chặn được"| OK1["✅ Không lưu. Báo lỗi&lt;br/&gt;kèm IP hiện tại"]
+    L1 --&gt;|"lọt&lt;br/&gt;(vd. sửa thẳng DB)"| L2{"🛡️ Lớp 2&lt;br/&gt;Loopback luôn mở"}
+    L2 --&gt;|"cứu được"| OK2["✅ RDP vào máy chủ,&lt;br/&gt;mở localhost/Administrator"]
+    L2 --&gt;|"đã tắt van"| L3{"🛡️ Lớp 3&lt;br/&gt;appsettings.json&lt;br/&gt;Disabled = true"}
+    L3 --&gt;|"cứu được"| OK3["✅ Sửa file + restart"]
+    L3 --&gt;|"hết cách"| SQL["🗄️ UPDATE AbpSettings&lt;br/&gt;SET Value='false' + restart"]
+
+    style OK1 fill:#c8e6c9,stroke:#2e7d32
+    style OK2 fill:#c8e6c9,stroke:#2e7d32
+    style OK3 fill:#c8e6c9,stroke:#2e7d32
+    style SQL fill:#ffe0b2,stroke:#e65100</code></pre>
+<table>
+<thead>
+<tr>
+<th>Lớp</th>
+<th>Chặn tình huống</th>
+<th>Vì sao an toàn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Guard khi lưu</strong></td>
+<td>Gõ nhầm / quên IP của mình — <strong>tuyệt đại đa số ca</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2. Loopback luôn mở</strong></td>
+<td>Cần cứu hộ tại chỗ</td>
+<td>Vào được <code>127.0.0.1</code> nghĩa là <strong>đã ngồi trước máy chủ</strong></td>
+</tr>
+<tr>
+<td><strong>3. Van file cấu hình</strong></td>
+<td>Cứu hộ cuối</td>
+<td>Sửa được file nghĩa là <strong>đã vào được máy chủ</strong> — không phải đường leo thang từ xa</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Ca tự khoá tinh vi mà mô hình <code>isActive</code> tạo ra</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Admin ở 192.168.1.25"] --&gt; B["Rule 'Văn phòng' 192.168.1.0/24&lt;br/&gt;➡️ bỏ tick 'Bật'"]
+    B --&gt; C["Cú pháp vẫn đúng ✅&lt;br/&gt;Rule vẫn còn trong danh sách ✅"]
+    C --&gt; D["❌ Nhưng rule TẮT không được tính&lt;br/&gt;⇒ tự khoá"]
+    style D fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Guard bắt được vì nó gọi <strong>đúng <code>AdminIpPolicy.IsAllowed</code> mà middleware dùng</strong> — cùng một hàm, cùng một luật, không thể lệch nhau.</p>
+</div>
+<hr />
+<h2 id="matching">8. Cơ chế khớp IP<a class="headerlink" href="#matching" title="Permanent link">&para;</a></h2>
+<h3 id="81-ip-la-mot-con-so-khong-phai-chuoi">8.1. IP là một CON SỐ, không phải chuỗi<a class="headerlink" href="#81-ip-la-mot-con-so-khong-phai-chuoi" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>192.168.1.25  →  11000000.10101000.00000001.00011001  →  3232235801
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>                 └─192─┘ └─168──┘ └──1───┘ └──25──┘
+</code></pre></div>
+<h3 id="82-24-nghia-la-24-bit-au-phai-giong">8.2. <code>/24</code> nghĩa là "24 bit đầu phải giống"<a class="headerlink" href="#82-24-nghia-la-24-bit-au-phai-giong" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>192.168.1.0/24
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>11000000.10101000.00000001 . 00000000
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>└────── 24 bit khoá ──────┘  └8 bit tự do┘  →  2⁸ = 256 địa chỉ (.0 → .255)
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>CIDR</th>
+<th>Bit tự do</th>
+<th>Số IP</th>
+<th>Thường là</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/32</code></td>
+<td>0</td>
+<td><strong>1</strong></td>
+<td>đúng một máy</td>
+</tr>
+<tr>
+<td><code>/24</code></td>
+<td>8</td>
+<td>256</td>
+<td>một văn phòng nhỏ</td>
+</tr>
+<tr>
+<td><code>/16</code></td>
+<td>16</td>
+<td>65.536</td>
+<td>mạng lớn</td>
+</tr>
+<tr>
+<td><code>/8</code></td>
+<td>24</td>
+<td>~16,7 triệu</td>
+<td>cả dải <code>10.x.x.x</code></td>
+</tr>
+<tr>
+<td><code>/0</code></td>
+<td>32</td>
+<td><strong>tất cả</strong></td>
+<td>mọi IP</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Prefix càng lớn ⇒ dải càng nhỏ.</strong></p>
+<h3 id="83-khop-mot-phep-and-roi-so-sanh">8.3. Khớp = một phép AND rồi so sánh<a class="headerlink" href="#83-khop-mot-phep-and-roi-so-sanh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Client 192.168.1.25 :  11000000.10101000.00000001.00011001
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Mask   /24          :  11111111.11111111.11111111.00000000
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>AND                 =  11000000.10101000.00000001.00000000  = 192.168.1.0  ✅ KHỚP
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Client 192.168.2.1  :  11000000.10101000.00000010.00000001
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>AND mask            =  11000000.10101000.00000010.00000000  = 192.168.2.0  ❌ ≠ 192.168.1.0
+</code></pre></div>
+<p>Phép AND chỉ là <em>"xoá sạch phần bit tự do, giữ phần mạng"</em>. Rồi so hai số. Đó là toàn bộ <code>AdminIpNetwork.Contains</code>.</p>
+<pre class="mermaid"><code>flowchart TD
+    A["Client IP"] --&gt; B["Chuẩn hoá:&lt;br/&gt;::ffff:192.168.1.25 → 192.168.1.25"]
+    B --&gt; C{"Loopback &amp;&amp; van bật?"}
+    C --&gt;|"có"| Y["✅ cho phép"]
+    C --&gt;|"không"| D["Duyệt từng rule đang isActive"]
+    D --&gt; E{"AND + so sánh&lt;br/&gt;khớp?"}
+    E --&gt;|"khớp 1 cái"| Y
+    E --&gt;|"hết rule, không cái nào khớp"| N["❌ chặn (default-deny)"]
+
+    style Y fill:#c8e6c9,stroke:#2e7d32
+    style N fill:#ffcdd2,stroke:#c62828</code></pre>
+<h3 id="84-chuan-hoa-moi-thu-ve-mot-dang-cidr">8.4. Chuẩn hoá: mọi thứ về một dạng CIDR<a class="headerlink" href="#84-chuan-hoa-moi-thu-ve-mot-dang-cidr" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A["192.168.1.0/24"] --&gt; Z["AdminIpNetwork"]
+    B["203.0.113.9"] --&gt;|"tự thành /32"| Z
+    C["2001:db8::1"] --&gt;|"tự thành /128"| Z
+    style Z fill:#fff9c4,stroke:#f57f17</code></pre>
+<p>Nhờ vậy phía sau chỉ còn <strong>một phép khớp duy nhất</strong>, không phân nhánh theo kiểu nhập. <em>(Dạng dải <code>a-b</code> cố ý không hỗ trợ — dải nào cũng biểu diễn được bằng vài CIDR, bớt tiện một chút đổi lấy bề mặt lỗi nhỏ hơn.)</em></p>
+<div class="admonition bug">
+<p class="admonition-title">Bẫy <code>::ffff:192.168.1.25</code> — IPv4 bọc trong IPv6</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Client IPv4 nối vào&lt;br/&gt;Kestrel dual-stack"] --&gt; B[".NET trả&lt;br/&gt;::ffff:192.168.1.25&lt;br/&gt;&lt;i&gt;AddressFamily = IPv6&lt;/i&gt;"]
+    B --&gt; C{"So với rule&lt;br/&gt;192.168.1.0/24 (IPv4)"}
+    C --&gt;|"KHÔNG gỡ bọc"| D["❌ khác AddressFamily&lt;br/&gt;⇒ chặn nhầm ADMIN THẬT&lt;br/&gt;mà log hiện chuỗi trông rất đúng"]
+    C --&gt;|"gỡ bọc trước"| E["✅ khớp đúng"]
+    style D fill:#ffcdd2,stroke:#c62828
+    style E fill:#c8e6c9,stroke:#2e7d32</code></pre>
+</div>
+<hr />
+<h2 id="cam-bay">9. Hai cạm bẫy về mạng<a class="headerlink" href="#cam-bay" title="Permanent link">&para;</a></h2>
+<h3 id="91-reverse-proxy-che-mat-ip-that-forwardedheaders-la-bat-buoc">9.1. Reverse proxy che mất IP thật — <strong><code>ForwardedHeaders</code> là bắt buộc</strong><a class="headerlink" href="#91-reverse-proxy-che-mat-ip-that-forwardedheaders-la-bat-buoc" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A["Admin thật&lt;br/&gt;203.0.113.9"] --&gt; P["Reverse proxy&lt;br/&gt;10.0.0.2"]
+    B["Kẻ tấn công&lt;br/&gt;198.51.100.7"] --&gt; P
+    P --&gt; S["eKMapServer&lt;br/&gt;&lt;b&gt;RemoteIpAddress = 10.0.0.2&lt;/b&gt;&lt;br/&gt;với MỌI request"]
+    S --&gt; D{"Allowlist"}
+    D --&gt;|"có 10.0.0.2"| X["❌ Cho qua TẤT CẢ&lt;br/&gt;kể cả kẻ tấn công"]
+    D --&gt;|"không có 10.0.0.2"| Y["❌ Chặn TẤT CẢ&lt;br/&gt;kể cả admin thật"]
+
+    style X fill:#ffcdd2,stroke:#c62828
+    style Y fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Chính sách khi đó <strong>không bảo vệ gì mà vẫn báo cáo là đã bật</strong> — tệ hơn cả không có.</p>
+<p>Proxy giải quyết bằng header <code>X-Forwarded-For: &lt;IP thật&gt;</code>. Nhưng header là <strong>chữ do người gửi tự đặt</strong>:</p>
+<pre class="mermaid"><code>flowchart TD
+    A["curl -H 'X-Forwarded-For: 192.168.1.25'"] --&gt; B{"KnownProxies có khai?"}
+    B --&gt;|"RỖNG — tin mù quáng"| C["❌ Tự xưng IP nào cũng được&lt;br/&gt;⇒ chính sách sụp đổ, IM LẶNG"]
+    B --&gt;|"CÓ khai IP proxy"| D["✅ Kẻ tấn công nối thẳng vào server&lt;br/&gt;⇒ không thuộc KnownProxies&lt;br/&gt;⇒ header bị VỨT ⇒ thấy IP thật ⇒ chặn"]
+
+    style C fill:#ffcdd2,stroke:#c62828
+    style D fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Hai cấu hình LOẠI TRỪ nhau — phải chọn theo thực tế triển khai</p>
+<table>
+<thead>
+<tr>
+<th>Triển khai</th>
+<th><code>ForwardedHeaders:KnownProxies</code></th>
+<th>Hậu quả nếu chọn sai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Không có proxy</strong></td>
+<td>để <strong>rỗng</strong> <code>[]</code> → <code>UseForwardedHeaders</code> không kích hoạt</td>
+<td>Khai thừa ⇒ ai cũng giả mạo IP bằng header</td>
+</tr>
+<tr>
+<td><strong>Có proxy</strong></td>
+<td>khai IP proxy, vd <code>["10.0.0.2"]</code></td>
+<td>Khai thiếu ⇒ <strong>chặn nhầm cả nhà</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Mặc định trong repo là <strong>mảng rỗng</strong> — an toàn cho triển khai không proxy. <strong>Đây là câu hỏi cho bên vận hành, không suy ra được từ code.</strong></p>
+<p><em>Kiểm chứng sau khi triển khai:</em> bật log (<a href="#deny-response">§5.3</a>) rồi đối chiếu IP ghi được với IP thật của một máy đã biết.</p>
+</div>
+<h3 id="92-nat-vi-sao-admin-khong-biet-ip-cua-chinh-minh">9.2. NAT — vì sao admin không biết IP của chính mình<a class="headerlink" href="#92-nat-vi-sao-admin-khong-biet-ip-cua-chinh-minh" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A["💻 Máy admin&lt;br/&gt;ipconfig → 192.168.1.25"] --&gt; R["🔀 Router NAT"]
+    R --&gt;|"ra Internet bằng&lt;br/&gt;IP công cộng của cả văn phòng"| I["🌐 113.160.45.7"]
+
+    A -.-&gt;|"nếu server TRONG LAN"| S1["🖥️ Server thấy&lt;br/&gt;&lt;b&gt;192.168.1.25&lt;/b&gt;"]
+    I -.-&gt;|"nếu server NGOÀI Internet"| S2["🖥️ Server thấy&lt;br/&gt;&lt;b&gt;113.160.45.7&lt;/b&gt;"]
+
+    style S1 fill:#e3f2fd,stroke:#1565c0
+    style S2 fill:#fff3e0,stroke:#e65100</code></pre>
+<table>
+<thead>
+<tr>
+<th>eKMapServer đặt ở</th>
+<th>Server thấy IP</th>
+<th>Allowlist phải khai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Trong LAN văn phòng</strong></td>
+<td><code>192.168.1.25</code> (nội bộ)</td>
+<td><code>192.168.1.0/24</code></td>
+</tr>
+<tr>
+<td><strong>Trên Internet / datacenter</strong></td>
+<td><code>113.160.45.7</code> (công cộng)</td>
+<td><code>113.160.45.7/32</code></td>
+</tr>
+</tbody>
+</table>
+<p>→ Admin gõ <code>ipconfig</code> thấy <code>192.168.1.25</code> và <strong>tưởng</strong> đó là IP cần khai. Nếu server ở ngoài Internet thì <strong>khai vào là tự khoá</strong>. Họ không có cách nào tự biết.</p>
+<p><strong>Đây chính là lý do form BẮT BUỘC phải hiện "địa chỉ hiện tại của bạn".</strong></p>
+<p>Các dải <strong>nội bộ</strong> (không bao giờ xuất hiện trên Internet — RFC1918):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>10.0.0.0/8        →  10.x.x.x
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>172.16.0.0/12     →  172.16.x.x – 172.31.x.x
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>192.168.0.0/16    →  192.168.x.x
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>127.0.0.0/8       →  loopback — chính máy đó (van cứu hộ)
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">IP động — bẫy vận hành quan trọng nhất</p>
+<p>Internet cáp quang gia đình thường cấp <strong>IP động</strong>: nhà mạng đổi IP sau mỗi lần reset modem hoặc sau vài ngày.</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Khai IP nhà của một người&lt;br/&gt;vào allowlist"] --&gt; B["Hôm sau nhà mạng đổi IP"]
+    B --&gt; C["❌ Người đó mất quyền quản trị&lt;br/&gt;mà không ai làm gì sai"]
+    style C fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Chỉ hai cách bền:</p>
+<table>
+<thead>
+<tr>
+<th>Cách</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IP tĩnh</strong></td>
+<td>Đăng ký gói có IP tĩnh với nhà mạng (thường mất phí)</td>
+</tr>
+<tr>
+<td><strong>VPN</strong> ⭐</td>
+<td>Người làm từ xa quay VPN vào công ty ⇒ ra bằng IP công ty ⇒ allowlist chỉ cần khai dải công ty. <strong>Phổ biến hơn</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="file-list">10. Danh sách file<a class="headerlink" href="#file-list" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    subgraph N["🆕 File mới (6)"]
+        direction TB
+        n1["Core/Security/AdminIpPolicy.cs"]
+        n2["Core/Security/AdminIpNetwork.cs"]
+        n3["Core/Security/AdminIpRuleDto.cs"]
+        n4["Web.Filter/Security/AdminIpRestrictionMiddleware.cs"]
+        n5["Application/…/AdminIpRestrictionSettingsEditDto.cs"]
+        n6["Tests/Security/AdminIpPolicy_Tests.cs — 52 test"]
+    end
+    subgraph M["✏️ File sửa (9)"]
+        direction TB
+        m1["Core/Configuration/AppSettings.cs"]
+        m2["Core/Configuration/AppSettingProvider.cs"]
+        m3["Core/Localization/…/eKMapServer.xml + -vi.xml"]
+        m4["Web.Filter/Common/ContextHelper.cs"]
+        m5["Application/…/HostSettingsAppService.cs"]
+        m6["Application/…/SecuritySettingsEditDto.cs"]
+        m7["Application/Sessions/SessionAppService.cs + Output DTO"]
+        m8["Web.Mvc/Startup/Startup.cs + appsettings.json"]
+        m9["Angular settings.component.ts + .html"]
+    end
+    style N fill:#e8f5e9,stroke:#2e7d32
+    style M fill:#fff3e0,stroke:#e65100</code></pre>
+<p>Chi tiết đáng lưu ý:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Điểm cần biết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ContextHelper.cs</code></td>
+<td><strong>Thêm</strong> <code>GetClientIpAddress()</code>, <strong>không sửa</strong> <code>GetIpAdress()</code> cũ — <code>IPLimiter</code>/<code>AuditLogger</code> đang dùng</td>
+</tr>
+<tr>
+<td><code>HostSettingsAppService.cs</code></td>
+<td>Inject <strong><code>IClientInfoProvider</code></strong> (abstraction của ABP) chứ không phải <code>IHttpContextAccessor</code> — để tầng <code>Application</code> không dính ASP.NET Core</td>
+</tr>
+<tr>
+<td><code>AppSettingProvider.cs</code></td>
+<td><code>isVisibleToClients</code> <strong>để mặc định = false</strong> ⚠</td>
+</tr>
+<tr>
+<td><code>eKMapServerTestModule.cs</code></td>
+<td><strong>Sửa lỗi có sẵn</strong>: gọi <code>eKMapServerEntityFrameworkModule</code> (tên cũ) ⇒ test project <strong>không biên dịch được từ lâu</strong>. Đổi thành <code>…EntityFrameworkCoreModule</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title"><code>isVisibleToClients</code> PHẢI là <code>false</code></p>
+<pre class="mermaid"><code>flowchart LR
+    A["isVisibleToClients: true"] --&gt; B["Server nhồi allowlist vào&lt;br/&gt;abp.setting.values"]
+    B --&gt; C["❌ MỌI user đăng nhập,&lt;br/&gt;kể cả role thấp nhất,&lt;br/&gt;mở DevTools là thấy&lt;br/&gt;toàn bộ dải mạng nội bộ"]
+    style C fill:#ffcdd2,stroke:#c62828</code></pre>
+<p>Đó là <strong>bản đồ chỉ đường cho kẻ tấn công</strong>. Chính sách cưỡng chế ở <strong>server</strong>, client không cần biết. Trang Settings vẫn đọc được qua <code>hostSettings.getAllSettings()</code> — API cấp host-admin, đã có <code>[AbpAuthorize]</code>.</p>
+</div>
+<hr />
+<h2 id="deploy">11. Triển khai<a class="headerlink" href="#deploy" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    B0["❓ Bước 0 — HỎI BÊN VẬN HÀNH&lt;br/&gt;&lt;b&gt;Có chạy sau reverse proxy không?&lt;/b&gt;"] --&gt; B0A{"Trả lời"}
+    B0A --&gt;|"CÓ"| B0C["khai ForwardedHeaders:KnownProxies&lt;br/&gt;= IP proxy"]
+    B0A --&gt;|"KHÔNG"| B0D["để KnownProxies rỗng&lt;br/&gt;(mặc định — không cần làm gì)"]
+    B0C --&gt; B1
+    B0D --&gt; B1["1️⃣ Build eKMapServer.Web.Mvc"]
+    B1 --&gt; B2["2️⃣ npm run publish (Administrator)&lt;br/&gt;copy dist/* → wwwroot/Administrator/"]
+    B2 --&gt; B3["3️⃣ Deploy — KHÔNG có gì thay đổi&lt;br/&gt;vì IsEnabled mặc định = false"]
+    B3 --&gt; B4["4️⃣ Bật chính sách&lt;br/&gt;(khi có mặt tại chỗ hoặc có RDP)"]
+    B4 --&gt; B5["5️⃣ ⭐ KIỂM CHỨNG CẢ HAI CHIỀU"]
+
+    style B0 fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style B5 fill:#ffe0b2,stroke:#e65100,stroke-width:3px</code></pre>
+<h3 id="buoc-4-bat-chinh-sach">Bước 4 — bật chính sách<a class="headerlink" href="#buoc-4-bat-chinh-sach" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Settings → tab <em>Securitysettings</em></li>
+<li><strong>Đọc "Địa chỉ hiện tại của bạn"</strong> trên form</li>
+<li>Thêm rule <strong>chứa địa chỉ đó</strong>, ghi mô tả rõ ràng</li>
+<li>Giữ <strong>"Luôn cho phép localhost"</strong> bật</li>
+<li>Bật <code>IsEnabled</code> → Lưu → xác nhận</li>
+</ol>
+<h3 id="buoc-5-kiem-chung-chua-lam-thi-coi-nhu-chua-biet-chinh-sach-co-ung-khong">Bước 5 — kiểm chứng (chưa làm thì coi như CHƯA BIẾT chính sách có đúng không)<a class="headerlink" href="#buoc-5-kiem-chung-chua-lam-thi-coi-nhu-chua-biet-chinh-sach-co-ung-khong" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    T1["📱 Máy NGOÀI allowlist (4G điện thoại)&lt;br/&gt;mở /Administrator"] --&gt; R1["Phải: ❌ 403"]
+    T2["🤖 apikey gọi /ekmapserver/rest/services/{id}/MapServer&lt;br/&gt;từ IP ngoài allowlist"] --&gt; R2["Phải: ✅ 200&lt;br/&gt;&lt;i&gt;chứng minh dịch vụ GIS không bị vạ lây&lt;/i&gt;"]
+
+    style R1 fill:#ffcdd2,stroke:#c62828
+    style R2 fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<div class="admonition danger">
+<p class="admonition-title">Nếu lỡ tự khoá — theo thứ tự</p>
+<ol>
+<li>Truy cập từ <strong>chính máy chủ</strong> (loopback luôn mở)</li>
+<li><code>"AdminIpRestriction": { "Disabled": true }</code> trong <code>appsettings.json</code> → restart</li>
+<li>Đường cuối — sửa DB:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">AbpSettings</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;false&#39;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;App.Security.AdminIpRestriction.IsEnabled&#39;</span><span class="p">;</span>
+</code></pre></div>
+   <strong>Cần restart</strong> để <code>SettingManager</code> nhả cache — chính cái cache làm nó nhanh cũng làm nó không đổi ngay.</li>
+</ol>
+</div>
+<hr />
+<h2 id="test">12. Kiểm thử<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
+<p><strong>52/52 unit test pass</strong> — <code>eKMapServer.Tests/Security/AdminIpPolicy_Tests.cs</code>. Chạy được <strong>không cần dựng web, không cần DB</strong> (đó là lý do <code>AdminIpPolicy</code> tách khỏi HTTP và khỏi nơi lưu trữ).</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph U["✅ Unit test — 52 pass"]
+        u1["Khớp CIDR + biên dải&lt;br/&gt;(.0, .255, ngoài dải)"]
+        u2["⭐ Hồi quy bug StartsWith&lt;br/&gt;allowlist .10 phải CHẶN client .1"]
+        u3["Prefix lẻ /28, /9&lt;br/&gt;(nhánh mask bit)"]
+        u4["Chuẩn hoá IP đơn → /32"]
+        u5["Rule inactive KHÔNG tính"]
+        u6["IPv4-mapped ::ffff:"]
+        u7["Không khớp chéo IPv4↔IPv6"]
+        u8["Loopback (van bật/tắt)"]
+        u9["Fail-closed (client null)"]
+        u10["Parse lỗi: 192.168.1 / /33 / abc"]
+        u11["JSON round-trip"]
+    end
+    style U fill:#e8f5e9,stroke:#2e7d32</code></pre>
+<h3 id="kiem-thu-tich-hop-can-chay-that-khi-trien-khai">Kiểm thử tích hợp (cần chạy thật khi triển khai)<a class="headerlink" href="#kiem-thu-tich-hop-can-chay-that-khi-trien-khai" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Kịch bản</th>
+<th>Mong đợi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cưỡng chế</strong></td>
+<td>Admin trong danh sách → <code>/Administrator</code></td>
+<td>✅ vào được</td>
+</tr>
+<tr>
+<td></td>
+<td>Admin ngoài danh sách → <code>/Administrator</code></td>
+<td>❌ 403 + 1 dòng log</td>
+</tr>
+<tr>
+<td></td>
+<td>AJAX <code>hostSettings.getAllSettings()</code> từ IP ngoài</td>
+<td>❌ 403 JSON</td>
+</tr>
+<tr>
+<td></td>
+<td><code>/hangfire</code> từ IP ngoài</td>
+<td>❌ 403</td>
+</tr>
+<tr>
+<td><strong>Không vạ lây</strong> ⭐</td>
+<td>apikey gọi <code>/ekmapserver/...</code> từ IP ngoài</td>
+<td>✅ 200</td>
+</tr>
+<tr>
+<td></td>
+<td>User Manager ngoài allowlist dùng Manager</td>
+<td>✅ bình thường</td>
+</tr>
+<tr>
+<td></td>
+<td>User thường ngoài allowlist đăng nhập</td>
+<td>✅ đăng nhập được</td>
+</tr>
+<tr>
+<td><strong>Lách</strong> ⭐</td>
+<td><code>/ekmapserverEVIL/...</code> từ IP ngoài, danh tính Admin</td>
+<td>❌ 403</td>
+</tr>
+<tr>
+<td></td>
+<td><code>curl -H "X-Forwarded-For: 192.168.1.25"</code> không qua proxy tin cậy</td>
+<td>❌ 403</td>
+</tr>
+<tr>
+<td><strong>Cứu hộ</strong></td>
+<td>RDP vào máy chủ → <code>localhost/Administrator</code></td>
+<td>✅ vào được</td>
+</tr>
+<tr>
+<td></td>
+<td><code>"Disabled": true</code> + restart</td>
+<td>✅ vào được</td>
+</tr>
+<tr>
+<td><strong>Chống tự khoá</strong> ⭐</td>
+<td>Từ <code>192.168.1.25</code>, lưu allowlist chỉ có <code>10.0.0.0/8</code></td>
+<td>❌ từ chối, in <code>192.168.1.25</code>, <strong>không ghi DB</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Tắt <code>isActive</code> đúng rule đang cho phép mình</td>
+<td>❌ từ chối</td>
+</tr>
+<tr>
+<td></td>
+<td>POST <code>createdBy = 999</code></td>
+<td>Bỏ qua, server ghi <code>AbpSession.UserId</code></td>
+</tr>
+<tr>
+<td><strong>Rò rỉ</strong> ⭐</td>
+<td>User thường xem <code>abp.setting.values</code> + <code>GetCurrentLoginInformations</code></td>
+<td>Không thấy <code>Rules</code> ở cả hai đường</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kiểm tra trong DB:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">Name</span><span class="p">,</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">AbpSettings</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">Name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;App.Security.AdminIpRestriction.%&#39;</span><span class="p">;</span>
+</code></pre></div>
+Không có row ⇒ đang dùng mặc định <code>false / [] / true</code> (chính sách chưa bật).</p>
+<hr />
+<h2 id="login">13. Đăng nhập KHÔNG bị chặn theo đường dẫn<a class="headerlink" href="#login" title="Permanent link">&para;</a></h2>
+<p>Một quyết định cố ý, dễ bị hiểu là thiếu sót:</p>
+<pre class="mermaid"><code>flowchart TD
+    Q["Có chặn /Account/Login theo path không?"] --&gt; A["❌ KHÔNG"]
+    A --&gt; R["Lúc đó CHƯA BIẾT ai đang đăng nhập&lt;br/&gt;⇒ chặn theo path sẽ chặn luôn&lt;br/&gt;user Manager (không phải admin)&lt;br/&gt;⇒ vượt phạm vi yêu cầu"]
+    R --&gt; S["Điều kiện DANH TÍNH đã đủ:"]
+    S --&gt; S1["Admin ở IP xấu đăng nhập được,&lt;br/&gt;nhận cookie"]
+    S1 --&gt; S2["Nhưng MỌI request sau đó mang&lt;br/&gt;danh tính Admin đều bị chặn,&lt;br/&gt;ở MỌI đường dẫn"]
+    S2 --&gt; S3["⇒ Cookie đó VÔ DỤNG cho quản trị"]
+    S --&gt; S4["✅ User Manager ở IP bất kỳ&lt;br/&gt;vẫn làm việc bình thường"]
+
+    style S3 fill:#c8e6c9,stroke:#2e7d32
+    style S4 fill:#c8e6c9,stroke:#2e7d32</code></pre>
+<p><strong>Hardening tuỳ chọn (làm sau, không chặn tính năng):</strong> móc vào <code>AccountController.Login</code> <strong>sau khi xác thực thành công, trước khi cấp cookie</strong> — nếu user là Admin và IP không hợp lệ thì từ chối, không cấp cookie. Lúc này đã biết danh tính nên <strong>không</strong> ảnh hưởng user Manager.</p>
+<hr />
+<h2 id="out-of-scope">14. Ngoài phạm vi<a class="headerlink" href="#out-of-scope" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Hạng mục</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dịch vụ GIS <code>/ekmapserver/*</code></strong></td>
+<td>Đã có allowlist IP <strong>theo từng token</strong> (<a href="#hai-lop">§4</a>). Muốn siết thì siết ở <strong>màn hình apikey</strong></td>
+</tr>
+<tr>
+<td><strong><code>eKMapServer.Web.Host</code></strong></td>
+<td>Pipeline riêng, <strong>cũng host <code>Web.Services</code></strong>. Nếu host này mở ra ngoài thì chính sách đang thủng một cửa ⇒ <strong>cần xác nhận với bên vận hành</strong>. Bịt bằng cách cắm cùng middleware; <code>AdminIpPolicy</code> tái dùng nguyên vẹn</td>
+</tr>
+<tr>
+<td><strong>Bug <code>StartsWith</code> ở <code>IsValidTokenAddress</code></strong></td>
+<td>Lỗ hổng thật ở lớp token — sửa riêng</td>
+</tr>
+<tr>
+<td><strong><code>IPLimiter</code></strong></td>
+<td>Rate limiter chống DoS (chặn theo <strong>tần suất</strong>), khác mục đích hoàn toàn — giữ nguyên, không gộp</td>
+</tr>
+<tr>
+<td><strong>Dải <code>a-b</code></strong></td>
+<td>Cố ý bỏ; dùng CIDR</td>
+</tr>
+<tr>
+<td><strong>Chuyển sang bảng riêng</strong></td>
+<td>Khi list phình to hoặc cần query. Chi phí thấp nhờ <code>AdminIpPolicy</code> tách khỏi nơi lưu trữ</td>
+</tr>
+<tr>
+<td><strong>Giới hạn IP theo từng tài khoản</strong></td>
+<td>Chính sách này ở cấp hệ thống</td>
+</tr>
+<tr>
+<td><strong>GeoIP / theo quốc gia</strong></td>
+<td>Cần dữ liệu ngoài</td>
+</tr>
+<tr>
+<td><strong>3 test template fail</strong></td>
+<td><code>eKMapServerEntityFrameworkCoreModule</code> cần <code>IWebHostEnvironment</code> mà test module không đăng ký — <strong>lỗi có sẵn</strong>, lộ ra sau khi test project biên dịch lại được</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

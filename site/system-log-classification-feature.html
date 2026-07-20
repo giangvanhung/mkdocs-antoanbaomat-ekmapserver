@@ -1,0 +1,2085 @@
+
+<!doctype html>
+<html lang="vi" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Báo cáo tính năng và sự cố kỹ thuật của eKMapServer">
+      
+      
+      
+      
+        <link rel="prev" href="admin-ip-restriction-feature.html">
+      
+      
+        <link rel="next" href="interface-tab-guide.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Phân loại nhật ký hệ thống theo 05 nhóm - eKMapServer — Tài liệu kỹ thuật</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phuong-an-phan-loai-nhat-ky-he-thong-theo-05-nhom" class="md-skip">
+          Bỏ qua
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Đầu trang">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-header__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            eKMapServer — Tài liệu kỹ thuật
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Phân loại nhật ký hệ thống theo 05 nhóm
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ tối"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ tối" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Chuyển sang chế độ sáng"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Chuyển sang chế độ sáng" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Tìm kiếm" placeholder="Tìm kiếm" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Tìm kiếm">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Xoá" aria-label="Xoá" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Thanh điều hướng" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="eKMapServer — Tài liệu kỹ thuật" class="md-nav__button md-logo" aria-label="eKMapServer — Tài liệu kỹ thuật" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    eKMapServer — Tài liệu kỹ thuật
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trang chủ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tính năng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tính năng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="password-expiration-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hết hạn mật khẩu & Đổi mật khẩu bắt buộc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="login-lockout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Khóa tài khoản khi đăng nhập sai
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="session-timeout-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tự động đóng phiên khi không hoạt động
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="admin-ip-restriction-feature.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Giới hạn địa chỉ mạng được phép quản trị từ xa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="system-log-classification-feature.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phân loại nhật ký hệ thống theo 05 nhóm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hien-trang-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hiện trạng — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Hiện trạng — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advlog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. gsvAuditLog đang chết vì cờ UsingAdvLog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. EntityHistory đang tắt — đây là khoảng trống lớn nhất
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Giới hạn bản chất: đây là audit tầng ứng dụng, không phải tầng database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-cai-a-co-san-dung-lai-uoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Cái đã có sẵn, dùng lại được
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-oi-chieu-yeu-cau-du-lieu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Đối chiếu yêu cầu ↔ dữ liệu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Bật ABP EntityHistory, chọn lọc entity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-unified-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Không tạo bảng log hợp nhất — phân nhóm ở tầng truy vấn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-anh-xa-tung-nhom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Ánh xạ từng nhóm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adminlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Nhóm ii: nhận diện "đăng nhập quản trị" bằng vai trò
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Nhóm iii: hai nguồn, hai bản chất, không cố hợp nhất
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-dung-lai-permission-administrationaudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6. Dùng lại permission Administration.Audit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-e-xuat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. API đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-ui-e-xuat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. UI đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-danh-sach-file-du-kien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Danh sách file dự kiến
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Danh sách file dự kiến">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#khong-can-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Không cần migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Rủi ro &amp; giới hạn cần thống nhất trước khi làm
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Thứ tự thực hiện đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hướng dẫn sử dụng
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hướng dẫn sử dụng
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="interface-tab-guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tab Giao diện (tuỳ biến trang Đăng nhập)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vận hành
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vận hành
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="db-update-existing-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cập nhật DB đang chạy lên schema hiện tại
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sự cố kỹ thuật
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sự cố kỹ thuật
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migration-identity-columns-issue.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration sinh cột thừa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Mục lục">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Mục lục
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-yeu-cau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Yêu cầu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hien-trang-du-kien-chi-phoi-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hiện trạng — dữ kiện chi phối thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Hiện trạng — dữ kiện chi phối thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#advlog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. gsvAuditLog đang chết vì cờ UsingAdvLog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. EntityHistory đang tắt — đây là khoảng trống lớn nhất
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Giới hạn bản chất: đây là audit tầng ứng dụng, không phải tầng database
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-cai-a-co-san-dung-lai-uoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Cái đã có sẵn, dùng lại được
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-oi-chieu-yeu-cau-du-lieu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Đối chiếu yêu cầu ↔ dữ liệu
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-cac-quyet-inh-thiet-ke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Các quyết định thiết kế
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Các quyết định thiết kế">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entityhistory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Bật ABP EntityHistory, chọn lọc entity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-unified-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Không tạo bảng log hợp nhất — phân nhóm ở tầng truy vấn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-anh-xa-tung-nhom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Ánh xạ từng nhóm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adminlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4. Nhóm ii: nhận diện "đăng nhập quản trị" bằng vai trò
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5. Nhóm iii: hai nguồn, hai bản chất, không cố hợp nhất
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-dung-lai-permission-administrationaudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6. Dùng lại permission Administration.Audit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-api-e-xuat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. API đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-ui-e-xuat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. UI đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-danh-sach-file-du-kien" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Danh sách file dự kiến
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Danh sách file dự kiến">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ekmapservercore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Core
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ekmapserverapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        eKMapServer.Application
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angular-administrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Angular (Administrator)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#khong-can-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Không cần migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Rủi ro &amp; giới hạn cần thống nhất trước khi làm
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-kiem-thu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Kiểm thử
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Thứ tự thực hiện đề xuất
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="phuong-an-phan-loai-nhat-ky-he-thong-theo-05-nhom">Phương án: Phân loại nhật ký hệ thống theo 05 nhóm<a class="headerlink" href="#phuong-an-phan-loai-nhat-ky-he-thong-theo-05-nhom" title="Permanent link">&para;</a></h1>
+<p><strong>Ngày:</strong> 2026-07-17</p>
+<p><strong>Phạm vi:</strong> eKMapServer Portal (ASP.NET Core MVC + ABP) và eKMapServer App (Angular Administrator)</p>
+<p><strong>Trạng thái:</strong> Đề xuất — chưa hiện thực. Tài liệu này chốt thiết kế trước khi viết code.</p>
+<hr />
+<h2 id="1-yeu-cau">1. Yêu cầu<a class="headerlink" href="#1-yeu-cau" title="Permanent link">&para;</a></h2>
+<p>Nhật ký hệ thống phải được phân loại theo <strong>ít nhất 05 nhóm</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nhóm</th>
+<th>Trả lời câu hỏi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>Nhật ký truy cập Phần mềm</td>
+<td>Ai gọi dịch vụ/trang nào, lúc nào, từ đâu</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>Nhật ký đăng nhập khi quản trị Phần mềm</td>
+<td>Ai đăng nhập quản trị, thành công hay thất bại</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>Nhật ký các lỗi phát sinh trong quá trình hoạt động</td>
+<td>Lỗi gì, ở đâu, lúc nào</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>Nhật ký quản lý tài khoản</td>
+<td>Tài khoản/quyền nào bị tạo/sửa/xóa, đổi từ gì sang gì</td>
+</tr>
+<tr>
+<td>v</td>
+<td>Nhật ký thay đổi cấu hình Phần mềm</td>
+<td>Tham số cấu hình nào bị đổi, đổi từ gì sang gì</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-hien-trang-du-kien-chi-phoi-thiet-ke">2. Hiện trạng — dữ kiện chi phối thiết kế<a class="headerlink" href="#2-hien-trang-du-kien-chi-phoi-thiet-ke" title="Permanent link">&para;</a></h2>
+<p>Hệ thống <strong>đã ghi rất nhiều log</strong>, nhưng rải ở 6 nguồn khác nhau và không nguồn nào mang khái niệm "nhóm". Bản kiểm kê thực tế:</p>
+<table>
+<thead>
+<tr>
+<th>Nguồn</th>
+<th>Cơ chế ghi</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AbpAuditLogs</code></td>
+<td>ABP interceptor trên AppService</td>
+<td>ServiceName, MethodName, Parameters (JSON), UserId, ClientIpAddress, BrowserInfo, ExecutionTime, ExecutionDuration, Exception</td>
+<td>✅ Đang ghi</td>
+</tr>
+<tr>
+<td><code>AbpUserLoginAttempts</code></td>
+<td><code>AbpLogInManager</code> tự ghi</td>
+<td>UserNameOrEmailAddress, UserId, Result, ClientIpAddress, BrowserInfo, CreationTime</td>
+<td>✅ Đang ghi, <strong>chưa ai đọc</strong></td>
+</tr>
+<tr>
+<td>Elasticsearch <code>ekmapserver-iis-yyyy.MM</code></td>
+<td>Pipeline ngoài repo đẩy IIS log</td>
+<td>token, status, url-service, mapid, userid, clientip, time-taken, @timestamp</td>
+<td>⚠️ Phụ thuộc hạ tầng ngoài</td>
+</tr>
+<tr>
+<td><code>gsvAuditLog</code></td>
+<td>log4net ADONetAppender ← <code>AuditLogsFilter</code></td>
+<td>Như trên + ApiKey, MapId, ProjectId</td>
+<td>❌ <strong>Không được ghi</strong> (xem <a href="#advlog">2.1</a>)</td>
+</tr>
+<tr>
+<td><code>App_Data/Log/Logs.txt</code></td>
+<td>log4net RollingFileAppender</td>
+<td>Text tự do, mọi mức từ DEBUG</td>
+<td>✅ Đang ghi, đọc thô</td>
+</tr>
+<tr>
+<td><code>AbpEntityChangeSets</code> / <code>AbpEntityChanges</code> / <code>AbpEntityPropertyChanges</code></td>
+<td>ABP EntityHistory</td>
+<td>Giá trị <strong>cũ → mới</strong> từng thuộc tính</td>
+<td>❌ <strong>Bảng rỗng</strong> (xem <a href="#entityhistory-off">2.2</a>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="advlog">2.1. <code>gsvAuditLog</code> đang chết vì cờ <code>UsingAdvLog</code><a class="headerlink" href="#advlog" title="Permanent link">&para;</a></h3>
+<p><code>appsettings.json</code> đặt <code>AuditLog:UsingAdvLog = "true"</code>. Cờ này chảy vào <code>LogConfiguration.IsUsingAdvLog</code> (<code>eKMapServerBusinessModule.RegisterAuditLog</code>), và <code>AuditLogsFilter</code> kiểm tra nó <strong>để thoát sớm</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// eKMapServer.Web.Filter/AuditLogs/AuditLogsFilter.cs:26-35</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">LogConfiguration</span><span class="p">.</span><span class="n">IsEnableRequestAuditLog</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="o">||</span><span class="w"> </span><span class="n">LogConfiguration</span><span class="p">.</span><span class="n">IsUsingAdvLog</span><span class="w">          </span><span class="c1">// ← đang true</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="o">||</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="n">HttpContext</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">StatusCode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">NotModified</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// thì không ghi log</span>
+</code></pre></div>
+<p>Nghĩa là toàn bộ hạ tầng <code>gsvAuditLog</code> (entity, bảng archive, <code>SQLAuditLogOptimizer</code>, <code>AuditLogOptimizeWorker</code>) <strong>hiện không hoạt động</strong> ở cấu hình mặc định; <code>IAuditLogManager</code> được đăng ký là <code>ElasticsearchAuditLogManager</code> và log truy cập dịch vụ nằm trong Elasticsearch.</p>
+<pre class="mermaid"><code>flowchart TD
+    REQ["Request dịch vụ GIS"] --&gt; F["AuditLogsFilter"]
+    F --&gt;|"IsUsingAdvLog = true&lt;br/&gt;(mặc định)"| SKIP["return — không ghi"]
+    F -.-&gt;|"IsUsingAdvLog = false"| PG[("gsvAuditLog")]
+    IIS["IIS log"] --&gt;|"pipeline ngoài repo"| ES[("Elasticsearch&lt;br/&gt;ekmapserver-iis-*")]
+    ES --&gt; ESM["ElasticsearchAuditLogManager&lt;br/&gt;(chỉ hàm tổng hợp)"]
+
+    style SKIP fill:#ffcdd2,stroke:#c62828
+    style PG fill:#eeeeee,stroke:#9e9e9e</code></pre>
+<p><strong>Hệ quả:</strong> log truy cập dịch vụ bản đồ (nhóm i) phụ thuộc một cụm Elasticsearch + pipeline đẩy IIS log <strong>nằm ngoài repo này</strong>. Không có Elasticsearch thì nhóm i chỉ còn <code>AbpAuditLogs</code>. Cần một quyết định vận hành — xem <a href="#risk">mục 8</a>.</p>
+<h3 id="entityhistory-off">2.2. EntityHistory đang tắt — đây là khoảng trống lớn nhất<a class="headerlink" href="#entityhistory-off" title="Permanent link">&para;</a></h3>
+<p>Ba bảng <code>AbpEntityChange*</code> <strong>đã có trong schema</strong> (do module ABP.Zero sinh ra, thấy trong <code>InitialBaseline</code> và <code>ModelSnapshot</code>), nhưng đang rỗng.</p>
+<p><strong>Lý do rỗng không phải vì tính năng bị tắt.</strong> Tra source ABP 6.0.0 (<code>src/Abp/EntityHistory/EntityHistoryConfiguration.cs</code>) thì hàm khởi tạo đặt sẵn:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">public</span><span class="w"> </span><span class="nf">EntityHistoryConfiguration</span><span class="p">()</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">IsEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span><span class="w">                              </span><span class="c1">// ← mặc định ĐÃ true</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">Selectors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EntityHistorySelectorList</span><span class="p">();</span><span class="w">   </span><span class="c1">// ← nhưng RỖNG</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>IsEnabled</code> vốn đã <code>true</code>; bảng rỗng vì <strong><code>Selectors</code> rỗng</strong> — không entity nào được chọn nên không có gì để ghi. Đây là điểm cần nắm đúng: việc phải làm là <strong>khai báo selector</strong>, không phải bật một công tắc đang tắt (<a href="#entityhistory">4.1</a>).</p>
+<p>Đây là lý do nhóm iv và v hiện <strong>không làm được đúng nghĩa</strong>. Phân biệt cốt lõi:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>AbpAuditLogs</code> (đang bật)</th>
+<th><code>EntityHistory</code> (đang tắt)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ghi cái gì</td>
+<td><strong>Lời gọi hàm</strong>: service, method, tham số vào</td>
+<td><strong>Thay đổi dữ liệu</strong>: cột nào, cũ → mới</td>
+</tr>
+<tr>
+<td>Trả lời được</td>
+<td>"Ai gọi <code>CreateOrUpdateUser</code> lúc 9h05"</td>
+<td>"Role của user X đổi từ <em>User</em> sang <em>Admin</em>"</td>
+</tr>
+<tr>
+<td>Giá trị <strong>trước khi</strong> sửa</td>
+<td>Không có</td>
+<td>Có</td>
+</tr>
+<tr>
+<td>Thao tác <strong>thất bại</strong> (ném exception)</td>
+<td>Có ghi</td>
+<td>Không ghi (rollback thì log rollback theo)</td>
+</tr>
+</tbody>
+</table>
+<p>Yêu cầu nhóm iv/v là "nhật ký <strong>thay đổi</strong>" — phải biết đổi <strong>từ gì sang gì</strong>. Audit log lời gọi hàm chỉ có tham số đầu vào (giá trị mới), không có giá trị cũ để đối chiếu.</p>
+<p><strong>Cách EntityHistory hoạt động</strong> — cần nắm để hiểu giới hạn ở <a href="#entityhistory-limit">2.3</a>:</p>
+<pre class="mermaid"><code>flowchart TD
+    A["Code gọi SaveChanges()"] --&gt; B["Duyệt ChangeTracker.Entries()&lt;br/&gt;lọc theo Selectors đã khai báo"]
+    B --&gt; C["So OriginalValues ↔ CurrentValues của EF&lt;br/&gt;→ dựng EntityChangeSet"]
+    C --&gt; D["base.SaveChanges() — ghi dữ liệu thật"]
+    D --&gt; E["Ghi EntityChangeSet xuống 3 bảng AbpEntityChange*&lt;br/&gt;trong cùng transaction"]
+
+    style C fill:#fff3cd,stroke:#f39c12</code></pre>
+<p>"Giá trị cũ" lấy từ <code>OriginalValues</code> mà EF vốn đã giữ sẵn để sinh câu <code>UPDATE</code> — <strong>không tốn thêm query nào</strong>. "Ai" lấy từ <code>AbpSession</code> (<code>UserId</code>, <code>TenantId</code>, <code>ImpersonatorUserId</code>) cộng IP/browser từ <code>IClientInfoProvider</code>.</p>
+<h3 id="entityhistory-limit">2.3. Giới hạn bản chất: đây là audit tầng ứng dụng, không phải tầng database<a class="headerlink" href="#entityhistory-limit" title="Permanent link">&para;</a></h3>
+<p>EntityHistory hook ở <code>SaveChanges</code>, <strong>không phải</strong> ở tầng database (khác hẳn SQL Server CDC hay trigger). Mọi đường thay đổi dữ liệu không đi qua EF change tracker đều <strong>lọt lưới</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Đường thay đổi dữ liệu</th>
+<th>EntityHistory có ghi?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AppService / repository qua EF</td>
+<td>✅ Có</td>
+</tr>
+<tr>
+<td>Seeder, job nền (vẫn dùng EF)</td>
+<td>✅ Có, nhưng <code>UserId = NULL</code> vì không có session</td>
+</tr>
+<tr>
+<td><code>ExecuteSqlRaw</code> / Dapper / SQL thô</td>
+<td>❌ <strong>Không</strong></td>
+</tr>
+<tr>
+<td>SSMS, <code>psql</code>, sửa tay trong DB</td>
+<td>❌ <strong>Không</strong></td>
+</tr>
+<tr>
+<td>Restore DB, sửa <code>appsettings.json</code></td>
+<td>❌ <strong>Không</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Điều này <strong>không làm hỏng phương án</strong> — tài khoản và cấu hình đều được sửa qua AppService nên nhóm iv/v vẫn phủ đủ đường đi thực tế. Nhưng ai có quyền vào thẳng DB thì đổi dữ liệu không để lại vết ở 3 bảng này. <strong>Phải ghi rõ giới hạn này trong hồ sơ nghiệm thu</strong>, và kiểm soát bù bằng phân quyền truy cập DB.</p>
+<h3 id="24-cai-a-co-san-dung-lai-uoc">2.4. Cái đã có sẵn, dùng lại được<a class="headerlink" href="#24-cai-a-co-san-dung-lai-uoc" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>AuditLogAppService</code> (<code>[AbpAuthorize(PermissionNames.Administration_Audit)]</code>) đã có <code>GetAuditLogs</code> với filter theo ngày/user/service/method/browser/duration/<code>HasException</code>, export Excel, <code>DeleteLog</code>.</li>
+<li><code>GSVSystemLogAppService</code> đã đọc <code>Logs.txt</code>, cùng permission <code>Administration.Audit</code>.</li>
+<li>App Administrator đã có 2 màn hình log (<code>/system-logs</code>, <code>/service-logs</code>) và mục menu trong <code>aside.component.html</code>.</li>
+<li>Permission <code>Administration.Audit</code> đã tồn tại → <strong>không cần</strong> thêm permission mới.</li>
+</ul>
+<hr />
+<h2 id="3-oi-chieu-yeu-cau-du-lieu">3. Đối chiếu yêu cầu ↔ dữ liệu<a class="headerlink" href="#3-oi-chieu-yeu-cau-du-lieu" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Nguồn khả dụng</th>
+<th>Đánh giá</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i. Truy cập</td>
+<td><code>AbpAuditLogs</code> (+ Elasticsearch nếu có)</td>
+<td>✅ <strong>Đủ</strong> — có user, IP, browser, thời gian, thời lượng</td>
+</tr>
+<tr>
+<td>ii. Đăng nhập quản trị</td>
+<td><code>AbpUserLoginAttempts</code></td>
+<td>⚠️ <strong>Dữ liệu đủ, thiếu code</strong> — chưa có AppService lẫn UI</td>
+</tr>
+<tr>
+<td>iii. Lỗi</td>
+<td><code>AbpAuditLogs.Exception</code> + <code>Logs.txt</code></td>
+<td>⚠️ <strong>Phân mảnh</strong> — <code>Logs.txt</code> không truy vấn được</td>
+</tr>
+<tr>
+<td>iv. Quản lý tài khoản</td>
+<td><code>AbpAuditLogs</code> (suy gián tiếp)</td>
+<td>❌ <strong>Thiếu</strong> — không có giá trị cũ</td>
+</tr>
+<tr>
+<td>v. Thay đổi cấu hình</td>
+<td><code>AbpAuditLogs</code> (suy gián tiếp)</td>
+<td>❌ <strong>Thiếu</strong> — không có giá trị cũ</td>
+</tr>
+</tbody>
+</table>
+<p>→ Công việc thu về <strong>ba việc</strong>: bật EntityHistory (iv, v), viết lớp truy vấn phân nhóm (cả 5), và dựng UI.</p>
+<hr />
+<h2 id="4-cac-quyet-inh-thiet-ke">4. Các quyết định thiết kế<a class="headerlink" href="#4-cac-quyet-inh-thiet-ke" title="Permanent link">&para;</a></h2>
+<h3 id="entityhistory">4.1. Bật ABP EntityHistory, chọn lọc entity<a class="headerlink" href="#entityhistory" title="Permanent link">&para;</a></h3>
+<p>Toàn bộ đường ống ghi log <strong>đã lắp sẵn trong ABP 6.0.0</strong> — không phải viết dòng nào cho cơ chế:</p>
+<table>
+<thead>
+<tr>
+<th>Mảnh</th>
+<th>Ở đâu</th>
+<th>Trạng thái</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 bảng <code>AbpEntityChange*</code></td>
+<td><code>InitialBaseline</code> migration</td>
+<td>✅ Đã có trong DB</td>
+</tr>
+<tr>
+<td>Entity <code>EntityChangeSet</code> / <code>EntityChange</code> / <code>EntityPropertyChange</code></td>
+<td>package <code>Abp</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Bộ so sánh giá trị cũ/mới</td>
+<td><code>EntityHistoryHelperBase</code>, <code>EntityHistoryInterceptor</code></td>
+<td>✅ Tự đăng ký</td>
+</tr>
+<tr>
+<td>Nơi ghi xuống DB</td>
+<td><code>EntityHistoryStore</code> (<code>Abp.Zero.Common</code>) — package dự án đang tham chiếu</td>
+<td>✅ Đã nối dây</td>
+</tr>
+<tr>
+<td>API cấu hình</td>
+<td><code>Configuration.EntityHistory</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>Việc duy nhất phải làm là <strong>khai báo entity cần theo dõi</strong>, thêm vào <code>eKMapServerCoreModule.PreInitialize()</code> (nơi đã có <code>Configuration.Auditing.IsEnabledForAnonymousUsers</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// eKMapServer.Core/eKMapServerCoreModule.cs</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// Thừa: ABP mặc định đã true (xem 2.2). Viết tường minh để thể hiện chủ đích</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">// và không phụ thuộc giá trị mặc định có thể đổi khi nâng version ABP.</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">Configuration</span><span class="p">.</span><span class="n">EntityHistory</span><span class="p">.</span><span class="n">IsEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">// ĐÂY mới là thứ làm nên tính năng — mặc định Selectors rỗng nên không ghi gì.</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">Configuration</span><span class="p">.</span><span class="n">EntityHistory</span><span class="p">.</span><span class="n">Selectors</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="nf">NamedTypeSelector</span><span class="p">(</span><span class="s">&quot;eKMapServerAccountAndConfig&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=&gt;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="k">typeof</span><span class="p">(</span><span class="n">User</span><span class="p">).</span><span class="n">IsAssignableFrom</span><span class="p">(</span><span class="n">type</span><span class="p">)</span><span class="w">         </span><span class="c1">// nhóm iv</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="o">||</span><span class="w"> </span><span class="k">typeof</span><span class="p">(</span><span class="n">Role</span><span class="p">).</span><span class="n">IsAssignableFrom</span><span class="p">(</span><span class="n">type</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="o">||</span><span class="w"> </span><span class="k">typeof</span><span class="p">(</span><span class="n">UserRole</span><span class="p">).</span><span class="n">IsAssignableFrom</span><span class="p">(</span><span class="n">type</span><span class="p">)</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="o">||</span><span class="w"> </span><span class="k">typeof</span><span class="p">(</span><span class="n">Setting</span><span class="p">).</span><span class="n">IsAssignableFrom</span><span class="p">(</span><span class="n">type</span><span class="p">)</span><span class="w">   </span><span class="c1">// nhóm v</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="p">));</span>
+</code></pre></div>
+<p><strong>Chọn lọc chứ không bật cho tất cả.</strong> ABP cho phép selector <code>type =&gt; true</code> (audit mọi entity). Không làm vậy: eKMapServer ghi rất nhiều entity dữ liệu bản đồ (<code>GSVMap</code>, <code>GSVLog</code>…) với tần suất cao; audit hết sẽ nhân số lệnh ghi DB lên nhiều lần và làm phình 3 bảng history mà không phục vụ yêu cầu nào. Bốn kiểu trên phủ đúng nhóm iv + v.</p>
+<p><strong><code>UserRole</code> phải có mặt.</strong> Gán/gỡ quyền là thao tác quản lý tài khoản quan trọng nhất, nhưng nó là <strong>entity riêng</strong> (<code>AbpUserRoles</code>), không phải thuộc tính của <code>User</code> — không khai báo thì đổi role sẽ không sinh log nào.</p>
+<p><strong><code>Setting</code> phủ cấu hình động, không phủ <code>appsettings.json</code>.</strong> <code>Abp.Configuration.Setting</code> (bảng <code>AbpSettings</code>) là nơi lưu mọi cấu hình đổi được qua giao diện (chính sách mật khẩu, khóa tài khoản, session timeout, giới hạn IP quản trị…). Còn <code>appsettings.json</code> là file trên đĩa, sửa bằng tay và cần restart — nằm ngoài tầm với của EntityHistory (<a href="#entityhistory-limit">2.3</a>).</p>
+<h3 id="no-unified-table">4.2. Không tạo bảng log hợp nhất — phân nhóm ở tầng truy vấn<a class="headerlink" href="#no-unified-table" title="Permanent link">&para;</a></h3>
+<p>Phương án hiển nhiên là tạo một bảng <code>SystemLog(Category, Time, UserId, …)</code> rồi cho mọi nguồn ghi vào. <strong>Không chọn</strong>, vì:</p>
+<ul>
+<li>Ba trong bốn nguồn (<code>AbpAuditLogs</code>, <code>AbpUserLoginAttempts</code>, <code>AbpEntityChanges</code>) do <strong>ABP tự ghi ở tầng framework</strong>. Muốn fan-in vào bảng riêng thì phải override interceptor/store của ABP ở cả ba chỗ — nhiều điểm sửa, dễ hụt, và vỡ mỗi lần nâng cấp ABP.</li>
+<li>Sẽ <strong>nhân đôi dung lượng</strong> log vốn đã lớn.</li>
+<li>Không nguồn nào thiếu dữ liệu cả — chúng chỉ <strong>thiếu nhãn nhóm</strong>, mà nhãn đó suy được 100% từ nội dung sẵn có.</li>
+</ul>
+<p>→ Phân nhóm là <strong>một phép ánh xạ lúc đọc</strong>, không phải lúc ghi. Mỗi nhóm là một truy vấn trên nguồn tương ứng, trả về <strong>cùng một DTO</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">public</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">SystemLogCategory</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">byte</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">Access</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">               </span><span class="c1">// i</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">AdminLogin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">           </span><span class="c1">// ii</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">Error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">                </span><span class="c1">// iii</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">AccountManagement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">    </span><span class="c1">// iv</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="n">ConfigurationChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">   </span><span class="c1">// v</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SystemLogItemDto</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">{</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">SystemLogCategory</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">DateTime</span><span class="w"> </span><span class="n">Time</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">long?</span><span class="w"> </span><span class="n">UserId</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">UserName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">ClientIpAddress</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">BrowserInfo</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Action</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">     </span><span class="c1">// method / kết quả login / entity + ChangeType</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">Detail</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">     </span><span class="c1">// tham số / &quot;cũ → mới&quot; / message lỗi</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">IsSuccess</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Đánh đổi phải chấp nhận:</strong> không tìm kiếm xuyên nhóm trong <strong>một</strong> truy vấn phân trang (dữ liệu nằm ở các bảng dị chủng; <code>UNION</code> + <code>ORDER BY</code> + phân trang trên 4 nguồn sẽ rất chậm). Người dùng chọn nhóm rồi mới lọc trong nhóm. Yêu cầu chỉ đòi "phân loại theo 05 nhóm" nên đánh đổi này không ảnh hưởng nghiệm thu; nếu sau này cần tìm xuyên nhóm thì đó là lúc bàn tới bảng hợp nhất.</p>
+<h3 id="43-anh-xa-tung-nhom">4.3. Ánh xạ từng nhóm<a class="headerlink" href="#43-anh-xa-tung-nhom" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[("AbpAuditLogs")] --&gt; N1["i. Truy cập"]
+    A --&gt;|"Exception != null"| N3["iii. Lỗi"]
+    B[("AbpUserLoginAttempts")] --&gt; N2["ii. Đăng nhập quản trị"]
+    C[("Logs.txt")] --&gt; N3
+    D[("AbpEntityChanges")] --&gt;|"User / Role / UserRole"| N4["iv. Quản lý tài khoản"]
+    D --&gt;|"Setting"| N5["v. Thay đổi cấu hình"]
+
+    style N4 fill:#fff3cd,stroke:#f39c12
+    style N5 fill:#fff3cd,stroke:#f39c12</code></pre>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Nguồn</th>
+<th>Điều kiện lọc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td><code>AbpAuditLogs</code></td>
+<td>Toàn bộ, loại <code>Exception != null</code> để khỏi trùng nhóm iii</td>
+</tr>
+<tr>
+<td>ii</td>
+<td><code>AbpUserLoginAttempts</code></td>
+<td>Join <code>AbpUsers</code> → <code>AbpUserRoles</code> → <code>AbpRoles</code>, lọc user có vai trò quản trị (<a href="#adminlogin">4.4</a>)</td>
+</tr>
+<tr>
+<td>iii</td>
+<td><code>AbpAuditLogs</code> <code>Exception != null</code> <strong>∪</strong> <code>Logs.txt</code> mức ERROR/FATAL</td>
+<td><a href="#error">4.5</a></td>
+</tr>
+<tr>
+<td>iv</td>
+<td><code>AbpEntityChanges</code></td>
+<td Role_="Role," UserRole="UserRole" User_="User,"><code>EntityTypeFullName</code> ∈</td>
+</tr>
+<tr>
+<td>v</td>
+<td><code>AbpEntityChanges</code></td>
+<td><code>EntityTypeFullName</code> = <code>Abp.Configuration.Setting</code></td>
+</tr>
+</tbody>
+</table>
+<p>Nhóm iv/v join <code>AbpEntityChangeSets</code> để lấy <code>UserId</code>/<code>CreationTime</code>/<code>ClientIpAddress</code>, và <code>AbpEntityPropertyChanges</code> để dựng <code>Detail</code> dạng <code>PropertyName: OriginalValue → NewValue</code>.</p>
+<h3 id="adminlogin">4.4. Nhóm ii: nhận diện "đăng nhập <strong>quản trị</strong>" bằng vai trò<a class="headerlink" href="#adminlogin" title="Permanent link">&para;</a></h3>
+<p><code>AbpUserLoginAttempts</code> <strong>không</strong> ghi người dùng đăng nhập vào app nào. Cả app Administrator, app Manager và API đều dồn về <code>LogInManager.LoginAsync</code> (<code>AccountController.cs:178</code>) → không phân biệt được theo điểm vào.</p>
+<p>→ Lọc theo <strong>vai trò của tài khoản</strong>: coi là "đăng nhập quản trị" nếu user thuộc role có quyền <code>Administration.*</code>.</p>
+<p><strong>Hai giới hạn phải nêu rõ:</strong></p>
+<ol>
+<li><strong>Vai trò đọc tại thời điểm truy vấn, không phải thời điểm đăng nhập.</strong> User bị gỡ quyền admin hôm nay thì các lần đăng nhập admin tháng trước sẽ biến mất khỏi nhóm ii. Chấp nhận được vì nhóm iv (EntityHistory trên <code>UserRole</code>) ghi lại chính việc gỡ quyền đó — hai nhóm bù nhau khi truy vết.</li>
+<li><strong>Đăng nhập sai tên tài khoản</strong> (<code>Result = InvalidUserNameOrEmailAddress</code>) có <code>UserId = NULL</code> → không join ra role được, nên không vào nhóm ii. Những bản ghi này vẫn có giá trị an ninh (dò tài khoản), nên <strong>giữ chúng ở nhóm ii</strong> khi bật bộ lọc <code>IncludeUnknownUserAttempts</code>, mặc định tắt.</li>
+</ol>
+<p><code>IsSuccess</code> = <code>Result == AbpLoginResultType.Success</code>; <code>Action</code> = tên enum <code>Result</code> (Success / InvalidPassword / LockedOut / UserIsNotActive…) đã đủ diễn giải — <code>AbpLoginResultTypeHelper</code> hiện có sẵn để đối chiếu.</p>
+<h3 id="error">4.5. Nhóm iii: hai nguồn, hai bản chất, không cố hợp nhất<a class="headerlink" href="#error" title="Permanent link">&para;</a></h3>
+<p>Lỗi nằm ở hai nơi khác hẳn nhau:</p>
+<ul>
+<li><code>AbpAuditLogs.Exception</code> — lỗi ở tầng AppService, <strong>có cấu trúc</strong>, query/phân trang/lọc theo user được ngay bằng <code>AuditLogAppService</code> sẵn có (<code>input.HasException = true</code>).</li>
+<li><code>Logs.txt</code> — text tự do do log4net ghi, <strong>mọi tầng</strong> (kể cả lỗi hạ tầng chưa vào tới AppService), không cấu trúc.</li>
+</ul>
+<p><strong>Quyết định:</strong> nhóm iii = truy vấn trên <code>AbpAuditLogs.Exception != null</code>, và <strong>giữ nguyên</strong> màn hình đọc <code>Logs.txt</code> hiện có như tab phụ trợ. Không parse <code>Logs.txt</code> thành bản ghi có cấu trúc.</p>
+<p>Lý do không parse: định dạng dòng do <code>log4net.config</code> quy định, đổi config là parser vỡ; stack trace đa dòng không có ranh giới bản ghi tin cậy. Nếu thật sự cần lỗi có cấu trúc thì cách đúng là <strong>thêm một ADONetAppender ghi mức ERROR/FATAL xuống bảng</strong> — <code>log4net.config</code> đã có sẵn <code>ADONetAppender</code> ghi <code>gsvAuditLog</code> để copy pattern. Rẻ hơn parse và không vỡ khi đổi format. Tách thành bước 2, không chặn nghiệm thu.</p>
+<h3 id="46-dung-lai-permission-administrationaudit">4.6. Dùng lại permission <code>Administration.Audit</code><a class="headerlink" href="#46-dung-lai-permission-administrationaudit" title="Permanent link">&para;</a></h3>
+<p><code>AuditLogAppService</code> và <code>GSVSystemLogAppService</code> đều đã gác bằng <code>[AbpAuthorize(PermissionNames.Administration_Audit)]</code>. Service mới gác <strong>cùng</strong> permission đó — ai xem được audit log hiện tại thì cũng xem được 5 nhóm này; không có lý do tách quyền, và thêm permission mới sẽ buộc cập nhật seeder + màn hình phân quyền role.</p>
+<hr />
+<h2 id="5-api-e-xuat">5. API đề xuất<a class="headerlink" href="#5-api-e-xuat" title="Permanent link">&para;</a></h2>
+<p><code>SystemLogAppService</code> mới, <code>[AbpAuthorize(PermissionNames.Administration_Audit)]</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">Task</span><span class="o">&lt;</span><span class="n">PagedResultDto</span><span class="o">&lt;</span><span class="n">SystemLogItemDto</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">GetLogs</span><span class="p">(</span><span class="n">GetSystemLogsInput</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">Task</span><span class="o">&lt;</span><span class="n">FileDto</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GetLogsToExcel</span><span class="p">(</span><span class="n">GetSystemLogsInput</span><span class="w"> </span><span class="n">input</span><span class="p">);</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">GetSystemLogsInput</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">PagedAndSortedResultRequestDto</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">SystemLogCategory</span><span class="w"> </span><span class="n">Category</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">        </span><span class="c1">// bắt buộc</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">DateTime</span><span class="w"> </span><span class="n">StartDate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">DateTime</span><span class="w"> </span><span class="n">EndDate</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">UserName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">                   </span><span class="c1">// tùy chọn</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">ClientIpAddress</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">            </span><span class="c1">// tùy chọn</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">bool?</span><span class="w"> </span><span class="n">IsSuccess</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">                   </span><span class="c1">// tùy chọn</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">IncludeUnknownUserAttempts</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// chỉ nhóm ii, xem 4.4</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>Category</code> <strong>bắt buộc</strong> — hệ quả trực tiếp của <a href="#no-unified-table">4.2</a>: mỗi nhóm là một truy vấn trên nguồn riêng, không có nhánh "tất cả".</p>
+<p><code>GetLogsToExcel</code> dùng lại <code>IAuditLogListExcelExporter</code> (<code>Auditting/Exporting/</code>) làm khuôn, chỉ đổi cột theo <code>SystemLogItemDto</code>.</p>
+<hr />
+<h2 id="6-ui-e-xuat">6. UI đề xuất<a class="headerlink" href="#6-ui-e-xuat" title="Permanent link">&para;</a></h2>
+<p>Màn hình mới <code>/audit-logs</code> trong app Administrator, <strong>5 tab</strong> ứng với 5 nhóm; mỗi tab là bảng phân trang + bộ lọc (khoảng thời gian, tài khoản, IP, thành công/thất bại) + nút xuất Excel.</p>
+<ul>
+<li>Route thêm vào <code>pages-routing.module.ts</code> (cạnh <code>system-logs</code>, <code>service-logs</code>).</li>
+<li>Mục menu thêm vào <code>_layout/components/aside/aside.component.html</code>.</li>
+<li>Giữ nguyên <code>/system-logs</code> (đọc <code>Logs.txt</code>) và <code>/service-logs</code> — không xóa, chúng phục vụ mục đích khác (<a href="#error">4.5</a>).</li>
+<li>Gọi API qua ABP dynamic proxy (<code>abp.services.app.systemLog.getLogs</code>), <strong>không cần</strong> regenerate service proxy — cùng cách <code>system-logs.component.ts</code> đang gọi <code>abp.services.app.gSVSystemLog</code>.</li>
+</ul>
+<hr />
+<h2 id="7-danh-sach-file-du-kien">7. Danh sách file dự kiến<a class="headerlink" href="#7-danh-sach-file-du-kien" title="Permanent link">&para;</a></h2>
+<h3 id="ekmapservercore">eKMapServer.Core<a class="headerlink" href="#ekmapservercore" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>eKMapServerCoreModule.cs</code></td>
+<td>Bật <code>Configuration.EntityHistory</code> + selector (<a href="#entityhistory">4.1</a>)</td>
+</tr>
+<tr>
+<td><code>Localization/SourceFiles/eKMapServer.xml</code> + <code>-vi.xml</code></td>
+<td>Tên 5 nhóm + nhãn cột</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ekmapserverapplication">eKMapServer.Application<a class="headerlink" href="#ekmapserverapplication" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SystemLog/SystemLogAppService.cs</code></td>
+<td>5 nhánh truy vấn theo <code>Category</code></td>
+</tr>
+<tr>
+<td><code>SystemLog/ISystemLogAppService.cs</code></td>
+<td>Interface</td>
+</tr>
+<tr>
+<td><code>SystemLog/Dto/SystemLogItemDto.cs</code></td>
+<td>DTO chung (<a href="#no-unified-table">4.2</a>)</td>
+</tr>
+<tr>
+<td><code>SystemLog/Dto/GetSystemLogsInput.cs</code></td>
+<td>Input + <code>SystemLogCategory</code></td>
+</tr>
+<tr>
+<td><code>SystemLog/Exporting/SystemLogExcelExporter.cs</code></td>
+<td>Theo khuôn <code>AuditLogListExcelExporter</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="angular-administrator">Angular (Administrator)<a class="headerlink" href="#angular-administrator" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pages/audit-logs/audit-logs.component.{ts,html}</code></td>
+<td>Màn hình 5 tab</td>
+</tr>
+<tr>
+<td><code>pages/pages-routing.module.ts</code></td>
+<td>Route <code>/audit-logs</code></td>
+</tr>
+<tr>
+<td><code>pages/layout.module.ts</code></td>
+<td>Khai báo component</td>
+</tr>
+<tr>
+<td><code>pages/_layout/components/aside/aside.component.html</code></td>
+<td>Mục menu</td>
+</tr>
+</tbody>
+</table>
+<h3 id="khong-can-migration">Không cần migration<a class="headerlink" href="#khong-can-migration" title="Permanent link">&para;</a></h3>
+<p>Ba bảng <code>AbpEntityChange*</code> <strong>đã có</strong> trong DB (<code>InitialBaseline</code>). Bật EntityHistory chỉ là cấu hình runtime — không sinh migration, không đổi schema.</p>
+<hr />
+<h2 id="risk">8. Rủi ro &amp; giới hạn cần thống nhất trước khi làm<a class="headerlink" href="#risk" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Rủi ro</th>
+<th>Mức</th>
+<th>Xử lý</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EntityHistory không hồi tố.</strong> Bật hôm nay thì nhóm iv/v rỗng cho đến khi có thay đổi mới; lịch sử trước đó không dựng lại được.</td>
+<td>Cao</td>
+<td>Nêu rõ khi nghiệm thu. Bật càng sớm càng tốt để tích lũy dữ liệu — xem <a href="#order">mục 10</a>.</td>
+</tr>
+<tr>
+<td><strong>Audit tầng ứng dụng, không phải tầng DB</strong> (<a href="#entityhistory-limit">2.3</a>). Sửa thẳng DB không để lại vết.</td>
+<td>Cao</td>
+<td>Ghi rõ trong hồ sơ nghiệm thu; kiểm soát bù bằng phân quyền truy cập DB.</td>
+</tr>
+<tr>
+<td><strong>Nhóm i phụ thuộc Elasticsearch</strong> vì <code>UsingAdvLog = true</code> (<a href="#advlog">2.1</a>).</td>
+<td>Trung bình</td>
+<td><strong>Cần quyết:</strong> chấp nhận <code>AbpAuditLogs</code> là nguồn duy nhất cho nhóm i, hay đặt <code>UsingAdvLog = false</code> để <code>gsvAuditLog</code> sống lại?</td>
+</tr>
+<tr>
+<td><strong><code>Logs.txt</code> đọc nguyên file vào RAM.</strong> <code>SystemLogManager.GetSystemLog</code> (<code>SystemLogManager.cs:25-38</code>) đọc cả file vào <code>StringBuilder</code> — file vài trăm MB sẽ ngốn RAM tương ứng.</td>
+<td>Trung bình</td>
+<td>Sửa thành đọc N dòng cuối; hoặc thêm ADONetAppender ghi ERROR/FATAL xuống bảng (<a href="#error">4.5</a>).</td>
+</tr>
+<tr>
+<td><strong><code>appsettings.json</code> không audit được</strong> (<a href="#entityhistory">4.1</a>).</td>
+<td>Trung bình</td>
+<td>Kiểm soát bằng quy trình + phân quyền file. Nêu rõ khi nghiệm thu.</td>
+</tr>
+<tr>
+<td><strong>Tăng tải ghi DB</strong> — mỗi lần sửa User/Role/Setting sinh thêm insert vào 3 bảng history.</td>
+<td>Thấp</td>
+<td>Đã giới hạn bằng selector (<a href="#entityhistory">4.1</a>); các entity này tần suất sửa thấp.</td>
+</tr>
+<tr>
+<td><strong>Không có chính sách lưu trữ/xóa log.</strong> <code>AuditLogOptimizeWorker</code> chỉ archive <code>gsvAuditLog</code> — vốn đang không ghi. <code>AbpAuditLogs</code>, <code>AbpUserLoginAttempts</code>, <code>AbpEntityChange*</code> <strong>không ai dọn</strong>.</td>
+<td>Trung bình</td>
+<td>Ngoài phạm vi tài liệu này, nhưng cần một job dọn theo thời hạn lưu trữ.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-kiem-thu">9. Kiểm thử<a class="headerlink" href="#9-kiem-thu" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Thao tác</th>
+<th>Kết quả mong đợi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>i</td>
+<td>Đăng nhập, mở vài màn hình quản trị</td>
+<td>Bản ghi mới, đúng user/IP/browser/thời gian</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>Đăng nhập admin <strong>đúng</strong>, rồi <strong>sai mật khẩu</strong>, rồi <strong>sai tên tài khoản</strong></td>
+<td>2 bản ghi đầu vào nhóm ii (<code>Success</code>/<code>InvalidPassword</code>); bản thứ 3 chỉ hiện khi bật <code>IncludeUnknownUserAttempts</code> (<a href="#adminlogin">4.4</a>)</td>
+</tr>
+<tr>
+<td>ii</td>
+<td>Gỡ quyền admin của user vừa test, xem lại nhóm ii</td>
+<td>Các lần đăng nhập cũ <strong>biến mất</strong> — xác nhận đúng giới hạn ở <a href="#adminlogin">4.4</a>, không phải bug</td>
+</tr>
+<tr>
+<td>iii</td>
+<td>Gọi một API sinh exception</td>
+<td>Vào nhóm iii, <strong>không</strong> trùng ở nhóm i</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>Đổi email một user</td>
+<td>Nhóm iv: <code>Detail</code> = <code>EmailAddress: cũ → mới</code></td>
+</tr>
+<tr>
+<td>iv</td>
+<td><strong>Gán thêm role</strong> cho user</td>
+<td>Nhóm iv có bản ghi <code>UserRole</code> <code>Created</code> — xác nhận selector <code>UserRole</code> hoạt động</td>
+</tr>
+<tr>
+<td>iv</td>
+<td>Xóa một user</td>
+<td>Nhóm iv: <code>ChangeType = Deleted</code></td>
+</tr>
+<tr>
+<td>iv</td>
+<td>Sửa email user bằng <strong>SQL trực tiếp</strong> trong SSMS</td>
+<td><strong>Không</strong> có log — xác nhận giới hạn <a href="#entityhistory-limit">2.3</a></td>
+</tr>
+<tr>
+<td>v</td>
+<td>Đổi <code>MaxFailedAccessAttemptsBeforeLockout</code> từ 5 → 3 ở màn hình Settings</td>
+<td>Nhóm v: <code>Setting</code> <code>Value: 5 → 3</code></td>
+</tr>
+<tr>
+<td>v</td>
+<td>Sửa tay <code>appsettings.json</code></td>
+<td><strong>Không</strong> có log — xác nhận giới hạn <a href="#entityhistory">4.1</a></td>
+</tr>
+<tr>
+<td>Phân quyền</td>
+<td>Đăng nhập bằng user <strong>không</strong> có <code>Administration.Audit</code></td>
+<td>API trả 403, menu không hiện</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Kiểm tra trực tiếp DB:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">-- Xác nhận EntityHistory đã ghi</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="n">cs</span><span class="p">.</span><span class="n">CreationTime</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="p">.</span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="n">cs</span><span class="p">.</span><span class="n">ClientIpAddress</span><span class="p">,</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">       </span><span class="k">c</span><span class="p">.</span><span class="n">EntityTypeFullName</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">ChangeType</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">PropertyName</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">OriginalValue</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">NewValue</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">FROM</span><span class="w"> </span><span class="n">AbpEntityChangeSets</span><span class="w"> </span><span class="n">cs</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">AbpEntityChanges</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">EntityChangeSetId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cs</span><span class="p">.</span><span class="n">Id</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">AbpEntityPropertyChanges</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">EntityChangeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">Id</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">cs</span><span class="p">.</span><span class="n">CreationTime</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">-- Xác nhận dữ liệu đăng nhập vốn đã có sẵn từ trước</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="n">CreationTime</span><span class="p">,</span><span class="w"> </span><span class="n">UserNameOrEmailAddress</span><span class="p">,</span><span class="w"> </span><span class="n">UserId</span><span class="p">,</span><span class="w"> </span><span class="k">Result</span><span class="p">,</span><span class="w"> </span><span class="n">ClientIpAddress</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">FROM</span><span class="w"> </span><span class="n">AbpUserLoginAttempts</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">CreationTime</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+<p>Câu thứ hai chạy được <strong>ngay bây giờ</strong>, trước khi viết bất cứ dòng code nào — đó là bằng chứng nhóm ii chỉ thiếu lớp đọc chứ không thiếu dữ liệu.</p>
+<hr />
+<h2 id="order">10. Thứ tự thực hiện đề xuất<a class="headerlink" href="#order" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Bật EntityHistory</strong> (<a href="#entityhistory">4.1</a>) — 1 chỗ sửa, không migration, bắt đầu tích lũy dữ liệu nhóm iv/v ngay. <strong>Làm trước</strong> vì dữ liệu không hồi tố được.</li>
+<li><strong><code>SystemLogAppService</code></strong> + DTO — 5 nhánh truy vấn.</li>
+<li><strong>Màn hình 5 tab</strong> + route + menu.</li>
+<li><strong>Export Excel.</strong></li>
+<li><em>(Tùy chọn, sau nghiệm thu)</em> ADONetAppender cho ERROR/FATAL (<a href="#error">4.5</a>); job dọn log theo thời hạn (<a href="#risk">mục 8</a>).</li>
+</ol>
+<p>Bước 1 nên làm và triển khai sớm nhất có thể, độc lập với các bước còn lại.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Trở lại mục lục
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "navigation.tracking", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0110\u00e3 sao ch\u00e9p", "clipboard.copy": "Sao ch\u00e9p v\u00e0o b\u1ed9 nh\u1edb t\u1ea1m", "search.result.more.one": "1 t\u1eeb kh\u00e1c trong trang", "search.result.more.other": "# t\u1eeb kh\u00e1c trong trang", "search.result.none": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u00e0i li\u1ec7u li\u00ean quan", "search.result.one": "1 t\u00e0i li\u1ec7u li\u00ean quan", "search.result.other": "# t\u00e0i li\u1ec7u li\u00ean quan", "search.result.placeholder": "Nh\u1eadp \u0111\u1ec3 b\u1eaft \u0111\u1ea7u t\u00ecm ki\u1ebfm", "search.result.term.missing": "Kh\u00f4ng", "select.version": "Ch\u1ecdn phi\u00ean b\u1ea3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
