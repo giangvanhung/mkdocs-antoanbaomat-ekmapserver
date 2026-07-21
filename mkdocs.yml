@@ -36,8 +36,11 @@ nav:
       - Tự động đóng phiên khi không hoạt động: session-timeout-feature.md
       - Giới hạn địa chỉ mạng được phép quản trị từ xa: admin-ip-restriction-feature.md
       - Phân loại nhật ký hệ thống theo 05 nhóm: system-log-classification-feature.md
+  - Kiến trúc nghiệp vụ:
+      - Cung cấp dịch vụ GIS & Thêm bản đồ: gis-service-architecture.md
   - Hướng dẫn sử dụng:
       - Tab Giao diện (tuỳ biến trang Đăng nhập): interface-tab-guide.md
+      - Kiểm thử các chức năng bằng Postman & SQL: kiem-thu-cac-chuc-nang.md
   - Vận hành:
       - Cập nhật DB đang chạy lên schema hiện tại: db-update-existing-database.md
   - Sự cố kỹ thuật:
