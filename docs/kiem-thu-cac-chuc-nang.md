@@ -94,7 +94,7 @@ WHERE UserName = 'user_test';
 
 Chi tiết: [Hết hạn mật khẩu & Đổi mật khẩu bắt buộc](password-expiration-feature.md).
 
-**Tham số**: `App.PasswordExpirationDays` (mặc định **90**), `App.PasswordChangeReminderDays`.
+**Tham số**: `App.PasswordValidityDays` (mặc định **90**), `App.PasswordChangeRequestDays`.
 Cột liên quan trên `AbpUsers`: `LastPasswordChangeTime`, `ChangePassWordForLogInNext`.
 
 ### Cách test (dựng bằng SQL rồi login)
@@ -111,7 +111,7 @@ Rồi `POST /Account/Login` bằng `user_test`:
 
 | Tình huống | Mong đợi |
 |---|---|
-| `LastPasswordChangeTime` quá `PasswordExpirationDays` | Login trả `targetUrl` = trang **ForceChangePassword** (bị ép đổi) |
+| `LastPasswordChangeTime` quá `PasswordValidityDays` | Login trả `targetUrl` = trang **ForceChangePassword** (bị ép đổi) |
 | `ChangePassWordForLogInNext = 1` | Cũng bị ép đổi ngay lần đăng nhập đầu |
 | Trong hạn | Đăng nhập bình thường |
 
