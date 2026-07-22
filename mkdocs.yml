@@ -30,6 +30,7 @@ theme:
 
 nav:
   - Trang chủ: index.md
+  - Tổng quan công việc (Administrator): cong-viec-administrator.md
   - Tính năng:
       - Hết hạn mật khẩu & Đổi mật khẩu bắt buộc: password-expiration-feature.md
       - Khóa tài khoản khi đăng nhập sai: login-lockout-feature.md
