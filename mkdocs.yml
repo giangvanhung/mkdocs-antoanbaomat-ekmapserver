@@ -39,6 +39,7 @@ nav:
       - Phân loại nhật ký hệ thống theo 05 nhóm: system-log-classification-feature.md
   - Kiến trúc nghiệp vụ:
       - Cung cấp dịch vụ GIS & Thêm bản đồ: gis-service-architecture.md
+      - Hướng dẫn đọc & xử lý code nghiệp vụ: huong-dan-doc-code-nghiep-vu.md
   - Hướng dẫn sử dụng:
       - Tab Giao diện (tuỳ biến trang Đăng nhập): interface-tab-guide.md
       - Kiểm thử các chức năng bằng Postman & SQL: kiem-thu-cac-chuc-nang.md
