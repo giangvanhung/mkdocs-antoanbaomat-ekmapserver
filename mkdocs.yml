@@ -37,6 +37,7 @@ nav:
       - Tự động đóng phiên khi không hoạt động: session-timeout-feature.md
       - Giới hạn địa chỉ mạng được phép quản trị từ xa: admin-ip-restriction-feature.md
       - Phân loại nhật ký hệ thống theo 05 nhóm: system-log-classification-feature.md
+      - Xác thực 2 bước (2FA): two-factor-authentication-feature.md
   - Kiến trúc nghiệp vụ:
       - Cung cấp dịch vụ GIS & Thêm bản đồ: gis-service-architecture.md
       - Hướng dẫn đọc & xử lý code nghiệp vụ: huong-dan-doc-code-nghiep-vu.md

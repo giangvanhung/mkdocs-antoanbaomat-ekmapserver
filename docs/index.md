@@ -59,6 +59,15 @@ Tài liệu gồm: hiện trạng từng nguồn log, khoảng trống so với 
 
     **2. Đây là audit tầng ứng dụng, không phải tầng DB.** Hook ở `SaveChanges`, nên sửa thẳng bằng SSMS/`ExecuteSqlRaw` **không để lại vết**. Phải ghi rõ giới hạn này trong hồ sơ nghiệm thu — xem [§2.3](system-log-classification-feature.md#entityhistory-limit).
 
+### [Xác thực 2 bước (2FA)](two-factor-authentication-feature.md)
+
+Nghiên cứu và thiết kế cơ chế xác thực 2 bước. Phát hiện cốt lõi: hạ tầng ABP đã có sẵn gần đủ (cột `IsTwoFactorEnabled`/`GoogleAuthenticatorKey`, setting, service TOTP) nhưng **cổng đăng nhập đã bị viết lại và bỏ mất bước thử thách mã** — công tắc trong Settings hiện chỉ lưu cấu hình chứ chưa cưỡng chế.
+
+Tài liệu chốt: 3 mắt xích phải nối (enroll · challenge · recovery), vị trí code (enroll ở Angular, challenge ở MVC), bản mẫu tái sử dụng là luồng `ForceChangePassword`, luồng đăng nhập sau khi nối, các quyết định phải chốt, rủi ro và kế hoạch triển khai theo thứ tự an toàn.
+
+!!! danger "Không được làm enroll trước challenge"
+    Chỉ làm trang bật 2FA mà chưa nối thử thách vào luồng đăng nhập ⇒ user tưởng được bảo vệ nhưng đăng nhập vẫn chỉ cần mật khẩu — **an toàn giả**. Xem [§3](two-factor-authentication-feature.md) và [kế hoạch §10](two-factor-authentication-feature.md#ke-hoach).
+
 ## Hướng dẫn sử dụng
 
 ### [Tab Giao diện — tuỳ biến trang Đăng nhập](interface-tab-guide.md)
