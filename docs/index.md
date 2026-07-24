@@ -88,6 +88,18 @@ Delta rất nhỏ: **3 cột trên `AbpUsers` + bảng `tenantBranding`**. Chỉ
 
 ## Sự cố kỹ thuật
 
+### ["Thiết lập mật khẩu" báo thành công nhưng mật khẩu không đổi](dat-lai-mat-khau-khong-tac-dung.md)
+
+Admin đặt mật khẩu mới cho một tài khoản, hệ thống báo thành công, nhưng người dùng đó vẫn đăng nhập bằng **mật khẩu cũ**. Nguyên nhân: màn hình gọi `user.update` — API cập nhật thông tin tài khoản, mà `UserDto` không có property nào chứa mật khẩu ⇒ field bị bỏ trong im lặng ở cả model binding lẫn AutoMapper.
+
+Báo cáo phân tích nguyên nhân gốc, lý do chọn `ResetPassword` thay thế (kèm so sánh với `ChangePassword`), các sửa đổi kèm theo về kiểm tra chính sách mật khẩu, và cách kiểm chứng.
+
+!!! danger "Dạng lỗi tệ nhất trong nhóm kiểm soát truy cập: báo cáo nói đã khoá, thực tế vẫn mở"
+    Trong tình huống thu hồi quyền (nhân sự nghỉ việc, lộ mật khẩu), admin tin rằng đã chặn được truy cập trong khi mật khẩu cũ vẫn còn hiệu lực.
+
+!!! warning "Mới sửa ở phía client — chính sách mật khẩu vẫn chưa được cưỡng chế ở server"
+    `ChangePassword` và `ResetPassword` đều gán hash thẳng, không chạy `PasswordValidators`. Nếu admin **nới lỏng** chính sách trong Settings, server vẫn chặn theo regex hardcode `AccountAppService.cs:12`. Xem [§7](dat-lai-mat-khau-khong-tac-dung.md#ton-dong).
+
 ### [Migration thêm 1 cột nhưng sinh thêm 41 lệnh `AlterColumn` thừa](migration-identity-columns-issue.md)
 
 `dotnet ef migrations add` sinh ra migration đụng vào cột `Id` của gần như mọi bảng trong database, do file `ModelSnapshot` trong repo bị lệch so với schema thật.

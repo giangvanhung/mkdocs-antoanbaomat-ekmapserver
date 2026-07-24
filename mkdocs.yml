@@ -46,6 +46,7 @@ nav:
   - Vận hành:
       - Cập nhật DB đang chạy lên schema hiện tại: db-update-existing-database.md
   - Sự cố kỹ thuật:
+      - Đặt lại mật khẩu không có tác dụng: dat-lai-mat-khau-khong-tac-dung.md
       - Migration sinh cột thừa: migration-identity-columns-issue.md
 
 markdown_extensions:
